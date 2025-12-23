@@ -1,58 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta charset="UTF-8">
     <title>Code Vimarsh</title>
 
+    <!-- Mobile friendly -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar">
-    <h1>Code Vimarsh</h1>
-    <ul>
+    <div class="logo">Code Vimarsh</div>
+    <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#events">Events</a></li>
         <li><a href="#team">Team</a></li>
     </ul>
 </nav>
 
-
+<!-- HERO SECTION -->
 <header class="hero">
-    <h2>Welcome to Code Vimarsh</h2>
-    <p>A community to learn, build and grow together</p>
+    <h1>Welcome to Code Vimarsh</h1>
+    <p>Learn • Build • Grow Together</p>
 </header>
 
-<section>
+<!-- ABOUT -->
+<section id="about" class="card">
     <h2>About Us</h2>
-   <p>
-Code Vimarsh is a student-led technical club focused on building
-strong foundations in coding, development, and real-world problem
-solving through workshops and collaborative projects.
-</p>
-
+    <p>
+        Code Vimarsh is a student-led technical club focused on developing
+        strong foundations in programming, web development, and real-world
+        problem solving through workshops, events, and collaborative projects.
+    </p>
 </section>
 
-<section>
+<!-- EVENTS -->
+<section id="events" class="card">
     <h2>Upcoming Events</h2>
-   <ul>
-    <li><strong>Web Development Workshop</strong> – Basics of HTML, CSS & JS</li>
-    <li><strong>AI & ML Intro Session</strong> – Understanding AI fundamentals</li>
-    <li><strong>Open Source Meetup</strong> – Learn Git & GitHub</li>
-</ul>
-
+    <ul class="event-list">
+        <li>
+            <strong>Web Development Workshop</strong><br>
+            Learn HTML, CSS & JavaScript fundamentals
+        </li>
+        <li>
+            <strong>AI & ML Intro Session</strong><br>
+            Understand the basics of Artificial Intelligence
+        </li>
+        <li>
+            <strong>Open Source Meetup</strong><br>
+            Git, GitHub & collaboration basics
+        </li>
+    </ul>
 </section>
 
-<section>
+<!-- TEAM -->
+<section id="team" class="card">
     <h2>Meet the Team</h2>
-    <p><strong>Dharmik Patel</strong> – Web Team Member</p>
-    <p>More team members coming soon...</p>
-
+    <div class="team-member">
+        <h3>Dharmik Patel</h3>
+        <p>Web Team Member</p>
+    </div>
+    <p class="coming">More members coming soon...</p>
 </section>
 
 <footer>
