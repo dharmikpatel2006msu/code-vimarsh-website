@@ -31,168 +31,208 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="logo">Code Vimarsh</div>
-    <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#events">Events</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-    <div class="mobile-menu-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
+<!-- SIDE NAVIGATION -->
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo">
+            <img src="logo.webp" alt="Code Vimarsh Logo" class="sidebar-logo-img">
+            <span class="sidebar-logo-text">Code Vimarsh</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
+    
+    <ul class="sidebar-nav">
+        <li><button class="nav-btn active" data-section="home">Home</button></li>
+        <li><button class="nav-btn" data-section="about">About</button></li>
+        <li><button class="nav-btn" data-section="events">Events</button></li>
+        <li><button class="nav-btn" data-section="team">Team</button></li>
+        <li><button class="nav-btn" data-section="resources">Resources</button></li>
+    </ul>
 </nav>
 
-
-<!-- HERO / INTRO SECTION -->
-<header class="hero">
-    <div class="hero-content">
-        <!-- LOGO IMAGE - Properly positioned and responsive -->
-        <div class="logo-container">
-            <img src="logo.webp" class="hero-logo" alt="Code Vimarsh Logo">
-        </div>
-
-        <h1 class="hero-title">Code Vimarsh</h1>
-        <p class="hero-subtitle">A student-led technical club to learn, build and grow together</p>
-
-        <div class="hero-buttons">
-            <a href="#about" class="hero-btn primary">About</a>
-            <a href="#events" class="hero-btn secondary">Upcoming Events</a>
-            <a href="#projects" class="hero-btn secondary">Projects</a>
-            <a href="#team" class="hero-btn secondary">Team</a>
-        </div>
-    </div>
-</header>
-
-
-<!-- ABOUT -->
-<section id="about" class="card">
-    <h2>About Us</h2>
-    <p>
-        Code Vimarsh is a student-led technical club focused on developing
-        strong foundations in programming, web development, and real-world
-        problem solving through workshops, events, and collaborative projects.
-    </p>
-</section>
-
-<!-- EVENTS -->
-<section id="events" class="card">
-    <h2>Upcoming Events</h2>
-    <ul class="event-list">
-        <li>
-            <strong>Web Development Workshop</strong><br>
-            <span class="event-date">January 15, 2025</span><br>
-            Learn HTML, CSS & JavaScript fundamentals
-        </li>
-        <li>
-            <strong>AI & ML Intro Session</strong><br>
-            <span class="event-date">January 22, 2025</span><br>
-            Understand the basics of Artificial Intelligence
-        </li>
-        <li>
-            <strong>Open Source Meetup</strong><br>
-            <span class="event-date">February 5, 2025</span><br>
-            Git, GitHub & collaboration basics
-        </li>
-    </ul>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects" class="card">
-    <h2>Our Projects</h2>
-    <div class="projects-grid">
-        <div class="project-card">
-            <h3>Student Portal</h3>
-            <p>A web application for managing student activities and resources</p>
-            <div class="tech-stack">
-                <span class="tech">HTML</span>
-                <span class="tech">CSS</span>
-                <span class="tech">JavaScript</span>
-            </div>
-        </div>
-        <div class="project-card">
-            <h3>Code Learning Platform</h3>
-            <p>Interactive platform for learning programming concepts</p>
-            <div class="tech-stack">
-                <span class="tech">React</span>
-                <span class="tech">Node.js</span>
-                <span class="tech">MongoDB</span>
-            </div>
-        </div>
-        <div class="project-card">
-            <h3>Event Management System</h3>
-            <p>System to organize and track club events and workshops</p>
-            <div class="tech-stack">
-                <span class="tech">Python</span>
-                <span class="tech">Flask</span>
-                <span class="tech">SQLite</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- TEAM -->
-<section id="team" class="card">
-    <h2>Meet the Team</h2>
-
-    <div class="team-grid">
-        <div class="team-member">
-            <div class="member-image-container">
-                <img src="member1.jpg" alt="Dharmik Patel" class="member-image">
-            </div>
-            <div class="member-info">
-                <h3>Dharmik Patel</h3>
-                <p class="member-role">Web Team Member</p>
-            </div>
-        </div>
-    </div>
-
-    <p class="coming-soon">More members coming soon...</p>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="card">
-    <h2>Get In Touch</h2>
-    <p>Interested in joining Code Vimarsh? Have questions about our events? We'd love to hear from you!</p>
+<!-- MAIN CONTENT AREA -->
+<main class="main-content" id="mainContent">
     
-    <form class="contact-form">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send Message</button>
-    </form>
+    <!-- HOME SECTION (Default visible) -->
+    <section id="home" class="content-section active">
+        <div class="hero">
+            <div class="hero-content">
+                <!-- LOGO IMAGE - Properly positioned and responsive -->
+                <div class="logo-container">
+                    <img src="logo.webp" class="hero-logo" alt="Code Vimarsh Logo">
+                </div>
 
-    <div class="contact-info">
-        <div class="contact-item">
-            <strong>Email:</strong> codevimarsh@example.com
-        </div>
-        <div class="contact-item">
-            <strong>Discord:</strong> Join our community server
-        </div>
-        <div class="contact-item">
-            <strong>GitHub:</strong> github.com/codevimarsh
-        </div>
-    </div>
-</section>
+                <h1 class="hero-title">Code Vimarsh</h1>
+                <p class="hero-subtitle">A student-led technical club to learn, build and grow together</p>
 
+                <div class="hero-buttons">
+                    <button class="hero-btn primary" data-section="about">About Us</button>
+                    <button class="hero-btn secondary" data-section="events">Upcoming Events</button>
+                    <button class="hero-btn secondary" data-section="team">Meet Team</button>
+                    <button class="hero-btn secondary" data-section="resources">Resources</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<footer>
-    <p>© 2025 Code Vimarsh</p>
-</footer>
+    <!-- ABOUT SECTION -->
+    <section id="about" class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>About Us</h2>
+                <p class="section-subtitle">Learn more about Code Vimarsh and our mission</p>
+            </div>
+            
+            <div class="content-card">
+                <p class="about-description">
+                    Code Vimarsh is a student-led technical club focused on developing
+                    strong foundations in programming, web development, and real-world
+                    problem solving through workshops, events, and collaborative projects.
+                </p>
+                
+                <div class="about-features">
+                    <div class="feature-item">
+                        <h3>🚀 Learn</h3>
+                        <p>Hands-on workshops and tutorials on latest technologies</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>🛠️ Build</h3>
+                        <p>Collaborative projects and real-world applications</p>
+                    </div>
+                    <div class="feature-item">
+                        <h3>📈 Grow</h3>
+                        <p>Networking, mentorship, and career development</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENTS SECTION -->
+    <section id="events" class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Upcoming Events</h2>
+                <p class="section-subtitle">Join us for exciting workshops and learning sessions</p>
+            </div>
+            
+            <div class="content-card">
+                <ul class="event-list">
+                    <li class="event-item">
+                        <div class="event-content">
+                            <h3>Web Development Workshop</h3>
+                            <span class="event-date">January 15, 2025</span>
+                            <p>Learn HTML, CSS & JavaScript fundamentals</p>
+                        </div>
+                    </li>
+                    <li class="event-item">
+                        <div class="event-content">
+                            <h3>AI & ML Intro Session</h3>
+                            <span class="event-date">January 22, 2025</span>
+                            <p>Understand the basics of Artificial Intelligence</p>
+                        </div>
+                    </li>
+                    <li class="event-item">
+                        <div class="event-content">
+                            <h3>Open Source Meetup</h3>
+                            <span class="event-date">February 5, 2025</span>
+                            <p>Git, GitHub & collaboration basics</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section id="team" class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Meet the Team</h2>
+                <p class="section-subtitle">The passionate individuals behind Code Vimarsh</p>
+            </div>
+            
+            <div class="content-card">
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image-container">
+                            <img src="member1.jpg" alt="Dharmik Patel" class="member-image">
+                        </div>
+                        <div class="member-info">
+                            <h3>Dharmik Patel</h3>
+                            <p class="member-role">Web Team Member</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="coming-soon">More members coming soon...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESOURCES SECTION (NEW) -->
+    <section id="resources" class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Learning Resources</h2>
+                <p class="section-subtitle">Curated YouTube channels and study materials for your learning journey</p>
+            </div>
+            
+            <div class="content-card">
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">📺</div>
+                        <h3>freeCodeCamp</h3>
+                        <p>Comprehensive programming tutorials and full courses for beginners to advanced developers.</p>
+                        <a href="https://www.youtube.com/@freecodecamp" target="_blank" class="resource-link">Visit Channel</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">🎯</div>
+                        <h3>Traversy Media</h3>
+                        <p>Practical web development tutorials covering modern frameworks and technologies.</p>
+                        <a href="https://www.youtube.com/@TraversyMedia" target="_blank" class="resource-link">Visit Channel</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">🚀</div>
+                        <h3>The Net Ninja</h3>
+                        <p>Step-by-step tutorials on web development, JavaScript frameworks, and modern tools.</p>
+                        <a href="https://www.youtube.com/@NetNinja" target="_blank" class="resource-link">Visit Channel</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">💻</div>
+                        <h3>Programming with Mosh</h3>
+                        <p>Clean, professional programming tutorials covering multiple languages and concepts.</p>
+                        <a href="https://www.youtube.com/@programmingwithmosh" target="_blank" class="resource-link">Visit Channel</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">🔥</div>
+                        <h3>Fireship</h3>
+                        <p>Quick, engaging videos about the latest in web development and programming trends.</p>
+                        <a href="https://www.youtube.com/@Fireship" target="_blank" class="resource-link">Visit Channel</a>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">🎓</div>
+                        <h3>CS Dojo</h3>
+                        <p>Computer science fundamentals, algorithms, and programming career advice.</p>
+                        <a href="https://www.youtube.com/@CSDojo" target="_blank" class="resource-link">Visit Channel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- MOBILE OVERLAY -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
 
 </body>
 </html>
