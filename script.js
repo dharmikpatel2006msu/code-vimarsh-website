@@ -178,8 +178,230 @@ document.addEventListener('DOMContentLoaded', function() {
     addSectionLoadingAnimation();
     
     /* ===================================
-       ENHANCED USER INTERACTIONS
+       EVENTS SECTION FUNCTIONALITY
        =================================== */
+    
+    // Event data for detailed views
+    const eventData = {
+        'web-dev-workshop': {
+            title: 'Web Development Workshop',
+            date: 'January 15, 2025',
+            time: '2:00 PM - 5:00 PM',
+            mode: 'Online (Google Meet)',
+            platform: 'Google Meet',
+            description: 'Join us for an intensive 3-hour workshop covering the fundamentals of modern web development. Learn HTML5, CSS3, and JavaScript through hands-on projects and real-world examples.',
+            gains: [
+                'Build responsive websites from scratch',
+                'Master modern CSS techniques and flexbox/grid',
+                'Learn JavaScript DOM manipulation and events',
+                'Understand web development best practices',
+                'Get access to exclusive learning resources'
+            ],
+            speaker: 'Led by senior developers from top tech companies with 5+ years of industry experience',
+            registrationOpen: true
+        },
+        'ai-ml-session': {
+            title: 'AI & ML Intro Session',
+            date: 'January 22, 2025',
+            time: '3:00 PM - 6:00 PM',
+            mode: 'Offline (College Campus)',
+            platform: 'Computer Lab, Block A',
+            description: 'Dive into the fascinating world of Artificial Intelligence and Machine Learning. This session covers fundamental concepts, practical applications, and hands-on experience with popular ML libraries.',
+            gains: [
+                'Understand AI/ML concepts and terminology',
+                'Hands-on experience with Python and scikit-learn',
+                'Build your first machine learning model',
+                'Learn about real-world AI applications',
+                'Network with AI enthusiasts and experts'
+            ],
+            speaker: 'Industry expert with PhD in Machine Learning and 8+ years in AI research',
+            registrationOpen: true
+        },
+        'hackathon-2025': {
+            title: 'Code Vimarsh Hackathon 2025',
+            date: 'February 5, 2025',
+            time: '9:00 AM - 9:00 PM',
+            mode: 'Hybrid (Online + Offline)',
+            platform: 'Main Auditorium + Discord Server',
+            description: 'Our flagship 12-hour hackathon bringing together the brightest minds to solve real-world problems. Compete for exciting prizes while learning, building, and networking with fellow developers.',
+            gains: [
+                'Work on challenging real-world problems',
+                'Win exciting prizes worth ₹50,000+',
+                'Get mentorship from industry professionals',
+                'Build your portfolio with innovative projects',
+                'Network with potential co-founders and employers'
+            ],
+            speaker: 'Judged by CTOs and senior engineers from leading startups and tech companies',
+            registrationOpen: true
+        },
+        'open-source-meetup': {
+            title: 'Open Source Meetup',
+            date: 'February 12, 2025',
+            time: '4:00 PM - 7:00 PM',
+            mode: 'Online (Discord)',
+            platform: 'Discord Community Server',
+            description: 'Learn the art of open source contribution and collaborative development. Master Git, GitHub, and discover how to contribute to popular open source projects.',
+            gains: [
+                'Master Git and GitHub workflows',
+                'Learn open source contribution best practices',
+                'Discover beginner-friendly projects to contribute to',
+                'Build your developer profile and reputation',
+                'Connect with the global open source community'
+            ],
+            speaker: 'Open source maintainers and contributors from popular GitHub projects',
+            registrationOpen: true
+        }
+    };
+    
+    // Get event elements
+    const eventCards = document.querySelectorAll('.event-card');
+    const eventsListing = document.getElementById('eventsListing');
+    const eventDetail = document.getElementById('eventDetail');
+    const backButton = document.getElementById('backToEvents');
+    const registerButton = document.getElementById('registerButton');
+    
+    // Event card click handlers
+    eventCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const eventId = this.getAttribute('data-event');
+            showEventDetail(eventId);
+        });
+        
+        // Add hover effect
+        card.addEventListener('mouseenter', function() {
+            this.style.borderColor = '#2563eb';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.borderColor = 'rgba(226, 232, 240, 0.8)';
+        });
+    });
+    
+    // Function to show event detail
+    function showEventDetail(eventId) {
+        const event = eventData[eventId];
+        if (!event) return;
+        
+        // Update event detail content
+        document.getElementById('eventDetailTitle').textContent = event.title;
+        document.getElementById('eventDetailDate').textContent = event.date;
+        document.getElementById('eventDetailTime').textContent = event.time;
+        document.getElementById('eventDetailMode').textContent = event.mode;
+        document.getElementById('eventDetailPlatform').textContent = event.platform;
+        document.getElementById('eventDetailDescription').textContent = event.description;
+        
+        // Update gains list
+        const gainsList = document.getElementById('eventDetailGains');
+        gainsList.innerHTML = '';
+        event.gains.forEach(gain => {
+            const li = document.createElement('li');
+            li.textContent = gain;
+            gainsList.appendChild(li);
+        });
+        
+        // Update speaker info
+        document.getElementById('eventDetailSpeaker').innerHTML = `<p>${event.speaker}</p>`;
+        
+        // Update register button
+        if (event.registrationOpen) {
+            registerButton.disabled = false;
+            registerButton.innerHTML = '<i class="icon">🎫</i> Register Now';
+        } else {
+            registerButton.disabled = true;
+            registerButton.innerHTML = '<i class="icon">🔒</i> Registration Closed';
+        }
+        
+        // Switch views
+        eventsListing.classList.remove('active');
+        eventDetail.classList.add('active');
+        
+        // Scroll to top
+        mainContent.scrollTop = 0;
+    }
+    
+    // Back button handler
+    if (backButton) {
+        backButton.addEventListener('click', function() {
+            eventDetail.classList.remove('active');
+            eventsListing.classList.add('active');
+            mainContent.scrollTop = 0;
+        });
+    }
+    
+    // Register button handler
+    if (registerButton) {
+        registerButton.addEventListener('click', function() {
+            if (!this.disabled) {
+                // Here you can add registration logic
+                // For now, we'll show a success message
+                showNotification('Registration successful! Check your email for confirmation.', 'success');
+                
+                // You can replace this with actual registration logic:
+                // window.open('https://forms.google.com/your-registration-form', '_blank');
+            }
+        });
+    }
+    
+    /* ===================================
+       NOTIFICATION SYSTEM
+       =================================== */
+    
+    // Notification system for user feedback
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        
+        // Add styles
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        `;
+        
+        // Set background color based on type
+        if (type === 'success') {
+            notification.style.background = '#10b981';
+        } else if (type === 'error') {
+            notification.style.background = '#ef4444';
+        } else {
+            notification.style.background = '#2563eb';
+        }
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 4 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, 4000);
+    }
     
     // Add hover effects to resource cards
     const resourceCards = document.querySelectorAll('.resource-card');

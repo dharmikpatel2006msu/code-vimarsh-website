@@ -114,36 +114,214 @@
 
     <!-- EVENTS SECTION -->
     <section id="events" class="content-section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Upcoming Events</h2>
-                <p class="section-subtitle">Join us for exciting workshops and learning sessions</p>
-            </div>
-            
-            <div class="content-card">
-                <ul class="event-list">
-                    <li class="event-item">
+        <div class="events-container">
+            <!-- Events Listing View -->
+            <div id="eventsListing" class="events-view active">
+                <div class="events-header">
+                    <div class="gradient-header">
+                        <h1>Upcoming Events</h1>
+                        <p>Join us for exciting workshops, hackathons, and tech talks</p>
+                    </div>
+                </div>
+                
+                <div class="events-grid">
+                    <!-- Event Card 1 -->
+                    <div class="event-card" data-event="web-dev-workshop">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x200/2563eb/ffffff?text=Web+Development" alt="Web Development Workshop">
+                            <div class="event-date-badge">
+                                <span class="date">15</span>
+                                <span class="month">JAN</span>
+                            </div>
+                        </div>
                         <div class="event-content">
                             <h3>Web Development Workshop</h3>
-                            <span class="event-date">January 15, 2025</span>
-                            <p>Learn HTML, CSS & JavaScript fundamentals</p>
+                            <div class="event-meta">
+                                <span class="event-time">
+                                    <i class="icon">🕐</i>
+                                    2:00 PM - 5:00 PM
+                                </span>
+                                <span class="event-mode">
+                                    <i class="icon">💻</i>
+                                    Online
+                                </span>
+                            </div>
+                            <p class="event-description">Learn HTML, CSS & JavaScript fundamentals with hands-on projects</p>
                         </div>
-                    </li>
-                    <li class="event-item">
+                    </div>
+
+                    <!-- Event Card 2 -->
+                    <div class="event-card" data-event="ai-ml-session">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x200/10b981/ffffff?text=AI+%26+ML" alt="AI & ML Session">
+                            <div class="event-date-badge">
+                                <span class="date">22</span>
+                                <span class="month">JAN</span>
+                            </div>
+                        </div>
                         <div class="event-content">
                             <h3>AI & ML Intro Session</h3>
-                            <span class="event-date">January 22, 2025</span>
-                            <p>Understand the basics of Artificial Intelligence</p>
+                            <div class="event-meta">
+                                <span class="event-time">
+                                    <i class="icon">🕐</i>
+                                    3:00 PM - 6:00 PM
+                                </span>
+                                <span class="event-mode">
+                                    <i class="icon">🏢</i>
+                                    Offline
+                                </span>
+                            </div>
+                            <p class="event-description">Understand the basics of Artificial Intelligence and Machine Learning</p>
                         </div>
-                    </li>
-                    <li class="event-item">
+                    </div>
+
+                    <!-- Event Card 3 -->
+                    <div class="event-card" data-event="hackathon-2025">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x200/f59e0b/ffffff?text=Hackathon+2025" alt="Code Vimarsh Hackathon">
+                            <div class="event-date-badge">
+                                <span class="date">05</span>
+                                <span class="month">FEB</span>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h3>Code Vimarsh Hackathon 2025</h3>
+                            <div class="event-meta">
+                                <span class="event-time">
+                                    <i class="icon">🕐</i>
+                                    9:00 AM - 9:00 PM
+                                </span>
+                                <span class="event-mode">
+                                    <i class="icon">🌐</i>
+                                    Hybrid
+                                </span>
+                            </div>
+                            <p class="event-description">24-hour coding challenge with exciting prizes and networking</p>
+                        </div>
+                    </div>
+
+                    <!-- Event Card 4 -->
+                    <div class="event-card" data-event="open-source-meetup">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x200/8b5cf6/ffffff?text=Open+Source" alt="Open Source Meetup">
+                            <div class="event-date-badge">
+                                <span class="date">12</span>
+                                <span class="month">FEB</span>
+                            </div>
+                        </div>
                         <div class="event-content">
                             <h3>Open Source Meetup</h3>
-                            <span class="event-date">February 5, 2025</span>
-                            <p>Git, GitHub & collaboration basics</p>
+                            <div class="event-meta">
+                                <span class="event-time">
+                                    <i class="icon">🕐</i>
+                                    4:00 PM - 7:00 PM
+                                </span>
+                                <span class="event-mode">
+                                    <i class="icon">💻</i>
+                                    Online
+                                </span>
+                            </div>
+                            <p class="event-description">Git, GitHub & collaboration basics for open source contribution</p>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Detail View -->
+            <div id="eventDetail" class="events-view">
+                <button class="back-button" id="backToEvents">
+                    <i class="icon">←</i>
+                    Back to Events
+                </button>
+                
+                <div class="event-detail-header">
+                    <div class="gradient-header">
+                        <h1 id="eventDetailTitle">Event Title</h1>
+                    </div>
+                </div>
+
+                <div class="event-detail-content">
+                    <div class="event-detail-meta">
+                        <div class="meta-item">
+                            <i class="icon">📅</i>
+                            <span id="eventDetailDate">Date</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="icon">🕐</i>
+                            <span id="eventDetailTime">Time</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="icon">📍</i>
+                            <span id="eventDetailMode">Mode</span>
+                        </div>
+                    </div>
+
+                    <div class="event-detail-body">
+                        <div class="detail-section">
+                            <h3>📋 Event Description</h3>
+                            <p id="eventDetailDescription">Event description will appear here</p>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>🎯 What You'll Gain</h3>
+                            <ul id="eventDetailGains">
+                                <li>Hands-on experience with latest technologies</li>
+                                <li>Networking opportunities with peers and industry experts</li>
+                                <li>Certificate of participation</li>
+                                <li>Access to exclusive resources and materials</li>
+                            </ul>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>👨‍🏫 Speaker Details</h3>
+                            <div id="eventDetailSpeaker" class="speaker-info">
+                                <p>Industry experts and experienced developers from leading tech companies</p>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h3>ℹ️ Event Details</h3>
+                            <div class="event-info-grid">
+                                <div class="info-item">
+                                    <i class="icon">🎓</i>
+                                    <div>
+                                        <strong>Eligibility</strong>
+                                        <p>Open to all students and tech enthusiasts</p>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="icon">💰</i>
+                                    <div>
+                                        <strong>Registration Fee</strong>
+                                        <p>Free for all participants</p>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="icon">📱</i>
+                                    <div>
+                                        <strong>Platform</strong>
+                                        <p id="eventDetailPlatform">Google Meet / Physical Venue</p>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="icon">🏆</i>
+                                    <div>
+                                        <strong>Certificates</strong>
+                                        <p>Digital certificates for all attendees</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="registration-section">
+                        <button class="register-button" id="registerButton">
+                            <i class="icon">🎫</i>
+                            Register Now
+                        </button>
+                        <p class="registration-note">Registration closes 1 hour before the event</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
