@@ -343,8 +343,67 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* ===================================
-       NOTIFICATION SYSTEM
+       TEAM SECTION FUNCTIONALITY
        =================================== */
+    
+    // Initialize AOS (Animate On Scroll) for team members
+    function initializeTeamAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.getAttribute('data-aos-delay') || 0;
+                    setTimeout(() => {
+                        entry.target.classList.add('aos-animate');
+                    }, delay);
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all team member cards
+        const teamCards = document.querySelectorAll('[data-aos="fade-up"]');
+        teamCards.forEach(card => {
+            observer.observe(card);
+        });
+    }
+    
+    // Join button functionality
+    const joinButton = document.querySelector('.join-button');
+    if (joinButton) {
+        joinButton.addEventListener('click', function() {
+            const sectionId = this.getAttribute('data-section');
+            if (sectionId) {
+                showSection(sectionId);
+            }
+        });
+    }
+    
+    // Team member card hover effects
+    const teamMemberCards = document.querySelectorAll('.team-member-card:not(.join-us-card)');
+    teamMemberCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            // Add subtle pulse effect to other cards
+            teamMemberCards.forEach(otherCard => {
+                if (otherCard !== this) {
+                    otherCard.style.opacity = '0.7';
+                }
+            });
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            // Reset opacity for all cards
+            teamMemberCards.forEach(otherCard => {
+                otherCard.style.opacity = '1';
+            });
+        });
+    });
+    
+    // Initialize team animations
+    initializeTeamAnimations();
     
     // Notification system for user feedback
     function showNotification(message, type = 'info') {
