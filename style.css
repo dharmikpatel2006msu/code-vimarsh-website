@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #f4f6f8;
@@ -43,22 +48,55 @@ body {
     color: #38bdf8;
 }
 
-/* HERO */
+/* HERO INTRO */
 .hero {
+    min-height: 100vh;
     background: linear-gradient(135deg, #2563eb, #1e40af);
-    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 80px 20px;
+    color: white;
+    padding: 20px;
 }
 
-.hero h1 {
-    font-size: 36px;
+.hero-content h1 {
+    font-size: 48px;
+    font-weight: 600;
     margin-bottom: 10px;
 }
 
-.hero p {
+.hero-content p {
     font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    opacity: 0.95;
 }
+
+/* HERO BUTTONS */
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    padding: 12px 28px;
+    background: white;
+    color: #1e40af;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.hero-btn:hover {
+    background: #38bdf8;
+    color: #0f172a;
+    transform: translateY(-4px);
+}
+
 
 /* CARD SECTIONS */
 .card {
@@ -144,4 +182,33 @@ footer {
 
 .nav-links a:hover::after {
     width: 100%;
+}
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.team-member {
+    background: #f1f5f9;
+    padding: 20px;
+    border-radius: 14px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.team-member img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+}
+.hero-logo {
+    width: 120px;
+    margin-bottom: 15px;
 }
