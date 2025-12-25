@@ -136,8 +136,8 @@ body {
 }
 
 .sidebar-logo-img {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-md);
     object-fit: contain;
     transition: var(--transition-normal);
@@ -345,31 +345,7 @@ body {
     filter: drop-shadow(0 12px 40px rgba(245, 158, 11, 0.6));
 }
 
-/* Logo Container - Secondary positioning */
-.logo-container {
-    margin-bottom: var(--spacing-lg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0.7;
-}
-
-.hero-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-xl);
-    transition: var(--transition-normal);
-    background: rgba(255, 255, 255, 0.1);
-    padding: var(--spacing-xs);
-    backdrop-filter: blur(10px);
-}
-
-.hero-logo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 25px 50px -12px rgba(245, 158, 11, 0.4);
-}
+/* Logo Container - Removed as no longer needed */
 
 .hero-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
@@ -1359,13 +1335,13 @@ body {
     
     /* Tablet logo adjustments */
     .sidebar-logo-img {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
     }
     
     .brand-logo-img {
-        width: 100px;
-        height: 100px;
+        width: 110px;
+        height: 110px;
     }
 }
 
@@ -1401,8 +1377,8 @@ body {
     
     /* Mobile logo adjustments */
     .sidebar-logo-img {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
     }
     
     .sidebar-logo-text {
@@ -1410,13 +1386,8 @@ body {
     }
     
     .brand-logo-img {
-        width: 80px;
-        height: 80px;
-    }
-    
-    .hero-logo {
-        width: 60px;
-        height: 60px;
+        width: 110px;
+        height: 110px;
     }
     
     .hero-buttons {
@@ -1463,13 +1434,8 @@ body {
     }
     
     .brand-logo-img {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .hero-logo {
-        width: 50px;
-        height: 50px;
+        width: 110px;
+        height: 110px;
     }
     
     .content-card {
