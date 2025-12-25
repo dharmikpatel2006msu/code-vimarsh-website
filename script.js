@@ -343,8 +343,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* ===================================
-       TEAM SECTION FUNCTIONALITY
+       LOGO NAVIGATION FUNCTIONALITY
        =================================== */
+    
+    // Sidebar logo click handler
+    const sidebarLogo = document.querySelector('.sidebar-logo');
+    if (sidebarLogo) {
+        sidebarLogo.addEventListener('click', function() {
+            showSection('home');
+        });
+        
+        // Add keyboard support for logo
+        sidebarLogo.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                showSection('home');
+            }
+        });
+    }
+    
+    // Hero brand logo click handler
+    const heroBrandLogo = document.querySelector('.hero-brand-logo');
+    if (heroBrandLogo) {
+        heroBrandLogo.addEventListener('click', function() {
+            // Scroll to top of home section
+            mainContent.scrollTop = 0;
+        });
+        
+        heroBrandLogo.style.cursor = 'pointer';
+    }
     
     // Initialize AOS (Animate On Scroll) for team members
     function initializeTeamAnimations() {

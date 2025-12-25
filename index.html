@@ -34,23 +34,23 @@
 <!-- SIDE NAVIGATION -->
 <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <div class="sidebar-logo">
+        <div class="sidebar-logo" onclick="showSection('home')" role="button" tabindex="0" aria-label="Go to Home">
             <img src="logo.webp" alt="Code Vimarsh Logo" class="sidebar-logo-img">
             <span class="sidebar-logo-text">Code Vimarsh</span>
         </div>
-        <button class="sidebar-toggle" id="sidebarToggle">
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
     </div>
     
-    <ul class="sidebar-nav">
-        <li><button class="nav-btn active" data-section="home">Home</button></li>
-        <li><button class="nav-btn" data-section="about">About</button></li>
-        <li><button class="nav-btn" data-section="events">Events</button></li>
-        <li><button class="nav-btn" data-section="team">Team</button></li>
-        <li><button class="nav-btn" data-section="resources">Resources</button></li>
+    <ul class="sidebar-nav" role="tablist">
+        <li><button class="nav-btn active" data-section="home" role="tab">Home</button></li>
+        <li><button class="nav-btn" data-section="about" role="tab">About</button></li>
+        <li><button class="nav-btn" data-section="events" role="tab">Events</button></li>
+        <li><button class="nav-btn" data-section="team" role="tab">Team</button></li>
+        <li><button class="nav-btn" data-section="resources" role="tab">Resources</button></li>
     </ul>
 </nav>
 
@@ -61,6 +61,11 @@
     <section id="home" class="content-section active">
         <div class="hero">
             <div class="hero-content">
+                <!-- BRAND LOGO - Primary brand reinforcement -->
+                <div class="hero-brand-logo">
+                    <img src="logo.webp" class="brand-logo-img" alt="Code Vimarsh Logo">
+                </div>
+
                 <!-- LOGO IMAGE - Properly positioned and responsive -->
                 <div class="logo-container">
                     <img src="logo.webp" class="hero-logo" alt="Code Vimarsh Logo">
