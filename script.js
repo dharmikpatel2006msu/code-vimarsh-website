@@ -100,7 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Sidebar toggle button
     if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', function() {
+        sidebarToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             if (sidebar.classList.contains('active')) {
                 closeMobileSidebar();
             } else {
@@ -111,15 +114,45 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mobile overlay click to close sidebar
     if (mobileOverlay) {
-        mobileOverlay.addEventListener('click', closeMobileSidebar);
+        mobileOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeMobileSidebar();
+        });
     }
     
-    // Close sidebar on window resize if mobile breakpoint is exceeded
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth < 1024 && 
+            sidebar.classList.contains('active') && 
+            !sidebar.contains(e.target) && 
+            !sidebarToggle.contains(e.target)) {
             closeMobileSidebar();
         }
     });
+    
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            // Close sidebar on desktop breakpoint
+            if (window.innerWidth >= 1024) {
+                closeMobileSidebar();
+            }
+        }, 250);
+    });
+    
+    // Prevent body scroll when sidebar is open on mobile
+    function preventBodyScroll(e) {
+        if (sidebar.classList.contains('active') && window.innerWidth < 1024) {
+            if (!sidebar.contains(e.target)) {
+                e.preventDefault();
+            }
+        }
+    }
+    
+    document.addEventListener('touchmove', preventBodyScroll, { passive: false });
+    document.addEventListener('wheel', preventBodyScroll, { passive: false });
     
     /* ===================================
        KEYBOARD NAVIGATION SUPPORT
@@ -807,28 +840,68 @@ document.addEventListener('DOMContentLoaded', function() {
        PERFORMANCE OPTIMIZATIONS
        =================================== */
     
-    // Debounce resize events
-    let resizeTimeout;
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
-            // Handle any resize-specific logic here
-            if (window.innerWidth > 768) {
-                closeMobileSidebar();
-            }
-        }, 250);
-    });
-    
-    // Preload images for better performance
-    function preloadImages() {
-        const images = ['logo.webp', 'member1.jpg'];
-        images.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
+    // Lazy loading for images
+    function initializeLazyLoading() {
+        const images = document.querySelectorAll('img[data-src]');
+        
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.01
+            });
+            
+            images.forEach(img => imageObserver.observe(img));
+        } else {
+            // Fallback for older browsers
+            images.forEach(img => {
+                img.src = img.dataset.src;
+                img.classList.remove('lazy');
+            });
+        }
     }
     
-    preloadImages();
+    // Debounce resize events for better performance
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    // Optimized resize handler
+    const handleResize = debounce(() => {
+        // Close sidebar on desktop breakpoint
+        if (window.innerWidth >= 1024) {
+            closeMobileSidebar();
+        }
+        
+        // Update any layout-dependent calculations here
+        updateLayoutCalculations();
+    }, 250);
+    
+    function updateLayoutCalculations() {
+        // Add any layout calculations that need to run on resize
+        // This is a placeholder for future optimizations
+    }
+    
+    window.addEventListener('resize', handleResize);
+    
+    // Initialize lazy loading
+    initializeLazyLoading();
     
     console.log('Code Vimarsh website initialized successfully! 🚀');
 });
