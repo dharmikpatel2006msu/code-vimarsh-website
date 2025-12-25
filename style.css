@@ -3344,3 +3344,380 @@ img {
         border-color: rgba(255, 255, 255, 0.15);
     }
 }
+
+/* ===================================
+   ENHANCED TEAM SECTION STYLES
+   =================================== */
+.team-section .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    justify-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.team-section .team-card {
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.team-section .team-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(217, 119, 6, 0.05));
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.team-section .team-card:hover {
+    transform: translateY(-12px);
+}
+
+.team-section .team-card:hover::before {
+    opacity: 1;
+}
+
+.team-section .team-card:hover .member-photo {
+    transform: scale(1.05);
+}
+
+/* ===================================
+   ENHANCED EVENTS SECTION STYLES
+   =================================== */
+.events-section .events-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.events-section .event-image {
+    height: 220px;
+}
+
+.events-section .event-date {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--primary-color);
+}
+
+.events-section .event-card:hover .event-image img {
+    transform: scale(1.08);
+}
+
+/* ===================================
+   ENHANCED PARTNERS SECTION STYLES
+   =================================== */
+.partners-section .partners-grid {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.partners-section .partner-card {
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.partners-section .partner-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.03), rgba(217, 119, 6, 0.03));
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.partners-section .partner-card:hover::before {
+    opacity: 1;
+}
+
+.partners-section .partner-image {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
+}
+
+.partners-section .partner-logo {
+    width: 100%;
+    height: 140px;
+    object-fit: contain;
+    filter: grayscale(100%) brightness(0.8);
+    transition: var(--transition-normal);
+    border-radius: var(--radius-md);
+}
+
+.partners-section .partner-card:hover .partner-logo {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.05);
+}
+
+.partners-section .partner-info {
+    position: relative;
+    z-index: 2;
+}
+
+.partners-section .partner-info h3 {
+    font-size: var(--font-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.partners-section .partner-info p {
+    font-size: var(--font-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ===================================
+   RESPONSIVE ENHANCEMENTS
+   =================================== */
+
+/* Mobile Responsive for Team */
+@media (max-width: 767px) {
+    .team-section .team-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-md);
+    }
+    
+    .team-section .team-card {
+        max-width: 100%;
+        padding: var(--spacing-lg);
+    }
+    
+    .team-section .member-photo {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* Mobile Responsive for Events */
+@media (max-width: 767px) {
+    .events-section .events-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-md);
+    }
+    
+    .events-section .event-image {
+        height: 200px;
+    }
+    
+    .events-section .event-content {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Mobile Responsive for Partners */
+@media (max-width: 767px) {
+    .partners-section .partners-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: 0 var(--spacing-md);
+    }
+    
+    .partners-section .partner-card {
+        max-width: 100%;
+        padding: var(--spacing-lg);
+    }
+    
+    .partners-section .partner-logo {
+        height: 120px;
+    }
+}
+
+/* Desktop Responsive Enhancements */
+@media (min-width: 1024px) {
+    .team-section .team-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-2xl);
+    }
+    
+    .events-section .events-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-2xl);
+    }
+    
+    .partners-section .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-2xl);
+    }
+}
+
+/* Tablet Responsive Enhancements */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .team-section .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .events-section .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+/* ===================================
+   IMAGE OPTIMIZATION & LOADING
+   =================================== */
+
+/* Ensure all images load properly */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Loading state for images */
+img[src$=".webp"] {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Remove loading animation once image loads */
+img[src$=".webp"]:not([alt=""]) {
+    animation: none;
+    background: none;
+}
+
+/* ===================================
+   ACCESSIBILITY IMPROVEMENTS
+   =================================== */
+
+/* Focus states for better accessibility */
+.team-card:focus,
+.event-card:focus,
+.partner-card:focus {
+    outline: 3px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .team-card,
+    .event-card,
+    .partner-card {
+        border-width: 2px;
+        border-color: var(--text-primary);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .team-card,
+    .event-card,
+    .partner-card,
+    .member-photo,
+    .partner-logo {
+        transition: none;
+        animation: none;
+    }
+    
+    .team-card:hover,
+    .event-card:hover,
+    .partner-card:hover {
+        transform: none;
+    }
+}
+
+/* ===================================
+   PRINT STYLES
+   =================================== */
+@media print {
+    .navbar,
+    .hamburger {
+        display: none !important;
+    }
+    
+    .team-card,
+    .event-card,
+    .partner-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+    
+    .hero {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* ===================================
+   PERFORMANCE OPTIMIZATIONS
+   =================================== */
+
+/* GPU acceleration for smooth animations */
+.team-card,
+.event-card,
+.partner-card,
+.member-photo,
+.partner-logo {
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Optimize image rendering */
+.member-photo,
+.partner-logo,
+.event-image img,
+.dsa-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* ===================================
+   FINAL RESPONSIVE TOUCHES
+   =================================== */
+
+/* Extra small screens */
+@media (max-width: 480px) {
+    .section-header h2 {
+        font-size: var(--font-2xl);
+    }
+    
+    .team-card,
+    .event-card,
+    .partner-card {
+        margin: 0 var(--spacing-sm);
+    }
+    
+    .member-photo {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .event-image {
+        height: 180px;
+    }
+    
+    .partner-logo {
+        height: 100px;
+    }
+}
+
+/* Large screens optimization */
+@media (min-width: 1440px) {
+    .container {
+        max-width: 1200px;
+    }
+    
+    .team-grid,
+    .events-grid,
+    .partners-grid {
+        max-width: 1400px;
+    }
+}
