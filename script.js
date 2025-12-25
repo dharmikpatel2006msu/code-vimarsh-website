@@ -343,8 +343,247 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* ===================================
-       LOGO NAVIGATION FUNCTIONALITY
+       GALLERY SECTION FUNCTIONALITY
        =================================== */
+    
+    // Project data for detailed views
+    const projectData = {
+        'ezylink': {
+            title: 'Ezylink',
+            owner: {
+                name: 'Arjun Sharma',
+                role: 'Full Stack Developer',
+                image: 'https://via.placeholder.com/60x60/8b5cf6/ffffff?text=AS',
+                linkedin: 'https://linkedin.com/in/arjunsharma',
+                github: 'https://github.com/arjunsharma'
+            },
+            description: 'Ezylink is a modern URL shortener platform that allows users to create custom short links, track analytics, and manage their link campaigns. Built with a focus on performance and user experience, it features real-time analytics, custom domains, and team collaboration tools.',
+            technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Chart.js'],
+            features: [
+                'Custom short URL generation with personalized aliases',
+                'Real-time click analytics and geographic tracking',
+                'Team collaboration and link sharing capabilities',
+                'Custom domain integration for branded links',
+                'QR code generation for easy mobile sharing',
+                'Bulk URL shortening for enterprise users'
+            ],
+            liveLink: 'https://ezylink-demo.vercel.app',
+            githubLink: 'https://github.com/codevimarsh/ezylink',
+            screenshot: 'https://via.placeholder.com/600x400/2563eb/ffffff?text=Ezylink+Dashboard',
+            stats: { stars: 45, forks: 12, commits: 187, contributors: 3 }
+        },
+        'integrator': {
+            title: 'Integrator',
+            owner: {
+                name: 'Priya Patel',
+                role: 'Backend Developer',
+                image: 'https://via.placeholder.com/60x60/10b981/ffffff?text=PP',
+                linkedin: 'https://linkedin.com/in/priyapatel',
+                github: 'https://github.com/priyapatel'
+            },
+            description: 'Integrator is a powerful API integration tool that simplifies connecting different services and automating workflows. It provides a visual interface for creating complex integrations without writing code, making it perfect for businesses looking to streamline their operations.',
+            technologies: ['Python', 'Flask', 'PostgreSQL', 'Redis', 'Celery', 'Docker'],
+            features: [
+                'Visual workflow builder with drag-and-drop interface',
+                'Pre-built connectors for popular APIs and services',
+                'Real-time data synchronization and transformation',
+                'Automated error handling and retry mechanisms',
+                'Comprehensive logging and monitoring dashboard',
+                'Scalable architecture supporting high-volume integrations'
+            ],
+            liveLink: 'https://integrator-demo.herokuapp.com',
+            githubLink: 'https://github.com/codevimarsh/integrator',
+            screenshot: 'https://via.placeholder.com/600x400/10b981/ffffff?text=Integrator+Workflow',
+            stats: { stars: 32, forks: 8, commits: 143, contributors: 2 }
+        },
+        'taskflow': {
+            title: 'TaskFlow',
+            owner: {
+                name: 'Rahul Gupta',
+                role: 'Frontend Developer',
+                image: 'https://via.placeholder.com/60x60/8b5cf6/ffffff?text=RG',
+                linkedin: 'https://linkedin.com/in/rahulgupta',
+                github: 'https://github.com/rahulgupta'
+            },
+            description: 'TaskFlow is a comprehensive project management application designed for modern teams. It combines intuitive task management with powerful collaboration features, helping teams stay organized and productive while working on complex projects.',
+            technologies: ['Vue.js', 'Express', 'MySQL', 'Socket.io', 'Vuex', 'Bootstrap'],
+            features: [
+                'Kanban-style task boards with customizable workflows',
+                'Real-time collaboration and instant notifications',
+                'Time tracking and productivity analytics',
+                'File sharing and document management',
+                'Team chat and communication tools',
+                'Advanced reporting and project insights'
+            ],
+            liveLink: 'https://taskflow-app.netlify.app',
+            githubLink: 'https://github.com/codevimarsh/taskflow',
+            screenshot: 'https://via.placeholder.com/600x400/8b5cf6/ffffff?text=TaskFlow+Dashboard',
+            stats: { stars: 67, forks: 15, commits: 234, contributors: 4 }
+        },
+        'codeshare': {
+            title: 'CodeShare',
+            owner: {
+                name: 'Sneha Joshi',
+                role: 'Full Stack Developer',
+                image: 'https://via.placeholder.com/60x60/f59e0b/ffffff?text=SJ',
+                linkedin: 'https://linkedin.com/in/snehajoshi',
+                github: 'https://github.com/snehajoshi'
+            },
+            description: 'CodeShare is a real-time code collaboration platform that enables developers to write, share, and debug code together. With features like live editing, video chat, and integrated development tools, it\'s perfect for pair programming and code reviews.',
+            technologies: ['JavaScript', 'Socket.io', 'Redis', 'Monaco Editor', 'WebRTC', 'AWS'],
+            features: [
+                'Real-time collaborative code editing with syntax highlighting',
+                'Integrated video and voice chat for seamless communication',
+                'Multiple programming language support with IntelliSense',
+                'Version control integration with Git repositories',
+                'Screen sharing and remote cursor tracking',
+                'Code execution environment with multiple runtime support'
+            ],
+            liveLink: 'https://codeshare-live.vercel.app',
+            githubLink: 'https://github.com/codevimarsh/codeshare',
+            screenshot: 'https://via.placeholder.com/600x400/f59e0b/ffffff?text=CodeShare+Editor',
+            stats: { stars: 89, forks: 23, commits: 312, contributors: 5 }
+        },
+        'dataviz': {
+            title: 'DataViz',
+            owner: {
+                name: 'Amit Kumar',
+                role: 'Data Scientist',
+                image: 'https://via.placeholder.com/60x60/ec4899/ffffff?text=AK',
+                linkedin: 'https://linkedin.com/in/amitkumar',
+                github: 'https://github.com/amitkumar'
+            },
+            description: 'DataViz is an advanced data visualization tool that transforms complex datasets into beautiful, interactive charts and dashboards. It supports multiple data sources and provides powerful analytics capabilities for data-driven decision making.',
+            technologies: ['D3.js', 'Python', 'FastAPI', 'Pandas', 'NumPy', 'Plotly'],
+            features: [
+                'Interactive charts with zoom, pan, and filter capabilities',
+                'Support for multiple data formats (CSV, JSON, SQL databases)',
+                'Real-time data streaming and automatic updates',
+                'Customizable dashboard creation with drag-and-drop',
+                'Advanced statistical analysis and trend detection',
+                'Export capabilities for presentations and reports'
+            ],
+            liveLink: 'https://dataviz-platform.herokuapp.com',
+            githubLink: 'https://github.com/codevimarsh/dataviz',
+            screenshot: 'https://via.placeholder.com/600x400/ec4899/ffffff?text=DataViz+Charts',
+            stats: { stars: 54, forks: 18, commits: 198, contributors: 3 }
+        },
+        'smartbot': {
+            title: 'SmartBot',
+            owner: {
+                name: 'Vikash Singh',
+                role: 'AI/ML Engineer',
+                image: 'https://via.placeholder.com/60x60/06b6d4/ffffff?text=VS',
+                linkedin: 'https://linkedin.com/in/vikashsingh',
+                github: 'https://github.com/vikashsingh'
+            },
+            description: 'SmartBot is an intelligent chatbot assistant powered by advanced natural language processing. It can understand context, provide helpful responses, and integrate with various business systems to automate customer support and internal processes.',
+            technologies: ['TensorFlow', 'Python', 'NLP', 'BERT', 'Flask', 'MongoDB'],
+            features: [
+                'Advanced natural language understanding with context awareness',
+                'Multi-language support with real-time translation',
+                'Integration with popular messaging platforms and APIs',
+                'Machine learning-powered response improvement over time',
+                'Sentiment analysis and emotion detection capabilities',
+                'Custom training on domain-specific knowledge bases'
+            ],
+            liveLink: 'https://smartbot-ai.herokuapp.com',
+            githubLink: 'https://github.com/codevimarsh/smartbot',
+            screenshot: 'https://via.placeholder.com/600x400/06b6d4/ffffff?text=SmartBot+Interface',
+            stats: { stars: 76, forks: 21, commits: 267, contributors: 4 }
+        }
+    };
+    
+    // Get gallery elements
+    const projectCards = document.querySelectorAll('.project-card');
+    const galleryListing = document.getElementById('galleryListing');
+    const projectDetail = document.getElementById('projectDetail');
+    const backToGalleryButton = document.getElementById('backToGallery');
+    
+    // Project card click handlers
+    projectCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const projectId = this.getAttribute('data-project');
+            showProjectDetail(projectId);
+        });
+        
+        // Add hover effect
+        card.addEventListener('mouseenter', function() {
+            this.style.borderColor = '#8b5cf6';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.borderColor = 'rgba(226, 232, 240, 0.8)';
+        });
+    });
+    
+    // Function to show project detail
+    function showProjectDetail(projectId) {
+        const project = projectData[projectId];
+        if (!project) return;
+        
+        // Update project detail content
+        document.getElementById('projectDetailTitle').textContent = project.title;
+        document.getElementById('projectOwnerName').textContent = project.owner.name;
+        document.getElementById('projectOwnerRole').textContent = project.owner.role;
+        document.getElementById('projectOwnerImage').src = project.owner.image;
+        document.getElementById('projectDescription').textContent = project.description;
+        document.getElementById('projectLiveLink').href = project.liveLink;
+        document.getElementById('projectGithubLink').href = project.githubLink;
+        document.getElementById('developerLinkedIn').href = project.owner.linkedin;
+        document.getElementById('developerGithub').href = project.owner.github;
+        document.getElementById('projectScreenshot').src = project.screenshot;
+        
+        // Update technology tags
+        const techContainer = document.getElementById('projectTechTags');
+        techContainer.innerHTML = '';
+        project.technologies.forEach(tech => {
+            const techTag = document.createElement('span');
+            techTag.className = 'tech-tag';
+            techTag.textContent = tech;
+            techContainer.appendChild(techTag);
+        });
+        
+        // Update features list
+        const featuresList = document.getElementById('projectFeatures');
+        featuresList.innerHTML = '';
+        project.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature;
+            featuresList.appendChild(li);
+        });
+        
+        // Update stats
+        document.getElementById('projectStars').textContent = project.stats.stars;
+        document.getElementById('projectForks').textContent = project.stats.forks;
+        document.getElementById('projectCommits').textContent = project.stats.commits;
+        document.getElementById('projectContributors').textContent = project.stats.contributors;
+        
+        // Switch views
+        galleryListing.classList.remove('active');
+        projectDetail.classList.add('active');
+        
+        // Scroll to top
+        mainContent.scrollTop = 0;
+    }
+    
+    // Back button handler
+    if (backToGalleryButton) {
+        backToGalleryButton.addEventListener('click', function() {
+            projectDetail.classList.remove('active');
+            galleryListing.classList.add('active');
+            mainContent.scrollTop = 0;
+        });
+    }
+    
+    // Demo button handler
+    const playDemoBtn = document.getElementById('playDemoBtn');
+    if (playDemoBtn) {
+        playDemoBtn.addEventListener('click', function() {
+            const liveLink = document.getElementById('projectLiveLink').href;
+            window.open(liveLink, '_blank');
+        });
+    }
     
     // Sidebar logo click handler
     const sidebarLogo = document.querySelector('.sidebar-logo');
