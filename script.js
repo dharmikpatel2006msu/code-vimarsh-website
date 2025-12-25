@@ -376,8 +376,182 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* ===================================
-       GALLERY SECTION FUNCTIONALITY
+       HERO & REGISTRATION FUNCTIONALITY
        =================================== */
+    
+    // Get elements
+    const joinCommunityBtn = document.getElementById('joinCommunityBtn');
+    const registrationSection = document.getElementById('registrationSection');
+    const registrationForm = document.getElementById('registrationForm');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const passwordInput = document.getElementById('password');
+    const loginLink = document.getElementById('loginLink');
+    
+    // Join Community button functionality
+    if (joinCommunityBtn) {
+        joinCommunityBtn.addEventListener('click', function() {
+            // Smooth scroll to registration section
+            registrationSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Add focus to first input after scroll
+            setTimeout(() => {
+                const firstInput = document.getElementById('prn');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }, 800);
+        });
+    }
+    
+    // Password toggle functionality
+    if (passwordToggle && passwordInput) {
+        passwordToggle.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Update icon
+            const icon = this.querySelector('.password-icon');
+            if (icon) {
+                icon.textContent = type === 'password' ? '👁️' : '🙈';
+            }
+            
+            // Update aria-label
+            this.setAttribute('aria-label', 
+                type === 'password' ? 'Show password' : 'Hide password'
+            );
+        });
+    }
+    
+    // Registration form submission
+    if (registrationForm) {
+        registrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const prn = formData.get('prn').trim();
+            const username = formData.get('username').trim();
+            const password = formData.get('password');
+            
+            // Basic validation
+            if (!prn || !username || !password) {
+                showNotification('Please fill in all fields.', 'error');
+                return;
+            }
+            
+            if (prn.length < 3) {
+                showNotification('PRN must be at least 3 characters long.', 'error');
+                return;
+            }
+            
+            if (username.length < 3) {
+                showNotification('Username must be at least 3 characters long.', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters long.', 'error');
+                return;
+            }
+            
+            // Simulate registration process
+            const submitBtn = this.querySelector('.register-btn');
+            const originalText = submitBtn.querySelector('span').textContent;
+            
+            // Show loading state
+            submitBtn.querySelector('span').textContent = 'Registering...';
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button
+                submitBtn.querySelector('span').textContent = originalText;
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                
+                // Show success message
+                showNotification('Registration successful! Welcome to Code Vimarsh!', 'success');
+                
+                // Reset form
+                this.reset();
+                
+                // In a real application, you would redirect or update the UI
+                // For now, we'll just show a success message
+            }, 2000);
+        });
+    }
+    
+    // Login link functionality
+    if (loginLink) {
+        loginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // In a real application, this would navigate to the login page
+            // For now, we'll show a notification
+            showNotification('Login functionality would redirect to /login page', 'info');
+            
+            // You can replace this with actual navigation:
+            // window.location.href = '/login';
+        });
+    }
+    
+    // Form input enhancements
+    const formInputs = document.querySelectorAll('.registration-form input');
+    formInputs.forEach(input => {
+        // Add floating label effect
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            if (!this.value) {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+        
+        // Add input validation feedback
+        input.addEventListener('input', function() {
+            this.classList.remove('error');
+            
+            // Real-time validation
+            if (this.id === 'prn' && this.value.length > 0 && this.value.length < 3) {
+                this.classList.add('error');
+            } else if (this.id === 'username' && this.value.length > 0 && this.value.length < 3) {
+                this.classList.add('error');
+            } else if (this.id === 'password' && this.value.length > 0 && this.value.length < 6) {
+                this.classList.add('error');
+            }
+        });
+    });
+    
+    // Add smooth scroll behavior for better UX
+    function smoothScrollToElement(element, offset = 0) {
+        const elementPosition = element.offsetTop - offset;
+        window.scrollTo({
+            top: elementPosition,
+            behavior: 'smooth'
+        });
+    }
+    
+    // Intersection Observer for registration section animation
+    const registrationObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    if (registrationSection) {
+        registrationObserver.observe(registrationSection);
+    }
     
     // Project data for detailed views
     const projectData = {

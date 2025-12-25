@@ -60,21 +60,70 @@
     
     <!-- HOME SECTION (Default visible) -->
     <section id="home" class="content-section active">
-        <div class="hero">
-            <div class="hero-content">
-                <!-- BRAND LOGO - Primary brand reinforcement -->
+        <!-- HERO SECTION -->
+        <div class="hero-new">
+            <div class="hero-new-content">
+                <!-- BRAND LOGO -->
                 <div class="hero-brand-logo">
                     <img src="logo.webp" class="brand-logo-img" alt="Code Vimarsh Logo">
                 </div>
 
-                <h1 class="hero-title">Code Vimarsh</h1>
-                <p class="hero-subtitle">A student-led technical club to learn, build and grow together</p>
+                <!-- MAIN HEADING -->
+                <h1 class="hero-main-title">Inspire. Create. Code.</h1>
+                
+                <!-- SUBTEXT -->
+                <p class="hero-main-subtitle">Elevate your programming skills, tackle exciting challenges, & explore the endless possibilities of coding with Code Vimarsh</p>
 
-                <div class="hero-buttons">
-                    <button class="hero-btn primary" data-section="about">About Us</button>
-                    <button class="hero-btn secondary" data-section="events">Upcoming Events</button>
-                    <button class="hero-btn secondary" data-section="team">Meet Team</button>
-                    <button class="hero-btn secondary" data-section="resources">Resources</button>
+                <!-- CTA BUTTON -->
+                <button class="hero-cta-btn" id="joinCommunityBtn">
+                    <span>Join The Community</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+
+        <!-- REGISTRATION SECTION -->
+        <div class="registration-section" id="registrationSection">
+            <div class="registration-container">
+                <div class="registration-card">
+                    <div class="registration-header">
+                        <h2>Welcome To Code Vimarsh</h2>
+                    </div>
+                    
+                    <form class="registration-form" id="registrationForm">
+                        <div class="form-group">
+                            <label for="prn">PRN</label>
+                            <input type="text" id="prn" name="prn" required placeholder="Enter your PRN">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" required placeholder="Choose a username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="password-input-container">
+                                <input type="password" id="password" name="password" required placeholder="Create a password">
+                                <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
+                                    <span class="password-icon">👁️</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="register-btn">
+                            <span>Register</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                        
+                        <p class="helper-text">
+                            Note: To complete your registration, please use your PRN and the associated password.
+                        </p>
+                        
+                        <div class="login-link-container">
+                            <a href="#" class="login-link" id="loginLink">Already have an account? Login</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
