@@ -2,7 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Code Vimarsh</title>
+    <title>Code Vimarsh - Student Technical Club</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Code Vimarsh is a student-led technical club focused on programming, web development, and collaborative learning through workshops and projects.">
+    <meta name="keywords" content="programming, web development, student club, coding, workshops, technical events">
+    <meta name="author" content="Code Vimarsh">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Code Vimarsh - Student Technical Club">
+    <meta property="og:description" content="A student-led technical club to learn, build and grow together">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="logo.webp">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Code Vimarsh - Student Technical Club">
+    <meta name="twitter:description" content="A student-led technical club to learn, build and grow together">
 
     <!-- Mobile friendly -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +27,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
 
 <!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Code Vimarsh</div>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
 
 
 <!-- HERO / INTRO SECTION -->
@@ -29,6 +61,7 @@
         <div class="hero-buttons">
             <a href="#about" class="hero-btn">About</a>
             <a href="#events" class="hero-btn">Upcoming Events</a>
+            <a href="#projects" class="hero-btn">Projects</a>
             <a href="#team" class="hero-btn">Team</a>
         </div>
     </div>
@@ -51,17 +84,54 @@
     <ul class="event-list">
         <li>
             <strong>Web Development Workshop</strong><br>
+            <span class="event-date">January 15, 2025</span><br>
             Learn HTML, CSS & JavaScript fundamentals
         </li>
         <li>
             <strong>AI & ML Intro Session</strong><br>
+            <span class="event-date">January 22, 2025</span><br>
             Understand the basics of Artificial Intelligence
         </li>
         <li>
             <strong>Open Source Meetup</strong><br>
+            <span class="event-date">February 5, 2025</span><br>
             Git, GitHub & collaboration basics
         </li>
     </ul>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="card">
+    <h2>Our Projects</h2>
+    <div class="projects-grid">
+        <div class="project-card">
+            <h3>Student Portal</h3>
+            <p>A web application for managing student activities and resources</p>
+            <div class="tech-stack">
+                <span class="tech">HTML</span>
+                <span class="tech">CSS</span>
+                <span class="tech">JavaScript</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <h3>Code Learning Platform</h3>
+            <p>Interactive platform for learning programming concepts</p>
+            <div class="tech-stack">
+                <span class="tech">React</span>
+                <span class="tech">Node.js</span>
+                <span class="tech">MongoDB</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <h3>Event Management System</h3>
+            <p>System to organize and track club events and workshops</p>
+            <div class="tech-stack">
+                <span class="tech">Python</span>
+                <span class="tech">Flask</span>
+                <span class="tech">SQLite</span>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- TEAM -->
@@ -77,6 +147,40 @@
     </div>
 
     <p class="coming">More members coming soon...</p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="card">
+    <h2>Get In Touch</h2>
+    <p>Interested in joining Code Vimarsh? Have questions about our events? We'd love to hear from you!</p>
+    
+    <form class="contact-form">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+
+    <div class="contact-info">
+        <div class="contact-item">
+            <strong>Email:</strong> codevimarsh@example.com
+        </div>
+        <div class="contact-item">
+            <strong>Discord:</strong> Join our community server
+        </div>
+        <div class="contact-item">
+            <strong>GitHub:</strong> github.com/codevimarsh
+        </div>
+    </div>
 </section>
 
 
