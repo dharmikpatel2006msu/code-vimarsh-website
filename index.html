@@ -17,7 +17,11 @@
     <meta property="og:image" content="logo.webp">
     
     <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -25,8 +29,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- LEFT SIDEBAR NAVIGATION -->
-    <nav class="sidebar" id="sidebar">
+    <!-- LEFT SIDEBAR NAVIGATION - Compact Style -->
+    <nav class="sidebar compact" id="sidebar"></nav>
         <div class="sidebar-header">
             <div class="logo-container">
                 <img src="logo.webp" alt="Code Vimarsh Logo" class="logo">
@@ -36,38 +40,44 @@
         
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="#home" class="nav-link active" data-section="home">
-                    <i class="fas fa-home nav-icon"></i>
+                <a href="#home" class="nav-link active" data-section="home" title="Home">
+                    <span class="material-symbols-rounded nav-icon">home</span>
                     <span class="nav-text">Home</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#team" class="nav-link" data-section="team">
-                    <i class="fas fa-users nav-icon"></i>
+                <a href="#team" class="nav-link" data-section="team" title="Team">
+                    <span class="material-symbols-rounded nav-icon">groups_3</span>
                     <span class="nav-text">Team</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#events" class="nav-link" data-section="events">
-                    <i class="fas fa-calendar-alt nav-icon"></i>
+                <a href="#events" class="nav-link" data-section="events" title="Events">
+                    <span class="material-symbols-rounded nav-icon">event</span>
                     <span class="nav-text">Events</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#gallery" class="nav-link" data-section="gallery">
-                    <i class="fas fa-images nav-icon"></i>
+                <a href="#gallery" class="nav-link" data-section="gallery" title="Gallery">
+                    <span class="material-symbols-rounded nav-icon">dashboard</span>
                     <span class="nav-text">Gallery</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#forum" class="nav-link" data-section="forum">
-                    <i class="fas fa-comments nav-icon"></i>
+                <a href="#resources" class="nav-link" data-section="resources" title="Resources">
+                    <span class="material-symbols-rounded nav-icon">category</span>
+                    <span class="nav-text">Resources</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#forum" class="nav-link" data-section="forum" title="Forum">
+                    <span class="material-symbols-rounded nav-icon">forum</span>
                     <span class="nav-text">Forum</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#contact" class="nav-link" data-section="contact">
-                    <i class="fas fa-envelope nav-icon"></i>
+                <a href="#contact" class="nav-link" data-section="contact" title="Contact">
+                    <span class="material-symbols-rounded nav-icon">mail</span>
                     <span class="nav-text">Contact</span>
                 </a>
             </li>
@@ -126,92 +136,112 @@
             </div>
         </section>
 
-        <!-- TEAM SECTION -->
+        <!-- TEAM SECTION - Enhanced with Initiators and Family -->
         <section id="team" class="content-section">
-            <div class="section-container">
-                <div class="section-header">
-                    <h2 class="section-title">Our <span class="gradient-text">Team</span></h2>
-                    <p class="section-subtitle">Meet the passionate individuals driving Code Vimarsh forward</p>
+            <div class="team-hero">
+                <img src="krupal patel_files/eventBg.webp" alt="Team background" class="team-hero-bg">
+                <div class="team-hero-overlay">
+                    <div class="section-container">
+                        <h1 class="team-hero-title">Compilers</h1>
+                        <p class="team-hero-subtitle">The great minds behind our work.</p>
+                    </div>
                 </div>
-                
-                <div class="team-grid">
-                    <div class="team-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="team-image-container">
-                            <img src="jayprajapati.webp" alt="Jay Prajapati" class="team-image">
-                            <div class="team-overlay">
-                                <div class="team-social">
-                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+            
+            <div class="section-container">
+                <!-- Initiators Section -->
+                <div class="team-category">
+                    <h3 class="team-category-title">Initiators</h3>
+                    <div class="team-grid initiators">
+                        <div class="team-card enhanced" data-aos="fade-up" data-aos-delay="100">
+                            <div class="team-image-container">
+                                <img src="jayprajapati.webp" alt="Jay Prajapati" class="team-image">
+                                <div class="team-overlay">
+                                    <div class="team-social">
+                                        <a href="#" class="social-link" title="LinkedIn">
+                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="team-info">
+                                <h3 class="team-name">Jay Prajapati</h3>
+                                <p class="team-role">Secretary</p>
+                            </div>
                         </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Jay Prajapati</h3>
-                            <p class="team-role">Secretary</p>
+
+                        <div class="team-card enhanced" data-aos="fade-up" data-aos-delay="200">
+                            <div class="team-image-container">
+                                <img src="krupalpatel.webp" alt="Krupal Patel" class="team-image">
+                                <div class="team-overlay">
+                                    <div class="team-social">
+                                        <a href="#" class="social-link" title="LinkedIn">
+                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="team-info">
+                                <h3 class="team-name">Krupal Patel</h3>
+                                <p class="team-role">President</p>
+                            </div>
+                        </div>
+
+                        <div class="team-card enhanced" data-aos="fade-up" data-aos-delay="300">
+                            <div class="team-image-container">
+                                <img src="mihirBhavsar.webp" alt="Mihir Bhavsar" class="team-image">
+                                <div class="team-overlay">
+                                    <div class="team-social">
+                                        <a href="#" class="social-link" title="LinkedIn">
+                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="team-info">
+                                <h3 class="team-name">Mihir Bhavsar</h3>
+                                <p class="team-role">Graphic Designer</p>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="team-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="team-image-container">
-                            <img src="krupalpatel.webp" alt="Krupal Patel" class="team-image">
-                            <div class="team-overlay">
-                                <div class="team-social">
-                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <!-- Family Section -->
+                <div class="team-category">
+                    <h3 class="team-category-title">Family</h3>
+                    <div class="team-grid family">
+                        <div class="team-card enhanced" data-aos="fade-up" data-aos-delay="400">
+                            <div class="team-image-container">
+                                <img src="shivamParmar.webp" alt="Shivam Parmar" class="team-image">
+                                <div class="team-overlay">
+                                    <div class="team-social">
+                                        <a href="#" class="social-link" title="LinkedIn">
+                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Krupal Patel</h3>
-                            <p class="team-role">President</p>
-                        </div>
-                    </div>
-
-                    <div class="team-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="team-image-container">
-                            <img src="mihirBhavsar.webp" alt="Mihir Bhavsar" class="team-image">
-                            <div class="team-overlay">
-                                <div class="team-social">
-                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                                </div>
+                            <div class="team-info">
+                                <h3 class="team-name">Shivam Parmar</h3>
+                                <p class="team-role">Committee Member</p>
                             </div>
                         </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Mihir Bhavsar</h3>
-                            <p class="team-role">Graphic Designer</p>
-                        </div>
-                    </div>
 
-                    <div class="team-card" data-aos="fade-up" data-aos-delay="400">
-                        <div class="team-image-container">
-                            <img src="shivamParmar.webp" alt="Shivam Parmar" class="team-image">
-                            <div class="team-overlay">
-                                <div class="team-social">
-                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <div class="team-card enhanced" data-aos="fade-up" data-aos-delay="500">
+                            <div class="team-image-container">
+                                <img src="yashSolanki.webp" alt="Yash Solanki" class="team-image">
+                                <div class="team-overlay">
+                                    <div class="team-social">
+                                        <a href="#" class="social-link" title="LinkedIn">
+                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Shivam Parmar</h3>
-                            <p class="team-role">Committee Member</p>
-                        </div>
-                    </div>
-
-                    <div class="team-card" data-aos="fade-up" data-aos-delay="500">
-                        <div class="team-image-container">
-                            <img src="yashSolanki.webp" alt="Yash Solanki" class="team-image">
-                            <div class="team-overlay">
-                                <div class="team-social">
-                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                                </div>
+                            <div class="team-info">
+                                <h3 class="team-name">Yash Solanki</h3>
+                                <p class="team-role">Committee Member</p>
                             </div>
-                        </div>
-                        <div class="team-info">
-                            <h3 class="team-name">Yash Solanki</h3>
-                            <p class="team-role">Committee Member</p>
                         </div>
                     </div>
                 </div>
@@ -329,6 +359,54 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESOURCES SECTION -->
+        <section id="resources" class="content-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">Learning <span class="gradient-text">Resources</span></h2>
+                    <p class="section-subtitle">Curated resources to help you grow as a developer</p>
+                </div>
+                
+                <div class="resources-grid">
+                    <div class="resource-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="resource-icon">
+                            <span class="material-symbols-rounded">code</span>
+                        </div>
+                        <h3 class="resource-title">DSA Practice</h3>
+                        <p class="resource-description">Comprehensive data structures and algorithms practice problems</p>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-arrow-right"></i>
+                            Explore
+                        </button>
+                    </div>
+
+                    <div class="resource-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="resource-icon">
+                            <span class="material-symbols-rounded">web</span>
+                        </div>
+                        <h3 class="resource-title">Web Development</h3>
+                        <p class="resource-description">Modern web development tutorials and best practices</p>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-arrow-right"></i>
+                            Explore
+                        </button>
+                    </div>
+
+                    <div class="resource-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="resource-icon">
+                            <span class="material-symbols-rounded">psychology</span>
+                        </div>
+                        <h3 class="resource-title">Interview Prep</h3>
+                        <p class="resource-description">Technical interview preparation and coding challenges</p>
+                        <button class="btn btn-outline">
+                            <i class="fas fa-arrow-right"></i>
+                            Explore
+                        </button>
                     </div>
                 </div>
             </div>
