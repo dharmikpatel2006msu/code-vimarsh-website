@@ -257,68 +257,111 @@
                 </div>
                 
                 <div class="events-grid">
-                    <div class="event-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="event-card enhanced" data-aos="fade-up" data-aos-delay="100" onclick="openEventDetails('event1')">
                         <div class="event-image-container">
-                            <img src="5October.webp" alt="October 5 Event" class="event-image">
-                            <div class="event-overlay">
-                                <div class="event-date">
+                            <img src="5October.webp" alt="DSA Foundation Event" class="event-image">
+                            <div class="event-gradient-overlay">
+                                <div class="event-date-badge">
                                     <span class="date-day">5</span>
                                     <span class="date-month">OCT</span>
                                 </div>
                             </div>
                         </div>
                         <div class="event-content">
-                            <h3 class="event-title">Competitive Programming Contest</h3>
-                            <p class="event-description">Test your coding skills in our monthly programming competition with exciting prizes.</p>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-arrow-right"></i>
-                                Learn More
+                            <h3 class="event-title">A To Z Guidance for DSA Foundation</h3>
+                            <div class="event-meta">
+                                <div class="event-meta-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>5 October</span>
+                                </div>
+                                <div class="event-meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>11:00 to 13:00</span>
+                                </div>
+                            </div>
+                            <p class="event-description">Complete roadmap and guidance for building strong foundations in Data Structures and Algorithms.</p>
+                            <button class="btn btn-primary event-register-btn">
+                                <i class="fas fa-user-plus"></i>
+                                Register Now
                             </button>
                         </div>
                     </div>
 
-                    <div class="event-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="event-card enhanced" data-aos="fade-up" data-aos-delay="200" onclick="openEventDetails('event2')">
                         <div class="event-image-container">
-                            <img src="2Auguest.webp" alt="August 2 Event" class="event-image">
-                            <div class="event-overlay">
-                                <div class="event-date">
+                            <img src="2Auguest.webp" alt="Fireside Chat with Manu Misra" class="event-image">
+                            <div class="event-gradient-overlay">
+                                <div class="event-date-badge">
                                     <span class="date-day">2</span>
                                     <span class="date-month">AUG</span>
                                 </div>
                             </div>
                         </div>
                         <div class="event-content">
-                            <h3 class="event-title">Web Development Workshop</h3>
-                            <p class="event-description">Learn modern web development with React, Node.js, and industry best practices.</p>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-arrow-right"></i>
-                                Learn More
+                            <h3 class="event-title">Fireside Chat With Manu Misra</h3>
+                            <div class="event-meta">
+                                <div class="event-meta-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>2 August</span>
+                                </div>
+                                <div class="event-meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>09:30 to 10:30</span>
+                                </div>
+                            </div>
+                            <p class="event-description">An inspiring conversation with industry expert Manu Misra about career growth and tech insights.</p>
+                            <button class="btn btn-primary event-register-btn">
+                                <i class="fas fa-user-plus"></i>
+                                Register Now
                             </button>
                         </div>
                     </div>
 
-                    <div class="event-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="event-card enhanced" data-aos="fade-up" data-aos-delay="300" onclick="openEventDetails('event3')">
                         <div class="event-image-container">
-                            <img src="26september.webp" alt="September 26 Event" class="event-image">
-                            <div class="event-overlay">
-                                <div class="event-date">
+                            <img src="26september.webp" alt="Fireside Chat with Nishant Virmani" class="event-image">
+                            <div class="event-gradient-overlay">
+                                <div class="event-date-badge">
                                     <span class="date-day">26</span>
                                     <span class="date-month">SEP</span>
                                 </div>
                             </div>
                         </div>
                         <div class="event-content">
-                            <h3 class="event-title">DSA Bootcamp</h3>
-                            <p class="event-description">Intensive bootcamp covering data structures and algorithms for interview preparation.</p>
-                            <button class="btn btn-outline">
-                                <i class="fas fa-arrow-right"></i>
-                                Learn More
+                            <h3 class="event-title">Fireside Chat With Nishant Virmani Sir</h3>
+                            <div class="event-meta">
+                                <div class="event-meta-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>26 September</span>
+                                </div>
+                                <div class="event-meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>09:30 to 11:00</span>
+                                </div>
+                            </div>
+                            <p class="event-description">Exclusive session with Nishant Virmani Sir sharing valuable insights on technology and leadership.</p>
+                            <button class="btn btn-primary event-register-btn">
+                                <i class="fas fa-user-plus"></i>
+                                Register Now
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- EVENT DETAILS MODAL -->
+        <div id="eventModal" class="event-modal">
+            <div class="event-modal-overlay" onclick="closeEventDetails()"></div>
+            <div class="event-modal-content">
+                <button class="event-modal-close" onclick="closeEventDetails()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div id="eventDetailsContent">
+                    <!-- Event details will be loaded here -->
+                </div>
+            </div>
+        </div>
 
         <!-- GALLERY SECTION -->
         <section id="gallery" class="content-section">

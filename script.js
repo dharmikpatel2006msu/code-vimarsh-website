@@ -348,12 +348,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Event card interactions
-        const eventCards = document.querySelectorAll('.event-card');
+        // Event card interactions - Updated for new modal system
+        const eventCards = document.querySelectorAll('.event-card.enhanced');
         eventCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const eventTitle = this.querySelector('.event-title').textContent;
-                showNotification(`More details about "${eventTitle}" coming soon!`, 'info');
+            // Remove the old click handler since we now use onclick in HTML
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-12px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
             });
         });
         
@@ -618,3 +622,241 @@ const additionalStyles = `
 const styleSheet = document.createElement('style');
 styleSheet.textContent = additionalStyles;
 document.head.appendChild(styleSheet);
+/* ===================================
+   EVENT MODAL FUNCTIONALITY
+   =================================== */
+
+// Event data
+const eventData = {
+    event1: {
+        id: 'event1',
+        title: 'A To Z Guidance for DSA Foundation',
+        subtitle: 'Complete roadmap for Data Structures and Algorithms mastery',
+        date: '5 October',
+        time: '11:00 to 13:00',
+        image: '5October.webp',
+        description: 'Join us for a comprehensive session covering everything you need to know about Data Structures and Algorithms. This foundational workshop will set you up for success in competitive programming and technical interviews.',
+        agenda: [
+            'Introduction to Data Structures fundamentals',
+            'Algorithm complexity analysis (Big O notation)',
+            'Essential data structures: Arrays, Linked Lists, Stacks, Queues',
+            'Tree and Graph basics',
+            'Sorting and searching algorithms',
+            'Problem-solving strategies and patterns',
+            'Practice problems and live coding session',
+            'Q&A and career guidance'
+        ],
+        speaker: {
+            name: 'Code Vimarsh Team',
+            title: 'Technical Mentors',
+            bio: 'Our experienced team of developers and competitive programmers will guide you through the essential concepts of DSA with practical examples and hands-on exercises.'
+        },
+        benefits: [
+            'Comprehensive DSA roadmap',
+            'Live coding demonstrations',
+            'Practice problem sets',
+            'Career guidance session'
+        ]
+    },
+    event2: {
+        id: 'event2',
+        title: 'Fireside Chat With Manu Misra',
+        subtitle: 'Industry insights and career guidance from a tech leader',
+        date: '2 August',
+        time: '09:30 to 10:30',
+        image: '2Auguest.webp',
+        description: 'An exclusive fireside chat with industry expert Manu Misra, sharing valuable insights about career growth, technology trends, and professional development in the tech industry.',
+        agenda: [
+            'Welcome and introduction',
+            'Manu Misra\'s journey in tech industry',
+            'Current technology trends and opportunities',
+            'Career advice for aspiring developers',
+            'Skills that matter in today\'s market',
+            'Work-life balance in tech careers',
+            'Interactive Q&A session',
+            'Networking and closing remarks'
+        ],
+        speaker: {
+            name: 'Manu Misra',
+            title: 'Senior Technology Leader',
+            bio: 'Manu Misra is a seasoned technology professional with over 15 years of experience in software development, team leadership, and product management. He has worked with leading tech companies and mentored hundreds of developers.'
+        },
+        benefits: [
+            'Industry expert insights',
+            'Career guidance',
+            'Networking opportunities',
+            'Q&A with tech leader'
+        ]
+    },
+    event3: {
+        id: 'event3',
+        title: 'Fireside Chat With Nishant Virmani Sir',
+        subtitle: 'Leadership lessons and technology insights from an industry veteran',
+        date: '26 September',
+        time: '09:30 to 11:00',
+        image: '26september.webp',
+        description: 'Join us for an inspiring conversation with Nishant Virmani Sir, where he shares his extensive experience in technology leadership, innovation, and building successful tech teams.',
+        agenda: [
+            'Opening and speaker introduction',
+            'Nishant Virmani\'s leadership journey',
+            'Building and scaling tech teams',
+            'Innovation in technology solutions',
+            'Leadership principles for tech professionals',
+            'Challenges and opportunities in modern tech',
+            'Advice for emerging tech leaders',
+            'Extended Q&A and discussion'
+        ],
+        speaker: {
+            name: 'Nishant Virmani',
+            title: 'Technology Leader & Innovation Expert',
+            bio: 'Nishant Virmani is a distinguished technology leader with extensive experience in driving innovation and leading high-performing teams. His expertise spans across multiple domains including software architecture, product development, and organizational leadership.'
+        },
+        benefits: [
+            'Leadership insights',
+            'Team building strategies',
+            'Innovation methodologies',
+            'Extended networking session'
+        ]
+    }
+};
+
+// Open event details modal
+function openEventDetails(eventId) {
+    const event = eventData[eventId];
+    if (!event) return;
+    
+    const modal = document.getElementById('eventModal');
+    const content = document.getElementById('eventDetailsContent');
+    
+    // Generate event detail HTML
+    content.innerHTML = generateEventDetailHTML(event);
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Add event listeners for registration buttons
+    const registerBtns = content.querySelectorAll('.btn-register-large, .event-register-btn');
+    registerBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleEventRegistration(event);
+        });
+    });
+}
+
+// Close event details modal
+function closeEventDetails() {
+    const modal = document.getElementById('eventModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Generate event detail HTML
+function generateEventDetailHTML(event) {
+    return `
+        <div class="event-detail-page">
+            <div class="event-detail-hero">
+                <div class="event-detail-hero-content">
+                    <h1 class="event-detail-title">${event.title}</h1>
+                    <p class="event-detail-subtitle">${event.subtitle}</p>
+                    <div class="event-detail-meta">
+                        <div class="event-detail-meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>${event.date}</span>
+                        </div>
+                        <div class="event-detail-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${event.time}</span>
+                        </div>
+                        <div class="event-detail-meta-item">
+                            <i class="fas fa-video"></i>
+                            <span>Online Event</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="event-detail-body">
+                <div class="event-detail-section">
+                    <h3>About This Event</h3>
+                    <p style="color: var(--text-gray); line-height: 1.6; font-size: 1.1rem;">${event.description}</p>
+                </div>
+                
+                <div class="event-detail-section">
+                    <h3>Event Agenda</h3>
+                    <ul class="event-detail-list">
+                        ${event.agenda.map(item => `<li>${item}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="event-detail-section">
+                    <h3>Speaker Information</h3>
+                    <div class="speaker-info">
+                        <div class="speaker-name">${event.speaker.name}</div>
+                        <div class="speaker-title">${event.speaker.title}</div>
+                        <div class="speaker-bio">${event.speaker.bio}</div>
+                    </div>
+                </div>
+                
+                <div class="registration-section">
+                    <h3>Register for This Event</h3>
+                    <p style="margin-bottom: var(--spacing-lg); opacity: 0.9;">Don't miss this opportunity to learn and grow with us!</p>
+                    
+                    <div class="registration-benefits">
+                        ${event.benefits.map(benefit => `
+                            <div class="registration-benefit">
+                                <i class="fas fa-check-circle" style="color: white; margin-bottom: var(--spacing-xs);"></i>
+                                <div>${benefit}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="registration-cta">
+                        <button class="btn-register-large">
+                            <i class="fas fa-user-plus"></i>
+                            Register Now - Free Event
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Handle event registration
+function handleEventRegistration(event) {
+    // Close modal first
+    closeEventDetails();
+    
+    // Show registration success message
+    setTimeout(() => {
+        showNotification(
+            `Registration successful for "${event.title}"! Check your email for event details.`,
+            'success',
+            5000
+        );
+    }, 300);
+    
+    // Here you would typically integrate with your registration system
+    console.log('Registering for event:', event.title);
+}
+
+// Make functions globally available
+window.openEventDetails = openEventDetails;
+window.closeEventDetails = closeEventDetails;
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeEventDetails();
+    }
+});
+
+// Prevent modal content clicks from closing modal
+document.addEventListener('click', function(e) {
+    const modalContent = document.querySelector('.event-modal-content');
+    if (modalContent && modalContent.contains(e.target)) {
+        e.stopPropagation();
+    }
+});
