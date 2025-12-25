@@ -2,161 +2,265 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Code Vimarsh - Student Technical Club</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Vimarsh - Learn • Build • Grow Together</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Code Vimarsh is a student-led technical club focused on programming, web development, and collaborative learning through workshops and projects.">
-    <meta name="keywords" content="programming, web development, student club, coding, workshops, technical events">
-    <meta name="author" content="Code Vimarsh">
+    <meta name="description" content="Code Vimarsh is a student-led technical club focused on DSA, coding, and community building. Join us to learn, build, and grow together.">
+    <meta name="keywords" content="Code Vimarsh, DSA, coding, programming, student club, tech community, algorithms, data structures">
+    <meta name="author" content="Code Vimarsh Club">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Code Vimarsh - Student Technical Club">
-    <meta property="og:description" content="A student-led technical club to learn, build and grow together">
+    <meta property="og:title" content="Code Vimarsh - Learn • Build • Grow Together">
+    <meta property="og:description" content="Join Code Vimarsh for DSA guidance, coding events, and tech community building">
     <meta property="og:type" content="website">
     <meta property="og:image" content="logo.webp">
     
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Code Vimarsh - Student Technical Club">
-    <meta name="twitter:description" content="A student-led technical club to learn, build and grow together">
-
-    <!-- Mobile friendly -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Google Fonts - Enhanced typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-
-<!-- SIDE NAVIGATION -->
-<nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-logo" onclick="showSection('home')" role="button" tabindex="0" aria-label="Go to Home">
-            <img src="logo.webp" alt="Code Vimarsh Logo" class="sidebar-logo-img">
-            <span class="sidebar-logo-text">Code Vimarsh</span>
-        </div>
-        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-    
-    <ul class="sidebar-nav" role="tablist">
-        <li><button class="nav-btn active" data-section="home" role="tab">Home</button></li>
-        <li><button class="nav-btn" data-section="about" role="tab">About</button></li>
-        <li><button class="nav-btn" data-section="events" role="tab">Events</button></li>
-        <li><button class="nav-btn" data-section="gallery" role="tab">Gallery</button></li>
-        <li><button class="nav-btn" data-section="forum" role="tab">Forum</button></li>
-        <li><button class="nav-btn" data-section="team" role="tab">Team</button></li>
-        <li><button class="nav-btn" data-section="resources" role="tab">Resources</button></li>
-    </ul>
-</nav>
-
-<!-- MAIN CONTENT AREA -->
-<main class="main-content" id="mainContent">
-    
-    <!-- HOME SECTION (Default visible) -->
-    <section id="home" class="content-section active">
-        <!-- HERO SECTION -->
-        <div class="hero-new">
-            <div class="hero-new-content">
-                <!-- BRAND LOGO -->
-                <div class="hero-brand-logo">
-                    <img src="logo.webp" class="brand-logo-img" alt="Code Vimarsh Logo">
-                </div>
-
-                <!-- MAIN HEADING -->
-                <h1 class="hero-main-title">Inspire. Create. Code.</h1>
-                
-                <!-- SUBTEXT -->
-                <p class="hero-main-subtitle">Elevate your programming skills, tackle exciting challenges, & explore the endless possibilities of coding with Code Vimarsh</p>
-
-                <!-- CTA BUTTON -->
-                <button class="hero-cta-btn" id="joinCommunityBtn">
-                    <span>Join The Community</span>
-                    <div class="btn-glow"></div>
-                </button>
+    <!-- STICKY NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="logo.webp" alt="Code Vimarsh Logo" class="logo-img">
+                <span class="logo-text">Code Vimarsh</span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#team" class="nav-link">Team</a></li>
+                <li><a href="#dsa" class="nav-link">DSA</a></li>
+                <li><a href="#forum" class="nav-link">Forum</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#partners" class="nav-link">Partners</a></li>
+            </ul>
+            
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
+    </nav>
 
-        <!-- REGISTRATION SECTION -->
-        <div class="registration-section" id="registrationSection">
-            <div class="registration-container">
-                <div class="registration-card">
-                    <div class="registration-header">
-                        <h2>Welcome To Code Vimarsh</h2>
-                    </div>
-                    
-                    <form class="registration-form" id="registrationForm">
-                        <div class="form-group">
-                            <label for="prn">PRN</label>
-                            <input type="text" id="prn" name="prn" required placeholder="Enter your PRN">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" id="username" name="username" required placeholder="Choose a username">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <div class="password-input-container">
-                                <input type="password" id="password" name="password" required placeholder="Create a password">
-                                <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
-                                    <span class="password-icon">👁️</span>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="register-btn">
-                            <span>Register</span>
-                            <div class="btn-glow"></div>
-                        </button>
-                        
-                        <p class="helper-text">
-                            Note: To complete your registration, please use your PRN and the associated password.
-                        </p>
-                        
-                        <div class="login-link-container">
-                            <a href="#" class="login-link" id="loginLink">Already have an account? Login</a>
-                        </div>
-                    </form>
+    <!-- HOME / HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Code Vimarsh – Learn • Build • Grow Together</h1>
+                <p class="hero-subtitle">
+                    Join our vibrant tech community for comprehensive DSA guidance, coding challenges, 
+                    collaborative projects, and exciting events. Build your programming skills with 
+                    fellow developers and grow together in the world of technology.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#dsa" class="btn btn-primary">Start Learning DSA</a>
+                    <a href="#events" class="btn btn-secondary">Explore Events</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ABOUT SECTION -->
-    <section id="about" class="content-section">
-        <div class="section-container">
+    <!-- CORE TEAM SECTION -->
+    <section id="team" class="team-section">
+        <div class="container">
             <div class="section-header">
-                <h2>About Us</h2>
-                <p class="section-subtitle">Learn more about Code Vimarsh and our mission</p>
+                <h2>Meet Our Core Team</h2>
+                <p>The passionate individuals driving Code Vimarsh forward</p>
             </div>
             
-            <div class="content-card">
-                <p class="about-description">
-                    Code Vimarsh is a student-led technical club focused on developing
-                    strong foundations in programming, web development, and real-world
-                    problem solving through workshops, events, and collaborative projects.
-                </p>
+            <div class="team-grid">
+                <div class="team-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-image">
+                        <img src="jay prajapati.webp" alt="Jay Prajapati" class="member-photo">
+                    </div>
+                    <div class="team-info">
+                        <h3>Jay Prajapati</h3>
+                        <p>Secretary</p>
+                    </div>
+                </div>
                 
-                <div class="about-features">
-                    <div class="feature-item">
-                        <h3>🚀 Learn</h3>
-                        <p>Hands-on workshops and tutorials on latest technologies</p>
+                <div class="team-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-image">
+                        <img src="krupal patel.webp" alt="Krupal Patel" class="member-photo">
                     </div>
-                    <div class="feature-item">
-                        <h3>🛠️ Build</h3>
-                        <p>Collaborative projects and real-world applications</p>
+                    <div class="team-info">
+                        <h3>Krupal Patel</h3>
+                        <p>President</p>
                     </div>
-                    <div class="feature-item">
-                        <h3>📈 Grow</h3>
-                        <p>Networking, mentorship, and career development</p>
+                </div>
+                
+                <div class="team-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-image">
+                        <img src="mihir Bhavsar.webp" alt="Mihir Bhavsar" class="member-photo">
+                    </div>
+                    <div class="team-info">
+                        <h3>Mihir Bhavsar</h3>
+                        <p>Graphic Designer</p>
+                    </div>
+                </div>
+                
+                <div class="team-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-image">
+                        <img src="Shivam Parmar.webp" alt="Shivam Parmar" class="member-photo">
+                    </div>
+                    <div class="team-info">
+                        <h3>Shivam Parmar</h3>
+                        <p>Committee Member</p>
+                    </div>
+                </div>
+                
+                <div class="team-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="team-image">
+                        <img src="Yash Solanki.webp" alt="Yash Solanki" class="member-photo">
+                    </div>
+                    <div class="team-info">
+                        <h3>Yash Solanki</h3>
+                        <p>Committee Member</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DSA / LEARNING SECTION -->
+    <section id="dsa" class="dsa-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>A to Z Guidance for DSA Foundation</h2>
+                <p>Master Data Structures and Algorithms with our comprehensive learning path</p>
+            </div>
+            
+            <div class="dsa-content">
+                <div class="dsa-banner">
+                    <img src="26september.webp" alt="A to Z DSA Foundation Guide" class="dsa-image">
+                </div>
+                
+                <div class="dsa-description">
+                    <p>
+                        Our comprehensive DSA foundation course covers everything from basic data structures 
+                        to advanced algorithms. Learn at your own pace with hands-on coding exercises, 
+                        real-world examples, and expert guidance from our experienced mentors.
+                    </p>
+                    
+                    <div class="dsa-features">
+                        <div class="feature">
+                            <span class="feature-icon">📚</span>
+                            <span>Structured Learning Path</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">💻</span>
+                            <span>Hands-on Coding</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🎯</span>
+                            <span>Interview Preparation</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">👥</span>
+                            <span>Community Support</span>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="btn btn-primary btn-large">Start Learning</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORUM SECTION -->
+    <section id="forum" class="forum-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Code Vimarsh Forum</h2>
+                <p>Join discussions, ask questions, and share knowledge with the community</p>
+            </div>
+            
+            <div class="forum-container">
+                <div class="forum-topics">
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-author">
+                                <img src="https://via.placeholder.com/40x40/8b5cf6/ffffff?text=AK" alt="Author" class="author-avatar">
+                                <div class="author-info">
+                                    <span class="author-name">Arjun Kumar</span>
+                                    <span class="topic-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="topic-stats">
+                                <span class="replies">12 replies</span>
+                            </div>
+                        </div>
+                        <h3 class="topic-title">Best approach for solving LeetCode dynamic programming problems?</h3>
+                        <div class="topic-tags">
+                            <span class="tag java">Java</span>
+                            <span class="tag cpp">C++</span>
+                            <span class="tag dsa">DSA</span>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-author">
+                                <img src="https://via.placeholder.com/40x40/10b981/ffffff?text=PP" alt="Author" class="author-avatar">
+                                <div class="author-info">
+                                    <span class="author-name">Priya Patel</span>
+                                    <span class="topic-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="topic-stats">
+                                <span class="replies">8 replies</span>
+                            </div>
+                        </div>
+                        <h3 class="topic-title">TypeScript vs JavaScript for competitive programming</h3>
+                        <div class="topic-tags">
+                            <span class="tag typescript">TypeScript</span>
+                            <span class="tag javascript">JavaScript</span>
+                        </div>
+                    </div>
+                    
+                    <div class="topic-card">
+                        <div class="topic-header">
+                            <div class="topic-author">
+                                <img src="https://via.placeholder.com/40x40/f59e0b/ffffff?text=RG" alt="Author" class="author-avatar">
+                                <div class="author-info">
+                                    <span class="author-name">Rahul Gupta</span>
+                                    <span class="topic-time">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="topic-stats">
+                                <span class="replies">15 replies</span>
+                            </div>
+                        </div>
+                        <h3 class="topic-title">Graph algorithms implementation in C++</h3>
+                        <div class="topic-tags">
+                            <span class="tag cpp">C++</span>
+                            <span class="tag dsa">DSA</span>
+                            <span class="tag algorithms">Algorithms</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="forum-sidebar">
+                    <div class="forum-stats">
+                        <h4>Forum Stats</h4>
+                        <div class="stat-item">
+                            <span class="stat-number">150+</span>
+                            <span class="stat-label">Active Members</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">300+</span>
+                            <span class="stat-label">Topics</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1.2k+</span>
+                            <span class="stat-label">Replies</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,959 +268,159 @@
     </section>
 
     <!-- EVENTS SECTION -->
-    <section id="events" class="content-section">
-        <div class="events-container">
-            <!-- Events Listing View -->
-            <div id="eventsListing" class="events-view active">
-                <div class="events-header">
-                    <div class="gradient-header">
-                        <h1>Upcoming Events</h1>
-                        <p>Join us for exciting workshops, hackathons, and tech talks</p>
-                    </div>
-                </div>
-                
-                <div class="events-grid">
-                    <!-- Event Card 1 -->
-                    <div class="event-card" data-event="web-dev-workshop">
-                        <div class="event-image">
-                            <img src="https://via.placeholder.com/400x200/2563eb/ffffff?text=Web+Development" alt="Web Development Workshop">
-                            <div class="event-date-badge">
-                                <span class="date">15</span>
-                                <span class="month">JAN</span>
-                            </div>
-                        </div>
-                        <div class="event-content">
-                            <h3>Web Development Workshop</h3>
-                            <div class="event-meta">
-                                <span class="event-time">
-                                    <i class="icon">🕐</i>
-                                    2:00 PM - 5:00 PM
-                                </span>
-                                <span class="event-mode">
-                                    <i class="icon">💻</i>
-                                    Online
-                                </span>
-                            </div>
-                            <p class="event-description">Learn HTML, CSS & JavaScript fundamentals with hands-on projects</p>
-                        </div>
-                    </div>
-
-                    <!-- Event Card 2 -->
-                    <div class="event-card" data-event="ai-ml-session">
-                        <div class="event-image">
-                            <img src="https://via.placeholder.com/400x200/10b981/ffffff?text=AI+%26+ML" alt="AI & ML Session">
-                            <div class="event-date-badge">
-                                <span class="date">22</span>
-                                <span class="month">JAN</span>
-                            </div>
-                        </div>
-                        <div class="event-content">
-                            <h3>AI & ML Intro Session</h3>
-                            <div class="event-meta">
-                                <span class="event-time">
-                                    <i class="icon">🕐</i>
-                                    3:00 PM - 6:00 PM
-                                </span>
-                                <span class="event-mode">
-                                    <i class="icon">🏢</i>
-                                    Offline
-                                </span>
-                            </div>
-                            <p class="event-description">Understand the basics of Artificial Intelligence and Machine Learning</p>
-                        </div>
-                    </div>
-
-                    <!-- Event Card 3 -->
-                    <div class="event-card" data-event="hackathon-2025">
-                        <div class="event-image">
-                            <img src="https://via.placeholder.com/400x200/f59e0b/ffffff?text=Hackathon+2025" alt="Code Vimarsh Hackathon">
-                            <div class="event-date-badge">
-                                <span class="date">05</span>
-                                <span class="month">FEB</span>
-                            </div>
-                        </div>
-                        <div class="event-content">
-                            <h3>Code Vimarsh Hackathon 2025</h3>
-                            <div class="event-meta">
-                                <span class="event-time">
-                                    <i class="icon">🕐</i>
-                                    9:00 AM - 9:00 PM
-                                </span>
-                                <span class="event-mode">
-                                    <i class="icon">🌐</i>
-                                    Hybrid
-                                </span>
-                            </div>
-                            <p class="event-description">24-hour coding challenge with exciting prizes and networking</p>
-                        </div>
-                    </div>
-
-                    <!-- Event Card 4 -->
-                    <div class="event-card" data-event="open-source-meetup">
-                        <div class="event-image">
-                            <img src="https://via.placeholder.com/400x200/8b5cf6/ffffff?text=Open+Source" alt="Open Source Meetup">
-                            <div class="event-date-badge">
-                                <span class="date">12</span>
-                                <span class="month">FEB</span>
-                            </div>
-                        </div>
-                        <div class="event-content">
-                            <h3>Open Source Meetup</h3>
-                            <div class="event-meta">
-                                <span class="event-time">
-                                    <i class="icon">🕐</i>
-                                    4:00 PM - 7:00 PM
-                                </span>
-                                <span class="event-mode">
-                                    <i class="icon">💻</i>
-                                    Online
-                                </span>
-                            </div>
-                            <p class="event-description">Git, GitHub & collaboration basics for open source contribution</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event Detail View -->
-            <div id="eventDetail" class="events-view">
-                <button class="back-button" id="backToEvents">
-                    <i class="icon">←</i>
-                    Back to Events
-                </button>
-                
-                <div class="event-detail-header">
-                    <div class="gradient-header">
-                        <h1 id="eventDetailTitle">Event Title</h1>
-                    </div>
-                </div>
-
-                <div class="event-detail-content">
-                    <div class="event-detail-meta">
-                        <div class="meta-item">
-                            <i class="icon">📅</i>
-                            <span id="eventDetailDate">Date</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="icon">🕐</i>
-                            <span id="eventDetailTime">Time</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="icon">📍</i>
-                            <span id="eventDetailMode">Mode</span>
-                        </div>
-                    </div>
-
-                    <div class="event-detail-body">
-                        <div class="detail-section">
-                            <h3>📋 Event Description</h3>
-                            <p id="eventDetailDescription">Event description will appear here</p>
-                        </div>
-
-                        <div class="detail-section">
-                            <h3>🎯 What You'll Gain</h3>
-                            <ul id="eventDetailGains">
-                                <li>Hands-on experience with latest technologies</li>
-                                <li>Networking opportunities with peers and industry experts</li>
-                                <li>Certificate of participation</li>
-                                <li>Access to exclusive resources and materials</li>
-                            </ul>
-                        </div>
-
-                        <div class="detail-section">
-                            <h3>👨‍🏫 Speaker Details</h3>
-                            <div id="eventDetailSpeaker" class="speaker-info">
-                                <p>Industry experts and experienced developers from leading tech companies</p>
-                            </div>
-                        </div>
-
-                        <div class="detail-section">
-                            <h3>ℹ️ Event Details</h3>
-                            <div class="event-info-grid">
-                                <div class="info-item">
-                                    <i class="icon">🎓</i>
-                                    <div>
-                                        <strong>Eligibility</strong>
-                                        <p>Open to all students and tech enthusiasts</p>
-                                    </div>
-                                </div>
-                                <div class="info-item">
-                                    <i class="icon">💰</i>
-                                    <div>
-                                        <strong>Registration Fee</strong>
-                                        <p>Free for all participants</p>
-                                    </div>
-                                </div>
-                                <div class="info-item">
-                                    <i class="icon">📱</i>
-                                    <div>
-                                        <strong>Platform</strong>
-                                        <p id="eventDetailPlatform">Google Meet / Physical Venue</p>
-                                    </div>
-                                </div>
-                                <div class="info-item">
-                                    <i class="icon">🏆</i>
-                                    <div>
-                                        <strong>Certificates</strong>
-                                        <p>Digital certificates for all attendees</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="registration-section">
-                        <button class="register-button" id="registerButton">
-                            <i class="icon">🎫</i>
-                            Register Now
-                        </button>
-                        <p class="registration-note">Registration closes 1 hour before the event</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- GALLERY SECTION -->
-    <section id="gallery" class="content-section">
-        <div class="gallery-container">
-            <!-- Gallery Listing View -->
-            <div id="galleryListing" class="gallery-view active">
-                <div class="gallery-header">
-                    <div class="gradient-header">
-                        <h1>Welcome to the Code Vimarsh Project Gallery</h1>
-                        <p>Explore, showcase, and share your innovative projects with fellow club members</p>
-                    </div>
-                </div>
-                
-                <div class="gallery-content">
-                    <div class="projects-grid">
-                        <!-- Project Card 1 - Ezylink -->
-                        <div class="project-card" data-project="ezylink">
-                            <div class="project-thumbnail">
-                                <img src="https://via.placeholder.com/400x250/2563eb/ffffff?text=Ezylink" alt="Ezylink Project">
-                                <div class="project-overlay">
-                                    <div class="overlay-content">
-                                        <h3>Ezylink</h3>
-                                        <p>URL Shortener Platform</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-info">
-                                <h3 class="project-name">Ezylink</h3>
-                                <div class="project-tech-preview">
-                                    <span class="tech-tag">React</span>
-                                    <span class="tech-tag">Node.js</span>
-                                    <span class="tech-tag">MongoDB</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project Card 2 - Integrator -->
-                        <div class="project-card" data-project="integrator">
-                            <div class="project-thumbnail">
-                                <img src="https://via.placeholder.com/400x250/10b981/ffffff?text=Integrator" alt="Integrator Project">
-                                <div class="project-overlay">
-                                    <div class="overlay-content">
-                                        <h3>Integrator</h3>
-                                        <p>API Integration Tool</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-info">
-                                <h3 class="project-name">Integrator</h3>
-                                <div class="project-tech-preview">
-                                    <span class="tech-tag">Python</span>
-                                    <span class="tech-tag">Flask</span>
-                                    <span class="tech-tag">PostgreSQL</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project Card 3 - TaskFlow -->
-                        <div class="project-card" data-project="taskflow">
-                            <div class="project-thumbnail">
-                                <img src="https://via.placeholder.com/400x250/8b5cf6/ffffff?text=TaskFlow" alt="TaskFlow Project">
-                                <div class="project-overlay">
-                                    <div class="overlay-content">
-                                        <h3>TaskFlow</h3>
-                                        <p>Project Management App</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-info">
-                                <h3 class="project-name">TaskFlow</h3>
-                                <div class="project-tech-preview">
-                                    <span class="tech-tag">Vue.js</span>
-                                    <span class="tech-tag">Express</span>
-                                    <span class="tech-tag">MySQL</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project Card 4 - CodeShare -->
-                        <div class="project-card" data-project="codeshare">
-                            <div class="project-thumbnail">
-                                <img src="https://via.placeholder.com/400x250/f59e0b/ffffff?text=CodeShare" alt="CodeShare Project">
-                                <div class="project-overlay">
-                                    <div class="overlay-content">
-                                        <h3>CodeShare</h3>
-                                        <p>Code Collaboration Platform</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-info">
-                                <h3 class="project-name">CodeShare</h3>
-                                <div class="project-tech-preview">
-                                    <span class="tech-tag">JavaScript</span>
-                                    <span class="tech-tag">Socket.io</span>
-                                    <span class="tech-tag">Redis</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project Card 5 - DataViz -->
-                        <div class="project-card" data-project="dataviz">
-                            <div class="project-thumbnail">
-                                <img src="https://via.placeholder.com/400x250/ec4899/ffffff?text=DataViz" alt="DataViz Project">
-                                <div class="project-overlay">
-                                    <div class="overlay-content">
-                                        <h3>DataViz</h3>
-                                        <p>Data Visualization Tool</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-info">
-                                <h3 class="project-name">DataViz</h3>
-                                <div class="project-tech-preview">
-                                    <span class="tech-tag">D3.js</span>
-                                    <span class="tech-tag">Python</span>
-                                    <span class="tech-tag">FastAPI</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project Card 6 - SmartBot -->
-                        <div class="project-card" data-project="smartbot">
-                            <div class="project-thumbnail">
-                                <img src="https://via.placeholder.com/400x250/06b6d4/ffffff?text=SmartBot" alt="SmartBot Project">
-                                <div class="project-overlay">
-                                    <div class="overlay-content">
-                                        <h3>SmartBot</h3>
-                                        <p>AI Chatbot Assistant</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="project-info">
-                                <h3 class="project-name">SmartBot</h3>
-                                <div class="project-tech-preview">
-                                    <span class="tech-tag">TensorFlow</span>
-                                    <span class="tech-tag">Python</span>
-                                    <span class="tech-tag">NLP</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Detail View -->
-            <div id="projectDetail" class="gallery-view">
-                <button class="back-button" id="backToGallery">
-                    <i class="icon">←</i>
-                    Back to Gallery
-                </button>
-                
-                <div class="project-detail-header">
-                    <div class="gradient-header">
-                        <h1 id="projectDetailTitle">Project Title</h1>
-                    </div>
-                </div>
-
-                <div class="project-detail-content">
-                    <div class="project-detail-main">
-                        <div class="project-detail-left">
-                            <!-- Project Info -->
-                            <div class="project-meta-section">
-                                <div class="project-owner">
-                                    <img id="projectOwnerImage" src="https://via.placeholder.com/60x60/8b5cf6/ffffff?text=CV" alt="Project Owner" class="owner-avatar">
-                                    <div class="owner-info">
-                                        <h4 id="projectOwnerName">Project Owner</h4>
-                                        <p id="projectOwnerRole">Developer</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="project-technologies">
-                                    <h4>Technologies Used</h4>
-                                    <div id="projectTechTags" class="tech-tags-container">
-                                        <!-- Tech tags will be populated by JavaScript -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Project Description -->
-                            <div class="project-description-section">
-                                <h3>📋 Project Description</h3>
-                                <p id="projectDescription">Project description will appear here</p>
-                            </div>
-
-                            <!-- Project Features -->
-                            <div class="project-features-section">
-                                <h3>✨ Key Features</h3>
-                                <ul id="projectFeatures">
-                                    <!-- Features will be populated by JavaScript -->
-                                </ul>
-                            </div>
-
-                            <!-- Project Links -->
-                            <div class="project-links-section">
-                                <h3>🔗 Project Links</h3>
-                                <div class="project-buttons">
-                                    <a id="projectLiveLink" href="#" target="_blank" class="project-link-btn live-demo">
-                                        <i class="icon">🚀</i>
-                                        Live Demo
-                                    </a>
-                                    <a id="projectGithubLink" href="#" target="_blank" class="project-link-btn github">
-                                        <i class="icon">💻</i>
-                                        GitHub
-                                    </a>
-                                </div>
-                                
-                                <div class="social-links-section">
-                                    <h4>Connect with Developer</h4>
-                                    <div class="developer-social">
-                                        <a id="developerLinkedIn" href="#" target="_blank" class="social-btn linkedin">
-                                            <i class="icon">💼</i>
-                                            LinkedIn
-                                        </a>
-                                        <a id="developerGithub" href="#" target="_blank" class="social-btn github">
-                                            <i class="icon">💻</i>
-                                            GitHub
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="project-detail-right">
-                            <!-- Project Screenshot/Demo -->
-                            <div class="project-media-section">
-                                <h3>📸 Project Preview</h3>
-                                <div class="project-media">
-                                    <img id="projectScreenshot" src="https://via.placeholder.com/600x400/2563eb/ffffff?text=Project+Screenshot" alt="Project Screenshot" class="project-screenshot">
-                                    <div class="media-overlay">
-                                        <button class="play-demo-btn" id="playDemoBtn">
-                                            <i class="icon">▶️</i>
-                                            View Demo
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Project Stats -->
-                            <div class="project-stats-section">
-                                <h3>📊 Project Stats</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-item">
-                                        <span class="stat-number" id="projectStars">42</span>
-                                        <span class="stat-label">Stars</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-number" id="projectForks">12</span>
-                                        <span class="stat-label">Forks</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-number" id="projectCommits">156</span>
-                                        <span class="stat-label">Commits</span>
-                                    </div>
-                                    <div class="stat-item">
-                                        <span class="stat-number" id="projectContributors">3</span>
-                                        <span class="stat-label">Contributors</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FORUM SECTION -->
-    <section id="forum" class="content-section">
-        <div class="forum-container">
-            <!-- Forum Listing View -->
-            <div id="forumListing" class="forum-view active">
-                <!-- Forum Header -->
-                <div class="forum-header">
-                    <div class="gradient-header">
-                        <div class="header-content">
-                            <div class="header-left">
-                                <img src="logo.webp" alt="Code Vimarsh Logo" class="forum-logo">
-                                <div class="header-text">
-                                    <h1>Welcome to the Code Vimarsh Forum</h1>
-                                    <p>Participate in discussions, seek help, and exchange knowledge with fellow club members</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Forum Content -->
-                <div class="forum-content">
-                    <!-- Forum Sidebar -->
-                    <div class="forum-sidebar">
-                        <div class="sidebar-nav-forum">
-                            <button class="forum-nav-btn active" data-view="topics">
-                                <i class="nav-icon">💬</i>
-                                <span>Topics</span>
-                            </button>
-                            <button class="forum-nav-btn" data-view="members">
-                                <i class="nav-icon">👥</i>
-                                <span>Members</span>
-                            </button>
-                            <button class="forum-nav-btn" data-view="tags">
-                                <i class="nav-icon">🏷️</i>
-                                <span>Tags</span>
-                            </button>
-                            <button class="forum-nav-btn" data-view="activity">
-                                <i class="nav-icon">📊</i>
-                                <span>Activity</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Forum Main Content -->
-                    <div class="forum-main">
-                        <!-- New Topic Button -->
-                        <div class="forum-actions">
-                            <button class="new-topic-btn" id="newTopicBtn">
-                                <i class="btn-icon">➕</i>
-                                <span>New Topic</span>
-                            </button>
-                        </div>
-
-                        <!-- Topics List -->
-                        <div class="topics-container">
-                            <h2 class="section-title">Recent Discussions</h2>
-                            
-                            <div class="topics-list">
-                                <!-- Topic Card 1 -->
-                                <div class="topic-card" data-topic="leetcode-decode-ways">
-                                    <div class="topic-content">
-                                        <div class="topic-header">
-                                            <h3 class="topic-title">LeetCode 72 – Decode Ways</h3>
-                                            <div class="topic-tags">
-                                                <span class="tag typescript">TypeScript</span>
-                                                <span class="tag java">Java</span>
-                                                <span class="tag cpp">C++</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="topic-meta">
-                                            <div class="topic-author">
-                                                <img src="https://via.placeholder.com/40x40/8b5cf6/ffffff?text=AK" alt="Arjun Kumar" class="author-avatar">
-                                                <div class="author-info">
-                                                    <span class="author-name">Arjun Kumar</span>
-                                                    <span class="author-role">Member</span>
-                                                </div>
-                                            </div>
-                                            <div class="topic-stats">
-                                                <span class="replies">12 replies</span>
-                                                <span class="last-activity">2 hours ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Topic Card 2 -->
-                                <div class="topic-card" data-topic="react-hooks-guide">
-                                    <div class="topic-content">
-                                        <div class="topic-header">
-                                            <h3 class="topic-title">React Hooks Best Practices Guide</h3>
-                                            <div class="topic-tags">
-                                                <span class="tag react">React</span>
-                                                <span class="tag javascript">JavaScript</span>
-                                                <span class="tag frontend">Frontend</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="topic-meta">
-                                            <div class="topic-author">
-                                                <img src="https://via.placeholder.com/40x40/10b981/ffffff?text=PP" alt="Priya Patel" class="author-avatar">
-                                                <div class="author-info">
-                                                    <span class="author-name">Priya Patel</span>
-                                                    <span class="author-role">Moderator</span>
-                                                </div>
-                                            </div>
-                                            <div class="topic-stats">
-                                                <span class="replies">8 replies</span>
-                                                <span class="last-activity">5 hours ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Topic Card 3 -->
-                                <div class="topic-card" data-topic="python-data-structures">
-                                    <div class="topic-content">
-                                        <div class="topic-header">
-                                            <h3 class="topic-title">Python Data Structures Cheat Sheet</h3>
-                                            <div class="topic-tags">
-                                                <span class="tag python">Python</span>
-                                                <span class="tag algorithms">Algorithms</span>
-                                                <span class="tag beginner">Beginner</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="topic-meta">
-                                            <div class="topic-author">
-                                                <img src="https://via.placeholder.com/40x40/f59e0b/ffffff?text=RG" alt="Rahul Gupta" class="author-avatar">
-                                                <div class="author-info">
-                                                    <span class="author-name">Rahul Gupta</span>
-                                                    <span class="author-role">Member</span>
-                                                </div>
-                                            </div>
-                                            <div class="topic-stats">
-                                                <span class="replies">15 replies</span>
-                                                <span class="last-activity">1 day ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Topic Card 4 -->
-                                <div class="topic-card" data-topic="web-security-basics">
-                                    <div class="topic-content">
-                                        <div class="topic-header">
-                                            <h3 class="topic-title">Web Security Fundamentals</h3>
-                                            <div class="topic-tags">
-                                                <span class="tag security">Security</span>
-                                                <span class="tag web">Web Dev</span>
-                                                <span class="tag advanced">Advanced</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="topic-meta">
-                                            <div class="topic-author">
-                                                <img src="https://via.placeholder.com/40x40/ec4899/ffffff?text=SJ" alt="Sneha Joshi" class="author-avatar">
-                                                <div class="author-info">
-                                                    <span class="author-name">Sneha Joshi</span>
-                                                    <span class="author-role">Admin</span>
-                                                </div>
-                                            </div>
-                                            <div class="topic-stats">
-                                                <span class="replies">23 replies</span>
-                                                <span class="last-activity">3 days ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Topic Card 5 -->
-                                <div class="topic-card" data-topic="git-workflow-tips">
-                                    <div class="topic-content">
-                                        <div class="topic-header">
-                                            <h3 class="topic-title">Git Workflow Tips for Team Projects</h3>
-                                            <div class="topic-tags">
-                                                <span class="tag git">Git</span>
-                                                <span class="tag collaboration">Collaboration</span>
-                                                <span class="tag workflow">Workflow</span>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="topic-meta">
-                                            <div class="topic-author">
-                                                <img src="https://via.placeholder.com/40x40/06b6d4/ffffff?text=VS" alt="Vikash Singh" class="author-avatar">
-                                                <div class="author-info">
-                                                    <span class="author-name">Vikash Singh</span>
-                                                    <span class="author-role">Member</span>
-                                                </div>
-                                            </div>
-                                            <div class="topic-stats">
-                                                <span class="replies">7 replies</span>
-                                                <span class="last-activity">1 week ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Topic Detail View -->
-            <div id="topicDetail" class="forum-view">
-                <button class="back-button" id="backToForum">
-                    <i class="icon">←</i>
-                    Back to Forum
-                </button>
-                
-                <div class="topic-detail-header">
-                    <div class="gradient-header">
-                        <h1 id="topicDetailTitle">Topic Title</h1>
-                        <div class="topic-detail-tags" id="topicDetailTags">
-                            <!-- Tags will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="topic-detail-content">
-                    <div class="comments-section">
-                        <h3>Discussion</h3>
-                        
-                        <div class="comments-list" id="commentsList">
-                            <!-- Comments will be populated by JavaScript -->
-                        </div>
-
-                        <div class="new-comment-section">
-                            <h4>Add Your Comment</h4>
-                            <form class="comment-form" id="commentForm">
-                                <div class="comment-input-container">
-                                    <img src="https://via.placeholder.com/40x40/2563eb/ffffff?text=You" alt="Your Avatar" class="comment-avatar">
-                                    <textarea id="commentText" placeholder="Share your thoughts, ask questions, or provide solutions..." rows="4" required></textarea>
-                                </div>
-                                <div class="comment-actions">
-                                    <button type="submit" class="comment-btn">
-                                        <i class="btn-icon">💬</i>
-                                        <span>Comment</span>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TEAM SECTION -->
-    <section id="team" class="content-section">
-        <div class="team-container">
-            <!-- Team Header -->
-            <div class="team-header">
-                <div class="gradient-header">
-                    <h1>Meet Our Team</h1>
-                    <p>The passionate individuals driving Code Vimarsh forward</p>
-                </div>
-            </div>
-
-            <div class="team-content">
-                <!-- Initiators Section -->
-                <div class="team-section">
-                    <div class="section-title">
-                        <h2>🚀 Initiators</h2>
-                        <p>The founding members who started this incredible journey</p>
-                    </div>
-                    
-                    <div class="team-grid">
-                        <!-- Jay Prajapati -->
-                        <div class="team-member-card" data-aos="fade-up" data-aos-delay="100">
-                            <div class="member-image-wrapper">
-                                <img src="https://www.codevimarsh.in/linkedIn-bw.webp" alt="Jay Prajapati - Secretary" class="member-photo">
-                                <div class="member-overlay">
-                                    <div class="social-links">
-                                        <a href="#" class="social-link" aria-label="LinkedIn Profile">
-                                            <i class="icon">💼</i>
-                                        </a>
-                                        <a href="#" class="social-link" aria-label="GitHub Profile">
-                                            <i class="icon">💻</i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                <h3 class="member-name">Jay Prajapati</h3>
-                                <p class="member-role">Secretary</p>
-                                <p class="member-bio">Leading organizational excellence and strategic planning</p>
-                            </div>
-                        </div>
-
-                        <!-- Krupal Patel -->
-                        <div class="team-member-card" data-aos="fade-up" data-aos-delay="200">
-                            <div class="member-image-wrapper">
-                                <img src="https://www.codevimarsh.in/linkedIn-bw.webp" alt="Krupal Patel - President" class="member-photo">
-                                <div class="member-overlay">
-                                    <div class="social-links">
-                                        <a href="#" class="social-link" aria-label="LinkedIn Profile">
-                                            <i class="icon">💼</i>
-                                        </a>
-                                        <a href="#" class="social-link" aria-label="GitHub Profile">
-                                            <i class="icon">💻</i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                <h3 class="member-name">Krupal Patel</h3>
-                                <p class="member-role">President</p>
-                                <p class="member-bio">Visionary leader driving innovation and growth</p>
-                            </div>
-                        </div>
-
-                        <!-- Mihir Bhavsar -->
-                        <div class="team-member-card" data-aos="fade-up" data-aos-delay="300">
-                            <div class="member-image-wrapper">
-                                <img src="https://www.codevimarsh.in/linkedIn-bw.webp" alt="Mihir Bhavsar - Graphic Designer" class="member-photo">
-                                <div class="member-overlay">
-                                    <div class="social-links">
-                                        <a href="#" class="social-link" aria-label="LinkedIn Profile">
-                                            <i class="icon">💼</i>
-                                        </a>
-                                        <a href="#" class="social-link" aria-label="Portfolio">
-                                            <i class="icon">🎨</i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                <h3 class="member-name">Mihir Bhavsar</h3>
-                                <p class="member-role">Graphic Designer</p>
-                                <p class="member-bio">Creating stunning visuals and brand identity</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Family Section -->
-                <div class="team-section">
-                    <div class="section-title">
-                        <h2>👥 Family</h2>
-                        <p>Our dedicated committee members making it all happen</p>
-                    </div>
-                    
-                    <div class="team-grid">
-                        <!-- Shivam Parmar -->
-                        <div class="team-member-card" data-aos="fade-up" data-aos-delay="400">
-                            <div class="member-image-wrapper">
-                                <img src="https://www.codevimarsh.in/linkedIn-bw.webp" alt="Shivam Parmar - Committee Member" class="member-photo">
-                                <div class="member-overlay">
-                                    <div class="social-links">
-                                        <a href="#" class="social-link" aria-label="LinkedIn Profile">
-                                            <i class="icon">💼</i>
-                                        </a>
-                                        <a href="#" class="social-link" aria-label="GitHub Profile">
-                                            <i class="icon">💻</i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                <h3 class="member-name">Shivam Parmar</h3>
-                                <p class="member-role">Committee Member</p>
-                                <p class="member-bio">Contributing to technical excellence and community building</p>
-                            </div>
-                        </div>
-
-                        <!-- Yash Solanki -->
-                        <div class="team-member-card" data-aos="fade-up" data-aos-delay="500">
-                            <div class="member-image-wrapper">
-                                <img src="https://www.codevimarsh.in/linkedIn-bw.webp" alt="Yash Solanki - Committee Member" class="member-photo">
-                                <div class="member-overlay">
-                                    <div class="social-links">
-                                        <a href="#" class="social-link" aria-label="LinkedIn Profile">
-                                            <i class="icon">💼</i>
-                                        </a>
-                                        <a href="#" class="social-link" aria-label="GitHub Profile">
-                                            <i class="icon">💻</i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                <h3 class="member-name">Yash Solanki</h3>
-                                <p class="member-role">Committee Member</p>
-                                <p class="member-bio">Passionate about technology and collaborative learning</p>
-                            </div>
-                        </div>
-
-                        <!-- Placeholder for future members -->
-                        <div class="team-member-card join-us-card" data-aos="fade-up" data-aos-delay="600">
-                            <div class="member-image-wrapper">
-                                <div class="join-us-placeholder">
-                                    <i class="icon">➕</i>
-                                </div>
-                            </div>
-                            <div class="member-details">
-                                <h3 class="member-name">Join Our Team</h3>
-                                <p class="member-role">Be Part of Something Great</p>
-                                <p class="member-bio">Ready to make an impact? We're always looking for passionate individuals</p>
-                                <button class="join-button" data-section="about">Learn More</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- RESOURCES SECTION -->
-    <section id="resources" class="content-section">
-        <div class="section-container">
+    <section id="events" class="events-section">
+        <div class="container">
             <div class="section-header">
-                <h2>Learning Resources</h2>
-                <p class="section-subtitle">Curated YouTube study playlists for comprehensive programming education</p>
+                <h2>Our Events & Workshops</h2>
+                <p>Join our exciting events, workshops, and coding competitions</p>
             </div>
             
-            <div class="content-card">
-                <div class="resources-grid">
-                    <!-- C++ Programming Course -->
-                    <div class="resource-card">
-                        <div class="resource-icon">⚡</div>
-                        <h3>C++ Programming Course</h3>
-                        <p>Complete C++ tutorial series covering fundamentals to advanced concepts. Perfect for beginners starting their programming journey.</p>
-                        <a href="https://www.youtube.com/watch?v=18c3MTX0PK0&list=PLlrATfBNZ98dudnM48yfGUldqGD0S4FFb" target="_blank" class="resource-link">Watch on YouTube</a>
+            <div class="events-grid">
+                <div class="event-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="event-image">
+                        <img src="2Auguest.webp" alt="2 August Event">
+                        <div class="event-date">
+                            <span class="date">2</span>
+                            <span class="month">AUG</span>
+                        </div>
                     </div>
-                    
-                    <!-- JavaScript Tutorial -->
-                    <div class="resource-card">
-                        <div class="resource-icon">🟨</div>
-                        <h3>JavaScript Complete Course</h3>
-                        <p>Comprehensive JavaScript tutorial from basics to advanced topics. Essential for web development and modern programming.</p>
-                        <a href="https://www.youtube.com/watch?v=t6zLJOCVqD0&list=PLDzeHZWIZsTryvtXdMr6rPh4IDexB5NIA" target="_blank" class="resource-link">Watch on YouTube</a>
+                    <div class="event-content">
+                        <h3>Web Development Workshop</h3>
+                        <p>Learn modern web development with React, Node.js, and MongoDB</p>
+                        <a href="#" class="btn btn-primary btn-small">Register</a>
                     </div>
-                    
-                    <!-- Data Structures & Algorithms -->
-                    <div class="resource-card">
-                        <div class="resource-icon">🧮</div>
-                        <h3>Data Structures & Algorithms</h3>
-                        <p>Master DSA concepts with clear explanations and practical examples. Critical for technical interviews and problem-solving.</p>
-                        <a href="https://www.youtube.com/watch?v=0bHoB32fuj0&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz" target="_blank" class="resource-link">Watch on YouTube</a>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="event-image">
+                        <img src="5October.webp" alt="5 October Event">
+                        <div class="event-date">
+                            <span class="date">5</span>
+                            <span class="month">OCT</span>
+                        </div>
                     </div>
-                    
-                    <!-- Complete Web Development -->
-                    <div class="resource-card">
-                        <div class="resource-icon">🌐</div>
-                        <h3>Complete Web Development</h3>
-                        <p>Full-stack web development course covering HTML, CSS, JavaScript, and backend technologies for modern web applications.</p>
-                        <a href="https://www.youtube.com/watch?v=z9bZufPHFLU&list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ" target="_blank" class="resource-link">Watch on YouTube</a>
+                    <div class="event-content">
+                        <h3>Competitive Programming Contest</h3>
+                        <p>Test your coding skills in our monthly programming competition</p>
+                        <a href="#" class="btn btn-primary btn-small">Join</a>
                     </div>
-                    
-                    <!-- Complete React Course -->
-                    <div class="resource-card">
-                        <div class="resource-icon">⚛️</div>
-                        <h3>Complete React Course</h3>
-                        <p>Learn React.js from scratch to build dynamic user interfaces. Covers hooks, state management, and modern React patterns.</p>
-                        <a href="https://www.youtube.com/watch?v=yRpLlJmRo2w&list=PLfqMhTWNBTe3LtFWcvwpqTkUSlB32kJop" target="_blank" class="resource-link">Watch on YouTube</a>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="event-image">
+                        <img src="26september.webp" alt="26 September Event">
+                        <div class="event-date">
+                            <span class="date">26</span>
+                            <span class="month">SEP</span>
+                        </div>
                     </div>
-                    
-                    <!-- Complete Backend Development -->
-                    <div class="resource-card">
-                        <div class="resource-icon">🔧</div>
-                        <h3>Complete Backend Development</h3>
-                        <p>Master backend development with Node.js, databases, APIs, and server-side programming for full-stack applications.</p>
-                        <a href="https://www.youtube.com/watch?v=rZ41y93P2Qo&list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ" target="_blank" class="resource-link">Watch on YouTube</a>
+                    <div class="event-content">
+                        <h3>DSA Bootcamp</h3>
+                        <p>Intensive 3-day bootcamp covering essential data structures and algorithms</p>
+                        <a href="#" class="btn btn-primary btn-small">Register</a>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="event-image">
+                        <img src="integrator.webp" alt="Integrator Project">
+                    </div>
+                    <div class="event-content">
+                        <h3>Integrator Project Showcase</h3>
+                        <p>Discover our latest integration platform and contribute to open source</p>
+                        <a href="#" class="btn btn-primary btn-small">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="event-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="event-image">
+                        <img src="ezylink-banner.webp" alt="Ezylink Banner">
+                    </div>
+                    <div class="event-content">
+                        <h3>Ezylink Platform Launch</h3>
+                        <p>Join us for the official launch of our URL shortening platform</p>
+                        <a href="#" class="btn btn-primary btn-small">Join Launch</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-</main>
+    <!-- PARTNERS / COLLABORATION SECTION -->
+    <section id="partners" class="partners-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Collaborations</h2>
+                <p>Partnering with innovative projects and organizations</p>
+            </div>
+            
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <img src="ezylink-banner.webp" alt="Ezylink" class="partner-logo">
+                </div>
+                <div class="partner-card">
+                    <img src="integrator.webp" alt="Integrator" class="partner-logo">
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- MOBILE OVERLAY -->
-<div class="mobile-overlay" id="mobileOverlay"></div>
-
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">
+                        <img src="logo.webp" alt="Code Vimarsh Logo" class="footer-logo-img">
+                        <span class="footer-logo-text">Code Vimarsh</span>
+                    </div>
+                    <p class="footer-description">
+                        Building the next generation of developers through community, 
+                        learning, and collaborative growth.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#team">Team</a></li>
+                            <li><a href="#dsa">DSA Learning</a></li>
+                            <li><a href="#forum">Forum</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="#events">Events</a></li>
+                            <li><a href="#partners">Partners</a></li>
+                            <li><a href="#">Join Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link">
+                                <span class="social-icon">💼</span>
+                                LinkedIn
+                            </a>
+                            <a href="#" class="social-link">
+                                <span class="social-icon">📷</span>
+                                Instagram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Code Vimarsh Club – All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
