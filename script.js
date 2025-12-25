@@ -361,12 +361,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Gallery item interactions
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        galleryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const projectTitle = this.querySelector('.gallery-title').textContent;
-                showNotification(`Opening "${projectTitle}" project details...`, 'info');
+        // Resource card interactions
+        const resourceCards = document.querySelectorAll('.resource-card');
+        resourceCards.forEach(card => {
+            const exploreBtn = card.querySelector('.btn');
+            const resourceTitle = card.querySelector('.resource-title').textContent;
+            
+            exploreBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                handleResourceExplore(resourceTitle);
+            });
+            
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
             });
         });
         
@@ -860,3 +871,145 @@ document.addEventListener('click', function(e) {
         e.stopPropagation();
     }
 });
+/* ===================================
+   RESOURCE SECTION FUNCTIONALITY
+   =================================== */
+
+// Handle resource exploration
+function handleResourceExplore(resourceTitle) {
+    const resourceData = {
+        'DSA Practice': {
+            title: 'Data Structures & Algorithms Practice',
+            description: 'Access our curated collection of DSA problems and YouTube playlists.',
+            links: [
+                { name: 'Striver DSA Sheet', url: 'https://www.youtube.com/playlist?list=PLgUwDviBIf0rPG3Ictpu74YWBQ1CaBkm2', type: 'youtube' },
+                { name: 'Abdul Bari Algorithms', url: 'https://www.youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O', type: 'youtube' },
+                { name: 'CodeWithHarry DSA', url: 'https://www.youtube.com/playlist?list=PLu0W_9lII9ahIappRPN0MCAgtOu3lQjQi', type: 'youtube' },
+                { name: 'Apna College DSA', url: 'https://www.youtube.com/playlist?list=PLfqMhTWNBTe0b2nM6JHVCnAkhQRGiZMSJ', type: 'youtube' },
+                { name: 'LeetCode Problems', url: 'https://leetcode.com/problemset/all/', type: 'website' },
+                { name: 'GeeksforGeeks Practice', url: 'https://practice.geeksforgeeks.org/', type: 'website' }
+            ]
+        },
+        'Web Development': {
+            title: 'Web Development Resources',
+            description: 'Learn modern web development with comprehensive YouTube tutorials.',
+            links: [
+                { name: 'CodeWithHarry Web Dev', url: 'https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg', type: 'youtube' },
+                { name: 'Traversy Media Full Stack', url: 'https://www.youtube.com/playlist?list=PLillGF-RfqbYeckUaD1z6nviTp31GLTH8', type: 'youtube' },
+                { name: 'FreeCodeCamp Web Dev', url: 'https://www.youtube.com/playlist?list=PLWKjhJtqVAblfum5WiQblKPwIbqYXkDoC', type: 'youtube' },
+                { name: 'The Net Ninja React', url: 'https://www.youtube.com/playlist?list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d', type: 'youtube' },
+                { name: 'Academind JavaScript', url: 'https://www.youtube.com/playlist?list=PL55RiY5tL51oyA8euSROLjMFZbXaV7skS', type: 'youtube' },
+                { name: 'MDN Web Docs', url: 'https://developer.mozilla.org/en-US/', type: 'website' }
+            ]
+        },
+        'Interview Prep': {
+            title: 'Technical Interview Preparation',
+            description: 'Get ready for your dream job with interview prep YouTube channels.',
+            links: [
+                { name: 'Gaurav Sen System Design', url: 'https://www.youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX', type: 'youtube' },
+                { name: 'TechDummies Interview Prep', url: 'https://www.youtube.com/playlist?list=PLk6CEY9XxSIA-xo3HRYC3M0Aitzdut7AA', type: 'youtube' },
+                { name: 'Back To Back SWE', url: 'https://www.youtube.com/playlist?list=PLiQ766zSC5jM2OKVr8sooOuGgZkvnOCTI', type: 'youtube' },
+                { name: 'Coding Interview Questions', url: 'https://www.youtube.com/playlist?list=PLI1t_8YX-Apv-UiRlnZwqqrRT8D1RhriX', type: 'youtube' },
+                { name: 'Mock Interview Sessions', url: 'https://www.youtube.com/playlist?list=PLamzFoFxwoNjPfxzaWqs7cZGsPYy0x_gI', type: 'youtube' },
+                { name: 'InterviewBit Practice', url: 'https://www.interviewbit.com/', type: 'website' }
+            ]
+        },
+        'YouTube Channels': {
+            title: 'Best Programming YouTube Channels',
+            description: 'Curated list of top YouTube channels for programming and tech learning.',
+            links: [
+                { name: 'CodeWithHarry', url: 'https://www.youtube.com/@CodeWithHarry', type: 'youtube' },
+                { name: 'Apna College', url: 'https://www.youtube.com/@ApnaCollegeOfficial', type: 'youtube' },
+                { name: 'Striver', url: 'https://www.youtube.com/@takeUforward', type: 'youtube' },
+                { name: 'Traversy Media', url: 'https://www.youtube.com/@TraversyMedia', type: 'youtube' },
+                { name: 'FreeCodeCamp', url: 'https://www.youtube.com/@freecodecamp', type: 'youtube' },
+                { name: 'The Net Ninja', url: 'https://www.youtube.com/@NetNinja', type: 'youtube' },
+                { name: 'Academind', url: 'https://www.youtube.com/@academind', type: 'youtube' },
+                { name: 'Programming with Mosh', url: 'https://www.youtube.com/@programmingwithmosh', type: 'youtube' },
+                { name: 'Tech With Tim', url: 'https://www.youtube.com/@TechWithTim', type: 'youtube' },
+                { name: 'Fireship', url: 'https://www.youtube.com/@Fireship', type: 'youtube' }
+            ]
+        }
+    };
+
+    const resource = resourceData[resourceTitle];
+    if (resource) {
+        showResourceModal(resource);
+    } else {
+        showNotification(`${resourceTitle} resources coming soon! Stay tuned for updates.`, 'info');
+    }
+}
+
+// Show resource modal
+function showResourceModal(resource) {
+    const modalHTML = `
+        <div class="resource-modal">
+            <div class="resource-modal-overlay" onclick="closeResourceModal()"></div>
+            <div class="resource-modal-content">
+                <button class="resource-modal-close" onclick="closeResourceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="resource-modal-header">
+                    <h2>${resource.title}</h2>
+                    <p>${resource.description}</p>
+                </div>
+                <div class="resource-modal-body">
+                    <h3>Available Resources:</h3>
+                    <div class="resource-links">
+                        ${resource.links.map(link => `
+                            <a href="${link.url}" class="resource-link ${link.type}" target="_blank" rel="noopener noreferrer" onclick="handleResourceClick('${link.name}', '${link.url}')">
+                                <i class="fab ${link.type === 'youtube' ? 'fa-youtube' : 'fas fa-external-link-alt'}"></i>
+                                <span>${link.name}</span>
+                                <div class="resource-type-badge">${link.type === 'youtube' ? 'YouTube' : 'Website'}</div>
+                            </a>
+                        `).join('')}
+                    </div>
+                    <div class="resource-modal-footer">
+                        <p><strong>Note:</strong> Click on any resource to open it in a new tab. YouTube playlists will open directly in YouTube!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Remove existing modal if any
+    const existingModal = document.querySelector('.resource-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    // Add modal to body
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    // Show modal
+    const modal = document.querySelector('.resource-modal');
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+
+// Close resource modal
+function closeResourceModal() {
+    const modal = document.querySelector('.resource-modal');
+    if (modal) {
+        modal.remove();
+        document.body.style.overflow = '';
+    }
+}
+
+// Handle resource link clicks
+function handleResourceClick(resourceName, url) {
+    if (url && url !== '#') {
+        // Don't prevent default - let the link open naturally
+        showNotification(`Opening ${resourceName}...`, 'success', 2000);
+        return true; // Allow the link to proceed
+    } else {
+        closeResourceModal();
+        showNotification(`${resourceName} will be available soon!`, 'info');
+        return false; // Prevent the link
+    }
+}
+
+// Make functions globally available
+window.handleResourceExplore = handleResourceExplore;
+window.closeResourceModal = closeResourceModal;
+window.handleResourceClick = handleResourceClick;

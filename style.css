@@ -1858,3 +1858,419 @@ ul {
         font-size: 1.8rem;
     }
 }
+/* ===================================
+   RESOURCE MODAL STYLES
+   =================================== */
+
+.resource-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+}
+
+.resource-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.resource-modal-content {
+    position: relative;
+    background: var(--dark-bg);
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.resource-modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    z-index: 10;
+}
+
+.resource-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.resource-modal-header {
+    background: var(--gradient-primary);
+    padding: var(--spacing-xl);
+    text-align: center;
+    color: white;
+}
+
+.resource-modal-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+}
+
+.resource-modal-header p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.resource-modal-body {
+    padding: var(--spacing-xl);
+}
+
+.resource-modal-body h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--primary-orange);
+}
+
+.resource-links {
+    display: grid;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.resource-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--darker-bg);
+    border-radius: var(--radius-md);
+    color: var(--text-white);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+.resource-link:hover {
+    background: var(--darkest-bg);
+    border-color: var(--primary-orange);
+    transform: translateX(8px);
+}
+
+.resource-link i {
+    color: var(--primary-orange);
+    font-size: 0.9rem;
+}
+
+.resource-link span {
+    font-weight: 500;
+}
+
+.resource-modal-footer {
+    background: var(--darker-bg);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.resource-modal-footer p {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    margin: 0;
+    text-align: center;
+}
+
+.resource-modal-footer strong {
+    color: var(--primary-orange);
+}
+
+/* Enhanced Resource Card Hover Effects */
+.resource-card {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.resource-card:hover::before {
+    left: 100%;
+}
+
+.resource-card:hover .resource-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.resource-card:hover .btn {
+    background: var(--gradient-primary);
+    color: white;
+    border-color: transparent;
+}
+
+/* Responsive Resource Modal */
+@media (max-width: 768px) {
+    .resource-modal-content {
+        margin: var(--spacing-sm);
+        max-height: 95vh;
+    }
+    
+    .resource-modal-header {
+        padding: var(--spacing-lg);
+    }
+    
+    .resource-modal-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .resource-modal-body {
+        padding: var(--spacing-lg);
+    }
+}
+/* ===================================
+   ENHANCED RESOURCE LINK STYLES
+   =================================== */
+
+/* YouTube specific styling */
+.resource-link.youtube {
+    border-left: 4px solid #ff0000;
+    background: linear-gradient(135deg, var(--darker-bg), rgba(255, 0, 0, 0.05));
+}
+
+.resource-link.youtube:hover {
+    border-left-color: #ff0000;
+    background: linear-gradient(135deg, var(--darkest-bg), rgba(255, 0, 0, 0.1));
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.2);
+}
+
+.resource-link.youtube .fa-youtube {
+    color: #ff0000;
+    font-size: 1.2rem;
+}
+
+/* Website specific styling */
+.resource-link.website {
+    border-left: 4px solid var(--primary-orange);
+}
+
+.resource-link.website:hover {
+    border-left-color: var(--primary-orange);
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.2);
+}
+
+/* Resource type badge */
+.resource-type-badge {
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.resource-link.youtube .resource-type-badge {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff6b6b;
+}
+
+.resource-link.website .resource-type-badge {
+    background: rgba(255, 107, 53, 0.2);
+    color: var(--primary-orange);
+}
+
+/* Enhanced resource link layout */
+.resource-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.resource-link:hover::before {
+    left: 100%;
+}
+
+/* Resource modal enhancements */
+.resource-modal-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.resource-modal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+    opacity: 0.3;
+}
+
+.resource-modal-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* YouTube playlist preview styling */
+.resource-links {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.resource-links::-webkit-scrollbar {
+    width: 6px;
+}
+
+.resource-links::-webkit-scrollbar-track {
+    background: var(--darker-bg);
+    border-radius: 3px;
+}
+
+.resource-links::-webkit-scrollbar-thumb {
+    background: var(--primary-orange);
+    border-radius: 3px;
+}
+
+.resource-links::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-purple);
+}
+
+/* Resource count indicator */
+.resource-modal-body h3::after {
+    content: attr(data-count);
+    background: var(--primary-orange);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-left: var(--spacing-sm);
+}
+
+/* Animation for resource links */
+.resource-link {
+    animation: slideInLeft 0.3s ease forwards;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.resource-link:nth-child(1) { animation-delay: 0.1s; }
+.resource-link:nth-child(2) { animation-delay: 0.2s; }
+.resource-link:nth-child(3) { animation-delay: 0.3s; }
+.resource-link:nth-child(4) { animation-delay: 0.4s; }
+.resource-link:nth-child(5) { animation-delay: 0.5s; }
+.resource-link:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes slideInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 480px) {
+    .resource-link {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .resource-type-badge {
+        margin-left: 0;
+        align-self: flex-end;
+    }
+    
+    .resource-links {
+        max-height: 300px;
+    }
+}
+/* ===================================
+   YOUTUBE CHANNELS RESOURCE CARD
+   =================================== */
+
+/* Special styling for YouTube resource card */
+.resource-card:nth-child(4) .resource-icon {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+}
+
+.resource-card:nth-child(4) .resource-icon i {
+    color: white;
+    font-size: 2.5rem;
+}
+
+.resource-card:nth-child(4):hover {
+    border-color: #ff0000;
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.3);
+}
+
+.resource-card:nth-child(4):hover .btn {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: white;
+    border-color: transparent;
+}
+
+/* Responsive grid for 4 cards */
+.resources-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+@media (min-width: 1200px) {
+    .resources-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .resources-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+}
