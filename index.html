@@ -23,8 +23,8 @@
     <!-- Mobile friendly -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Enhanced typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -52,17 +52,19 @@
 <!-- HERO / INTRO SECTION -->
 <header class="hero">
     <div class="hero-content">
-         <!-- LOGO IMAGE (STEP 5) -->
-        <img src="logo.webp" class="hero-logo" alt="Code Vimarsh Logo">
+        <!-- LOGO IMAGE - Properly positioned and responsive -->
+        <div class="logo-container">
+            <img src="logo.webp" class="hero-logo" alt="Code Vimarsh Logo">
+        </div>
 
-        <h1>Code Vimarsh</h1>
-        <p>A student-led technical club to learn, build and grow together</p>
+        <h1 class="hero-title">Code Vimarsh</h1>
+        <p class="hero-subtitle">A student-led technical club to learn, build and grow together</p>
 
         <div class="hero-buttons">
-            <a href="#about" class="hero-btn">About</a>
-            <a href="#events" class="hero-btn">Upcoming Events</a>
-            <a href="#projects" class="hero-btn">Projects</a>
-            <a href="#team" class="hero-btn">Team</a>
+            <a href="#about" class="hero-btn primary">About</a>
+            <a href="#events" class="hero-btn secondary">Upcoming Events</a>
+            <a href="#projects" class="hero-btn secondary">Projects</a>
+            <a href="#team" class="hero-btn secondary">Team</a>
         </div>
     </div>
 </header>
@@ -140,13 +142,17 @@
 
     <div class="team-grid">
         <div class="team-member">
-            <img src="member1.jpg" alt="Dharmik Patel">
-            <h3>Dharmik Patel</h3>
-            <p>Web Team Member</p>
+            <div class="member-image-container">
+                <img src="member1.jpg" alt="Dharmik Patel" class="member-image">
+            </div>
+            <div class="member-info">
+                <h3>Dharmik Patel</h3>
+                <p class="member-role">Web Team Member</p>
+            </div>
         </div>
     </div>
 
-    <p class="coming">More members coming soon...</p>
+    <p class="coming-soon">More members coming soon...</p>
 </section>
 
 <!-- CONTACT -->
