@@ -73,6 +73,11 @@ body {
     opacity: 0.95;
 }
 
+.hero-logo {
+    width: 120px;
+    margin-bottom: 15px;
+}
+
 /* HERO BUTTONS */
 .hero-buttons {
     display: flex;
