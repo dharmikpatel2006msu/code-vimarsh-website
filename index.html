@@ -50,6 +50,7 @@
         <li><button class="nav-btn" data-section="about" role="tab">About</button></li>
         <li><button class="nav-btn" data-section="events" role="tab">Events</button></li>
         <li><button class="nav-btn" data-section="gallery" role="tab">Gallery</button></li>
+        <li><button class="nav-btn" data-section="forum" role="tab">Forum</button></li>
         <li><button class="nav-btn" data-section="team" role="tab">Team</button></li>
         <li><button class="nav-btn" data-section="resources" role="tab">Resources</button></li>
     </ul>
@@ -634,6 +635,255 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORUM SECTION -->
+    <section id="forum" class="content-section">
+        <div class="forum-container">
+            <!-- Forum Listing View -->
+            <div id="forumListing" class="forum-view active">
+                <!-- Forum Header -->
+                <div class="forum-header">
+                    <div class="gradient-header">
+                        <div class="header-content">
+                            <div class="header-left">
+                                <img src="logo.webp" alt="Code Vimarsh Logo" class="forum-logo">
+                                <div class="header-text">
+                                    <h1>Welcome to the Code Vimarsh Forum</h1>
+                                    <p>Participate in discussions, seek help, and exchange knowledge with fellow club members</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forum Content -->
+                <div class="forum-content">
+                    <!-- Forum Sidebar -->
+                    <div class="forum-sidebar">
+                        <div class="sidebar-nav-forum">
+                            <button class="forum-nav-btn active" data-view="topics">
+                                <i class="nav-icon">💬</i>
+                                <span>Topics</span>
+                            </button>
+                            <button class="forum-nav-btn" data-view="members">
+                                <i class="nav-icon">👥</i>
+                                <span>Members</span>
+                            </button>
+                            <button class="forum-nav-btn" data-view="tags">
+                                <i class="nav-icon">🏷️</i>
+                                <span>Tags</span>
+                            </button>
+                            <button class="forum-nav-btn" data-view="activity">
+                                <i class="nav-icon">📊</i>
+                                <span>Activity</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Forum Main Content -->
+                    <div class="forum-main">
+                        <!-- New Topic Button -->
+                        <div class="forum-actions">
+                            <button class="new-topic-btn" id="newTopicBtn">
+                                <i class="btn-icon">➕</i>
+                                <span>New Topic</span>
+                            </button>
+                        </div>
+
+                        <!-- Topics List -->
+                        <div class="topics-container">
+                            <h2 class="section-title">Recent Discussions</h2>
+                            
+                            <div class="topics-list">
+                                <!-- Topic Card 1 -->
+                                <div class="topic-card" data-topic="leetcode-decode-ways">
+                                    <div class="topic-content">
+                                        <div class="topic-header">
+                                            <h3 class="topic-title">LeetCode 72 – Decode Ways</h3>
+                                            <div class="topic-tags">
+                                                <span class="tag typescript">TypeScript</span>
+                                                <span class="tag java">Java</span>
+                                                <span class="tag cpp">C++</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="topic-meta">
+                                            <div class="topic-author">
+                                                <img src="https://via.placeholder.com/40x40/8b5cf6/ffffff?text=AK" alt="Arjun Kumar" class="author-avatar">
+                                                <div class="author-info">
+                                                    <span class="author-name">Arjun Kumar</span>
+                                                    <span class="author-role">Member</span>
+                                                </div>
+                                            </div>
+                                            <div class="topic-stats">
+                                                <span class="replies">12 replies</span>
+                                                <span class="last-activity">2 hours ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Topic Card 2 -->
+                                <div class="topic-card" data-topic="react-hooks-guide">
+                                    <div class="topic-content">
+                                        <div class="topic-header">
+                                            <h3 class="topic-title">React Hooks Best Practices Guide</h3>
+                                            <div class="topic-tags">
+                                                <span class="tag react">React</span>
+                                                <span class="tag javascript">JavaScript</span>
+                                                <span class="tag frontend">Frontend</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="topic-meta">
+                                            <div class="topic-author">
+                                                <img src="https://via.placeholder.com/40x40/10b981/ffffff?text=PP" alt="Priya Patel" class="author-avatar">
+                                                <div class="author-info">
+                                                    <span class="author-name">Priya Patel</span>
+                                                    <span class="author-role">Moderator</span>
+                                                </div>
+                                            </div>
+                                            <div class="topic-stats">
+                                                <span class="replies">8 replies</span>
+                                                <span class="last-activity">5 hours ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Topic Card 3 -->
+                                <div class="topic-card" data-topic="python-data-structures">
+                                    <div class="topic-content">
+                                        <div class="topic-header">
+                                            <h3 class="topic-title">Python Data Structures Cheat Sheet</h3>
+                                            <div class="topic-tags">
+                                                <span class="tag python">Python</span>
+                                                <span class="tag algorithms">Algorithms</span>
+                                                <span class="tag beginner">Beginner</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="topic-meta">
+                                            <div class="topic-author">
+                                                <img src="https://via.placeholder.com/40x40/f59e0b/ffffff?text=RG" alt="Rahul Gupta" class="author-avatar">
+                                                <div class="author-info">
+                                                    <span class="author-name">Rahul Gupta</span>
+                                                    <span class="author-role">Member</span>
+                                                </div>
+                                            </div>
+                                            <div class="topic-stats">
+                                                <span class="replies">15 replies</span>
+                                                <span class="last-activity">1 day ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Topic Card 4 -->
+                                <div class="topic-card" data-topic="web-security-basics">
+                                    <div class="topic-content">
+                                        <div class="topic-header">
+                                            <h3 class="topic-title">Web Security Fundamentals</h3>
+                                            <div class="topic-tags">
+                                                <span class="tag security">Security</span>
+                                                <span class="tag web">Web Dev</span>
+                                                <span class="tag advanced">Advanced</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="topic-meta">
+                                            <div class="topic-author">
+                                                <img src="https://via.placeholder.com/40x40/ec4899/ffffff?text=SJ" alt="Sneha Joshi" class="author-avatar">
+                                                <div class="author-info">
+                                                    <span class="author-name">Sneha Joshi</span>
+                                                    <span class="author-role">Admin</span>
+                                                </div>
+                                            </div>
+                                            <div class="topic-stats">
+                                                <span class="replies">23 replies</span>
+                                                <span class="last-activity">3 days ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Topic Card 5 -->
+                                <div class="topic-card" data-topic="git-workflow-tips">
+                                    <div class="topic-content">
+                                        <div class="topic-header">
+                                            <h3 class="topic-title">Git Workflow Tips for Team Projects</h3>
+                                            <div class="topic-tags">
+                                                <span class="tag git">Git</span>
+                                                <span class="tag collaboration">Collaboration</span>
+                                                <span class="tag workflow">Workflow</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="topic-meta">
+                                            <div class="topic-author">
+                                                <img src="https://via.placeholder.com/40x40/06b6d4/ffffff?text=VS" alt="Vikash Singh" class="author-avatar">
+                                                <div class="author-info">
+                                                    <span class="author-name">Vikash Singh</span>
+                                                    <span class="author-role">Member</span>
+                                                </div>
+                                            </div>
+                                            <div class="topic-stats">
+                                                <span class="replies">7 replies</span>
+                                                <span class="last-activity">1 week ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic Detail View -->
+            <div id="topicDetail" class="forum-view">
+                <button class="back-button" id="backToForum">
+                    <i class="icon">←</i>
+                    Back to Forum
+                </button>
+                
+                <div class="topic-detail-header">
+                    <div class="gradient-header">
+                        <h1 id="topicDetailTitle">Topic Title</h1>
+                        <div class="topic-detail-tags" id="topicDetailTags">
+                            <!-- Tags will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topic-detail-content">
+                    <div class="comments-section">
+                        <h3>Discussion</h3>
+                        
+                        <div class="comments-list" id="commentsList">
+                            <!-- Comments will be populated by JavaScript -->
+                        </div>
+
+                        <div class="new-comment-section">
+                            <h4>Add Your Comment</h4>
+                            <form class="comment-form" id="commentForm">
+                                <div class="comment-input-container">
+                                    <img src="https://via.placeholder.com/40x40/2563eb/ffffff?text=You" alt="Your Avatar" class="comment-avatar">
+                                    <textarea id="commentText" placeholder="Share your thoughts, ask questions, or provide solutions..." rows="4" required></textarea>
+                                </div>
+                                <div class="comment-actions">
+                                    <button type="submit" class="comment-btn">
+                                        <i class="btn-icon">💬</i>
+                                        <span>Comment</span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

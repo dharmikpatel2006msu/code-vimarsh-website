@@ -376,8 +376,292 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* ===================================
-       HERO & REGISTRATION FUNCTIONALITY
+       FORUM SECTION FUNCTIONALITY
        =================================== */
+    
+    // Forum topic data for detailed views
+    const forumTopicData = {
+        'leetcode-decode-ways': {
+            title: 'LeetCode 72 – Decode Ways',
+            tags: ['TypeScript', 'Java', 'C++'],
+            comments: [
+                {
+                    id: 1,
+                    author: 'Arjun Kumar',
+                    role: 'Member',
+                    avatar: 'https://via.placeholder.com/40x40/8b5cf6/ffffff?text=AK',
+                    time: '2 hours ago',
+                    text: 'I\'m struggling with the dynamic programming approach for this problem. Can someone explain the optimal substructure? I understand the base cases but getting confused with the recurrence relation.'
+                },
+                {
+                    id: 2,
+                    author: 'Priya Patel',
+                    role: 'Moderator',
+                    avatar: 'https://via.placeholder.com/40x40/10b981/ffffff?text=PP',
+                    time: '1 hour ago',
+                    text: 'Great question! The key insight is that for each position, you can decode either 1 digit or 2 digits (if valid). So dp[i] = dp[i-1] + dp[i-2] when both single and double digit decodings are valid. Let me share a TypeScript solution...'
+                },
+                {
+                    id: 3,
+                    author: 'Rahul Gupta',
+                    role: 'Member',
+                    avatar: 'https://via.placeholder.com/40x40/f59e0b/ffffff?text=RG',
+                    time: '45 minutes ago',
+                    text: 'Here\'s my Java implementation with memoization. The time complexity is O(n) and space complexity is O(n). You can optimize space to O(1) by only keeping track of the last two values.'
+                }
+            ]
+        },
+        'react-hooks-guide': {
+            title: 'React Hooks Best Practices Guide',
+            tags: ['React', 'JavaScript', 'Frontend'],
+            comments: [
+                {
+                    id: 1,
+                    author: 'Priya Patel',
+                    role: 'Moderator',
+                    avatar: 'https://via.placeholder.com/40x40/10b981/ffffff?text=PP',
+                    time: '5 hours ago',
+                    text: 'I\'ve compiled a comprehensive guide on React Hooks best practices. This covers useState, useEffect, custom hooks, and common pitfalls to avoid. Perfect for beginners and intermediate developers.'
+                },
+                {
+                    id: 2,
+                    author: 'Sneha Joshi',
+                    role: 'Admin',
+                    avatar: 'https://via.placeholder.com/40x40/ec4899/ffffff?text=SJ',
+                    time: '4 hours ago',
+                    text: 'Excellent resource! I\'d like to add that useCallback and useMemo are often overused. Only use them when you have actual performance issues, not as a default optimization.'
+                }
+            ]
+        },
+        'python-data-structures': {
+            title: 'Python Data Structures Cheat Sheet',
+            tags: ['Python', 'Algorithms', 'Beginner'],
+            comments: [
+                {
+                    id: 1,
+                    author: 'Rahul Gupta',
+                    role: 'Member',
+                    avatar: 'https://via.placeholder.com/40x40/f59e0b/ffffff?text=RG',
+                    time: '1 day ago',
+                    text: 'Created a comprehensive cheat sheet covering lists, dictionaries, sets, tuples, and their time complexities. Includes practical examples and when to use each data structure.'
+                }
+            ]
+        },
+        'web-security-basics': {
+            title: 'Web Security Fundamentals',
+            tags: ['Security', 'Web Dev', 'Advanced'],
+            comments: [
+                {
+                    id: 1,
+                    author: 'Sneha Joshi',
+                    role: 'Admin',
+                    avatar: 'https://via.placeholder.com/40x40/ec4899/ffffff?text=SJ',
+                    time: '3 days ago',
+                    text: 'Let\'s discuss essential web security concepts: XSS, CSRF, SQL injection, and how to prevent them. I\'ll share practical examples and security headers you should implement.'
+                }
+            ]
+        },
+        'git-workflow-tips': {
+            title: 'Git Workflow Tips for Team Projects',
+            tags: ['Git', 'Collaboration', 'Workflow'],
+            comments: [
+                {
+                    id: 1,
+                    author: 'Vikash Singh',
+                    role: 'Member',
+                    avatar: 'https://via.placeholder.com/40x40/06b6d4/ffffff?text=VS',
+                    time: '1 week ago',
+                    text: 'Sharing some Git workflow strategies that have worked well for our team projects. Covers branching strategies, commit conventions, and merge vs rebase decisions.'
+                }
+            ]
+        }
+    };
+    
+    // Get forum elements
+    const topicCards = document.querySelectorAll('.topic-card');
+    const forumListing = document.getElementById('forumListing');
+    const topicDetail = document.getElementById('topicDetail');
+    const backToForumButton = document.getElementById('backToForum');
+    const newTopicBtn = document.getElementById('newTopicBtn');
+    const commentForm = document.getElementById('commentForm');
+    const forumNavBtns = document.querySelectorAll('.forum-nav-btn');
+    
+    // Topic card click handlers
+    topicCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const topicId = this.getAttribute('data-topic');
+            showTopicDetail(topicId);
+        });
+        
+        // Add hover effect
+        card.addEventListener('mouseenter', function() {
+            this.style.borderColor = '#8b5cf6';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.borderColor = 'rgba(226, 232, 240, 0.8)';
+        });
+    });
+    
+    // Function to show topic detail
+    function showTopicDetail(topicId) {
+        const topic = forumTopicData[topicId];
+        if (!topic) return;
+        
+        // Update topic detail content
+        document.getElementById('topicDetailTitle').textContent = topic.title;
+        
+        // Update tags
+        const tagsContainer = document.getElementById('topicDetailTags');
+        tagsContainer.innerHTML = '';
+        topic.tags.forEach(tag => {
+            const tagElement = document.createElement('span');
+            tagElement.className = `tag ${tag.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+            tagElement.textContent = tag;
+            tagsContainer.appendChild(tagElement);
+        });
+        
+        // Update comments
+        const commentsList = document.getElementById('commentsList');
+        commentsList.innerHTML = '';
+        topic.comments.forEach(comment => {
+            const commentElement = createCommentElement(comment);
+            commentsList.appendChild(commentElement);
+        });
+        
+        // Switch views
+        forumListing.classList.remove('active');
+        topicDetail.classList.add('active');
+        
+        // Scroll to top
+        mainContent.scrollTop = 0;
+    }
+    
+    // Function to create comment element
+    function createCommentElement(comment) {
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment-card';
+        commentDiv.innerHTML = `
+            <div class="comment-header">
+                <img src="${comment.avatar}" alt="${comment.author}" class="comment-avatar">
+                <div class="comment-author">
+                    <div class="comment-author-name">${comment.author}</div>
+                    <div class="comment-author-role">${comment.role}</div>
+                </div>
+                <div class="comment-time">${comment.time}</div>
+            </div>
+            <div class="comment-text">${comment.text}</div>
+        `;
+        return commentDiv;
+    }
+    
+    // Back button handler
+    if (backToForumButton) {
+        backToForumButton.addEventListener('click', function() {
+            topicDetail.classList.remove('active');
+            forumListing.classList.add('active');
+            mainContent.scrollTop = 0;
+        });
+    }
+    
+    // New topic button handler
+    if (newTopicBtn) {
+        newTopicBtn.addEventListener('click', function() {
+            showNotification('New Topic feature coming soon! Stay tuned for updates.', 'info');
+        });
+    }
+    
+    // Forum navigation buttons
+    forumNavBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            forumNavBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            const view = this.getAttribute('data-view');
+            
+            // Handle different forum views
+            switch(view) {
+                case 'topics':
+                    showNotification('Showing all topics', 'info');
+                    break;
+                case 'members':
+                    showNotification('Members directory coming soon!', 'info');
+                    break;
+                case 'tags':
+                    showNotification('Browse by tags feature coming soon!', 'info');
+                    break;
+                case 'activity':
+                    showNotification('Activity feed coming soon!', 'info');
+                    break;
+            }
+        });
+    });
+    
+    // Comment form submission
+    if (commentForm) {
+        commentForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const commentText = document.getElementById('commentText').value.trim();
+            
+            if (!commentText) {
+                showNotification('Please enter a comment before submitting.', 'error');
+                return;
+            }
+            
+            if (commentText.length < 10) {
+                showNotification('Comment must be at least 10 characters long.', 'error');
+                return;
+            }
+            
+            // Create new comment
+            const newComment = {
+                id: Date.now(),
+                author: 'You',
+                role: 'Member',
+                avatar: 'https://via.placeholder.com/40x40/2563eb/ffffff?text=You',
+                time: 'Just now',
+                text: commentText
+            };
+            
+            // Add comment to the list
+            const commentsList = document.getElementById('commentsList');
+            const commentElement = createCommentElement(newComment);
+            commentsList.appendChild(commentElement);
+            
+            // Clear form
+            this.reset();
+            
+            // Show success message
+            showNotification('Comment added successfully!', 'success');
+            
+            // Scroll to new comment
+            commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    }
+    
+    // Add animation to forum cards on scroll
+    const forumObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Observe topic cards for animation
+    topicCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        forumObserver.observe(card);
+    });
     
     // Get elements
     const joinCommunityBtn = document.getElementById('joinCommunityBtn');
