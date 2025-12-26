@@ -685,6 +685,14 @@ document.addEventListener('DOMContentLoaded', function() {
         initBackgroundEffects();
         handleInitialHash();
         
+        // Initialize Discord form validation as backup
+        setTimeout(() => {
+            if (document.getElementById('discordRegistrationForm')) {
+                console.log('Backup Discord form initialization...');
+                initDiscordFormValidation();
+            }
+        }, 1000);
+        
         // Fix team images after a short delay
         setTimeout(() => {
             fixTeamImages();
@@ -1211,8 +1219,10 @@ function openDiscordRegistration() {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
     
-    // Initialize form validation
-    initDiscordFormValidation();
+    // Initialize form validation with a small delay to ensure DOM is ready
+    setTimeout(() => {
+        initDiscordFormValidation();
+    }, 100);
 }
 
 // Close Discord registration modal
@@ -1248,9 +1258,26 @@ function initDiscordFormValidation() {
     const prnInput = document.getElementById('discordPrn');
     const passwordInput = document.getElementById('discordPassword');
     
-    // PRN validation
-    prnInput.addEventListener('input', function() {
-        validatePRN(this.value);
+    // Debug: Check if form exists
+    if (!registrationForm) {
+        console.error('Discord registration form not found!');
+        return;
+    }
+    
+    console.log('Initializing Discord form validation...');
+    
+    // Enhanced PRN validation with free typing
+    prnInput.addEventListener('input', function(e) {
+        handlePRNInput(e);
+    });
+    
+    // Handle paste events for PRN - allow pasting but filter content
+    prnInput.addEventListener('paste', function(e) {
+        // Don't prevent default, let the paste happen
+        setTimeout(() => {
+            // Clean up the pasted content after it's inserted
+            handlePRNInput({ target: this });
+        }, 0);
     });
     
     // Password validation
@@ -1263,27 +1290,100 @@ function initDiscordFormValidation() {
         validateConfirmPassword(passwordInput.value, this.value);
     });
     
-    // Registration form submission
+    // Username validation
+    document.getElementById('discordUsername').addEventListener('input', function() {
+        validateUsername(this.value);
+    });
+    
+    // Email validation
+    document.getElementById('discordEmail').addEventListener('input', function() {
+        validateEmail(this.value);
+    });
+    
+    // Registration form submission with debugging
     registrationForm.addEventListener('submit', function(e) {
+        console.log('Registration form submitted');
         e.preventDefault();
-        handleDiscordRegistration();
+        
+        // Add small delay to ensure UI updates
+        setTimeout(() => {
+            handleDiscordRegistration();
+        }, 100);
     });
     
     // Login form submission
-    loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        handleDiscordLogin();
-    });
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            console.log('Login form submitted');
+            e.preventDefault();
+            handleDiscordLogin();
+        });
+    }
+    
+    console.log('Discord form validation initialized successfully');
 }
 
-// Validate PRN number
-function validatePRN(prn) {
+// Enhanced PRN input handler - allows free typing with cleanup
+function handlePRNInput(e) {
+    const input = e.target;
+    let value = input.value;
+    
+    // Remove any non-numeric characters
+    value = value.replace(/\D/g, '');
+    
+    // Limit to 10 digits maximum
+    if (value.length > 10) {
+        value = value.substring(0, 10);
+    }
+    
+    // Update input value only if it changed
+    if (input.value !== value) {
+        input.value = value;
+    }
+    
+    // Update progress and feedback (but don't validate format while typing)
+    updatePRNProgress(value);
+}
+
+// Update PRN progress and feedback without strict validation
+function updatePRNProgress(prn) {
+    const prnInput = document.getElementById('discordPrn');
+    const hint = prnInput.parentElement.parentElement.querySelector('.discord-input-hint');
+    const progressFill = document.querySelector('.prn-progress-fill');
+    const prnError = document.getElementById('prnError');
+    
+    // Clear any previous error styling while typing
+    prnInput.classList.remove('error', 'valid');
+    prnError.textContent = '';
+    
+    // Update progress bar
+    const progressPercentage = (prn.length / 10) * 100;
+    progressFill.style.width = `${progressPercentage}%`;
+    
+    // Update hint text with friendly feedback
+    if (prn.length === 0) {
+        hint.textContent = 'PRN must start with 80240 and be exactly 10 digits';
+        hint.style.color = 'var(--text-gray)';
+        progressFill.classList.remove('complete');
+    } else if (prn.length < 10) {
+        hint.textContent = `${prn.length}/10 digits entered - PRN must start with 80240`;
+        hint.style.color = 'var(--text-gray)';
+        progressFill.classList.remove('complete');
+    } else if (prn.length === 10) {
+        // Show completion but don't validate format yet
+        hint.textContent = `10/10 digits entered - Will validate format on submit`;
+        hint.style.color = 'var(--primary-orange)';
+        progressFill.classList.add('complete');
+    }
+}
+
+// PRN validation - only called on form submission
+function validatePRNOnSubmit(prn) {
     const prnError = document.getElementById('prnError');
     const prnInput = document.getElementById('discordPrn');
     
-    // Remove non-digits
-    prn = prn.replace(/\D/g, '');
-    prnInput.value = prn;
+    // Clear any previous styling
+    prnError.style.color = '#ed4245'; // Reset to error color
     
     if (prn.length === 0) {
         prnError.textContent = 'PRN is required';
@@ -1292,24 +1392,30 @@ function validatePRN(prn) {
         return false;
     }
     
-    if (!prn.startsWith('80240')) {
-        prnError.textContent = 'PRN must start with 80240';
+    if (prn.length < 10) {
+        prnError.textContent = `PRN must be exactly 10 digits (currently ${prn.length} digits)`;
         prnInput.classList.add('error');
         prnInput.classList.remove('valid');
         return false;
     }
     
-    if (prn.length !== 10) {
-        prnError.textContent = 'PRN must be exactly 10 digits long';
-        prnInput.classList.add('error');
-        prnInput.classList.remove('valid');
-        return false;
+    if (prn.length === 10) {
+        if (!prn.startsWith('80240')) {
+            prnError.textContent = 'PRN must start with 80240';
+            prnInput.classList.add('error');
+            prnInput.classList.remove('valid');
+            return false;
+        }
+        
+        // PRN is valid
+        prnError.textContent = '✓ Valid PRN format';
+        prnError.style.color = '#57f287'; // Green success color
+        prnInput.classList.remove('error');
+        prnInput.classList.add('valid');
+        return true;
     }
     
-    prnError.textContent = '';
-    prnInput.classList.remove('error');
-    prnInput.classList.add('valid');
-    return true;
+    return false;
 }
 
 // Validate password
@@ -1431,7 +1537,11 @@ function clearValidationErrors() {
     const errorElements = document.querySelectorAll('.discord-error');
     const inputElements = document.querySelectorAll('.discord-input');
     
-    errorElements.forEach(error => error.textContent = '');
+    errorElements.forEach(error => {
+        error.textContent = '';
+        error.style.color = '#ed4245'; // Reset to default error color
+    });
+    
     inputElements.forEach(input => {
         input.classList.remove('error', 'valid');
     });
@@ -1439,11 +1549,22 @@ function clearValidationErrors() {
     // Reset password requirements
     const requirements = document.querySelectorAll('.discord-password-requirements li');
     requirements.forEach(req => req.classList.remove('valid'));
+    
+    // Reset PRN progress using the new function
+    updatePRNProgress('');
 }
 
-// Handle Discord registration
+// Handle Discord registration with proper error handling
 async function handleDiscordRegistration() {
+    console.log('handleDiscordRegistration called');
+    
     const form = document.getElementById('discordRegistrationForm');
+    if (!form) {
+        console.error('Registration form not found!');
+        showNotification('Form not found. Please refresh the page and try again.', 'error');
+        return;
+    }
+    
     const formData = new FormData(form);
     
     const prn = formData.get('prn');
@@ -1452,65 +1573,130 @@ async function handleDiscordRegistration() {
     const password = formData.get('password');
     const confirmPassword = formData.get('confirmPassword');
     
-    // Validate all fields
-    const isPrnValid = validatePRN(prn);
-    const isUsernameValid = validateUsername(username);
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-    const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+    console.log('Form data:', { prn, username, email, password: '***', confirmPassword: '***' });
     
-    if (!isPrnValid || !isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
-        showNotification('Please fix the validation errors before submitting.', 'error');
+    // Get submit button
+    const submitBtn = form.querySelector('.discord-register-btn');
+    if (!submitBtn) {
+        console.error('Submit button not found!');
+        showNotification('Submit button not found. Please refresh the page and try again.', 'error');
         return;
     }
     
-    // Show loading state
-    const submitBtn = form.querySelector('.discord-register-btn');
     const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
-    submitBtn.disabled = true;
-    submitBtn.classList.add('loading');
     
     try {
-        // Simulate API call to Code Vimarsh server
+        console.log('Starting validation...');
+        
+        // Validate all fields - use the submit-specific PRN validation
+        const isPrnValid = validatePRNOnSubmit(prn);
+        const isUsernameValid = validateUsername(username);
+        const isEmailValid = validateEmail(email);
+        const isPasswordValid = validatePassword(password);
+        const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+        
+        console.log('Validation results:', {
+            isPrnValid,
+            isUsernameValid,
+            isEmailValid,
+            isPasswordValid,
+            isConfirmPasswordValid
+        });
+        
+        if (!isPrnValid || !isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+            showNotification('Please fix the validation errors before submitting.', 'error');
+            return;
+        }
+        
+        console.log('All validations passed, starting registration...');
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+        submitBtn.disabled = true;
+        submitBtn.classList.add('loading');
+        
+        // Prepare registration data
         const registrationData = {
             prn: prn,
             username: username,
             email: email,
-            password: password, // In real implementation, this should be hashed
+            password: password,
             timestamp: new Date().toISOString()
         };
         
-        // Simulate server delay
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // Step 1: Register user on server with timeout
+        console.log('Step 1: Registering user on server...');
+        showNotification('Creating your account...', 'info', 2000);
         
-        // Simulate successful registration
-        const success = await simulateServerRegistration(registrationData);
+        const registrationSuccess = await withTimeout(
+            simulateServerRegistration(registrationData),
+            15000 // 15 second timeout
+        );
         
-        if (success) {
-            // Show success message
-            showRegistrationSuccess(username, email);
-            
-            // Send confirmation email (simulated)
-            await sendConfirmationEmail(email, username);
-            
-            // Reset form
-            form.reset();
-            clearValidationErrors();
-            
-            showNotification('Registration successful! Check your email for confirmation.', 'success', 5000);
-        } else {
-            throw new Error('Registration failed');
+        console.log('Server registration result:', registrationSuccess);
+        
+        if (!registrationSuccess) {
+            throw new Error('Server registration failed');
         }
+        
+        // Step 2: Send confirmation email with timeout
+        console.log('Step 2: Sending confirmation email...');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending confirmation email...';
+        showNotification('Sending confirmation email...', 'info', 2000);
+        
+        const emailSuccess = await withTimeout(
+            sendConfirmationEmail(email, username, prn),
+            10000 // 10 second timeout for email
+        );
+        
+        console.log('Email sending result:', emailSuccess);
+        
+        // Step 3: Show success based on email result
+        if (emailSuccess) {
+            console.log('Registration and email both successful');
+            // Both registration and email succeeded
+            showRegistrationSuccess(username, email);
+            showNotification('Registration successful! Confirmation email sent.', 'success', 5000);
+        } else {
+            console.log('Registration successful but email failed');
+            // Registration succeeded but email failed
+            showRegistrationSuccessWithEmailWarning(username, email);
+            showNotification('Registration successful, but confirmation email failed. Please contact support.', 'warning', 8000);
+        }
+        
+        // Reset form
+        form.reset();
+        clearValidationErrors();
+        
+        console.log('Registration process completed successfully');
+        
+        // Note: Button reset is handled by the success page display
+        // The success page replaces the form content, so no need to reset button here
         
     } catch (error) {
         console.error('Registration error:', error);
-        showNotification('Registration failed. Please try again later.', 'error');
-    } finally {
-        // Reset button
+        
+        // Reset button state first
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
         submitBtn.classList.remove('loading');
+        
+        // Show specific error messages
+        if (error.message.includes('timeout') || error.message.includes('timed out')) {
+            showNotification('Request timed out. Please check your connection and try again.', 'error');
+        } else if (error.message.includes('validation')) {
+            showNotification('Please check your input and try again.', 'error');
+        } else if (error.message.includes('already exists')) {
+            showNotification('A user with this PRN or username already exists. Please use different details.', 'error');
+        } else if (error.message.includes('email')) {
+            showNotification('Registration completed but email delivery failed. Please contact support.', 'warning', 8000);
+        } else if (error.message.includes('server') || error.message.includes('Server')) {
+            showNotification('Server error during registration. Please try again later.', 'error');
+        } else if (error.message.includes('network') || error.message.includes('Network')) {
+            showNotification('Network error. Please check your connection and try again.', 'error');
+        } else {
+            showNotification('Registration failed. Please try again later.', 'error');
+        }
     }
 }
 
@@ -1557,59 +1743,389 @@ async function handleDiscordLogin() {
     }
 }
 
-// Simulate server registration
+// Simulate server registration with proper error handling
 async function simulateServerRegistration(data) {
-    // In real implementation, this would make an API call to your server
-    console.log('Registering user:', data);
-    
-    // Simulate server processing
-    const success = Math.random() > 0.1; // 90% success rate for demo
-    
-    if (success) {
-        // Store in localStorage for demo purposes
-        const users = JSON.parse(localStorage.getItem('codeVimarshUsers') || '[]');
-        users.push({
-            ...data,
-            id: Date.now(),
-            verified: false
-        });
-        localStorage.setItem('codeVimarshUsers', JSON.stringify(users));
+    try {
+        console.log('Starting server registration for:', data.username);
+        
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Simulate different scenarios for testing
+        const random = Math.random();
+        
+        if (random < 0.05) {
+            // 5% chance of server error
+            throw new Error('Server registration failed - database error');
+        } else if (random < 0.1) {
+            // 5% chance of network error
+            throw new Error('Network error during registration');
+        } else {
+            // 90% success rate
+            console.log('Server registration successful for:', data.username);
+            
+            // Store in localStorage for demo purposes
+            const users = JSON.parse(localStorage.getItem('codeVimarshUsers') || '[]');
+            
+            // Check if user already exists
+            const existingUser = users.find(user => user.prn === data.prn || user.username === data.username);
+            if (existingUser) {
+                throw new Error('User with this PRN or username already exists');
+            }
+            
+            // Add new user
+            users.push({
+                ...data,
+                id: Date.now(),
+                verified: false,
+                registeredAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem('codeVimarshUsers', JSON.stringify(users));
+            
+            console.log('User data saved successfully');
+            return true;
+        }
+        
+    } catch (error) {
+        console.error('Server registration error:', error);
+        throw error; // Re-throw to be handled by calling function
     }
-    
-    return success;
 }
 
-// Send confirmation email (simulated)
-async function sendConfirmationEmail(email, username) {
-    // In real implementation, this would trigger an email service
-    console.log(`Sending confirmation email to ${email} for user ${username}`);
-    
-    // Simulate email sending delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    return true;
+// Send confirmation email with proper error handling
+async function sendConfirmationEmail(email, username, prn) {
+    try {
+        console.log('Starting email sending process for:', email);
+        
+        // In a real implementation, this would call your backend API
+        const emailData = {
+            to: email,
+            subject: 'Welcome to Code Vimarsh Discord Community!',
+            template: 'discord-registration-confirmation',
+            data: {
+                username: username,
+                prn: prn,
+                registrationDate: new Date().toLocaleDateString(),
+                discordInviteLink: 'https://discord.gg/codevimarsh', // Replace with actual invite
+                supportEmail: 'codingclub-cse@msubaroda.ac.in'
+            }
+        };
+        
+        // Try to call real API first, fallback to simulation
+        let response;
+        try {
+            response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(emailData),
+                timeout: 10000 // 10 second timeout
+            });
+        } catch (fetchError) {
+            console.log('Real API not available, using simulation');
+            response = await simulateEmailSending(emailData);
+        }
+        
+        if (response && (response.ok || response.success)) {
+            console.log('Confirmation email sent successfully to:', email);
+            return true;
+        } else {
+            throw new Error('Email service returned error response');
+        }
+        
+    } catch (error) {
+        console.error('Email sending failed:', error);
+        
+        // Log email for manual processing
+        await logEmailForManualProcessing(email, username, prn);
+        
+        // Return false instead of throwing to allow registration to complete
+        return false;
+    }
 }
 
-// Show registration success message
+// Simulate email sending for demo purposes with better error handling
+async function simulateEmailSending(emailData) {
+    try {
+        console.log('Simulating email sending...');
+        
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Simulate 85% success rate (more realistic)
+        const success = Math.random() > 0.15;
+        
+        if (success) {
+            // Log the email content for demo purposes
+            console.log('📧 Email sent successfully!');
+            console.log('To:', emailData.to);
+            console.log('Subject:', emailData.subject);
+            console.log('Content preview:', generateEmailContent(emailData.data).substring(0, 200) + '...');
+            
+            // Store email in localStorage for demo
+            const sentEmails = JSON.parse(localStorage.getItem('codeVimarshEmails') || '[]');
+            sentEmails.push({
+                ...emailData,
+                sentAt: new Date().toISOString(),
+                status: 'sent'
+            });
+            localStorage.setItem('codeVimarshEmails', JSON.stringify(sentEmails));
+            
+            return { ok: true, success: true };
+        } else {
+            console.log('Simulated email failure');
+            throw new Error('Simulated email service failure');
+        }
+        
+    } catch (error) {
+        console.error('Email simulation error:', error);
+        return { ok: false, success: false, error: error.message };
+    }
+}
+
+// Generate email content for confirmation
+function generateEmailContent(data) {
+    return `
+🎉 Welcome to Code Vimarsh Discord Community!
+
+Hi ${data.username},
+
+Congratulations! Your registration for the Code Vimarsh Discord server has been completed successfully.
+
+Registration Details:
+• Username: ${data.username}
+• PRN: ${data.prn}
+• Registration Date: ${data.registrationDate}
+
+Next Steps:
+1. Join our Discord server: ${data.discordInviteLink}
+2. Introduce yourself in the #introductions channel
+3. Check out our coding challenges and events
+4. Connect with fellow developers and mentors
+
+Need Help?
+If you have any questions or need assistance, feel free to reach out to us at ${data.supportEmail}
+
+Welcome to the community!
+
+Best regards,
+Code Vimarsh Team
+MSU Baroda
+    `;
+}
+
+// Log email for manual processing if automatic sending fails
+async function logEmailForManualProcessing(email, username, prn) {
+    try {
+        const failedEmails = JSON.parse(localStorage.getItem('codeVimarshFailedEmails') || '[]');
+        failedEmails.push({
+            email: email,
+            username: username,
+            prn: prn,
+            timestamp: new Date().toISOString(),
+            reason: 'Email service unavailable'
+        });
+        localStorage.setItem('codeVimarshFailedEmails', JSON.stringify(failedEmails));
+        
+        console.log('Email logged for manual processing:', email);
+    } catch (error) {
+        console.error('Failed to log email for manual processing:', error);
+    }
+}
+
+// Add timeout wrapper for async operations
+function withTimeout(promise, timeoutMs = 30000) {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Operation timed out')), timeoutMs)
+        )
+    ]);
+}
+
+// Debug function to check registration status
+function debugRegistrationStatus() {
+    const users = JSON.parse(localStorage.getItem('codeVimarshUsers') || '[]');
+    const emails = JSON.parse(localStorage.getItem('codeVimarshEmails') || '[]');
+    const failedEmails = JSON.parse(localStorage.getItem('codeVimarshFailedEmails') || '[]');
+    
+    console.log('=== Registration Debug Info ===');
+    console.log('Registered users:', users.length);
+    console.log('Sent emails:', emails.length);
+    console.log('Failed emails:', failedEmails.length);
+    console.log('Latest user:', users[users.length - 1]);
+    console.log('Latest email:', emails[emails.length - 1]);
+    
+    return {
+        users: users.length,
+        emails: emails.length,
+        failedEmails: failedEmails.length
+    };
+}
+
+// Make debug function globally available
+window.debugRegistrationStatus = debugRegistrationStatus;
+
+// Show registration success message with proper redirection
 function showRegistrationSuccess(username, email) {
     const formContainer = document.querySelector('.discord-form-container');
     
     const successHTML = `
         <div class="discord-success-message">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
             <h3>🎉 Registration Successful!</h3>
-            <p>Welcome to Code Vimarsh, ${username}!</p>
-            <p>A confirmation email has been sent to ${email}</p>
-        </div>
-        <div style="text-align: center; margin-top: var(--spacing-lg);">
-            <button class="discord-register-btn" onclick="closeDiscordRegistration()">
-                <i class="fas fa-check"></i>
-                Continue
-            </button>
+            <p><strong>Welcome to Code Vimarsh, ${username}!</strong></p>
+            <p>A confirmation email has been sent to:</p>
+            <p class="email-highlight">${email}</p>
+            
+            <div class="success-details">
+                <div class="success-step">
+                    <i class="fas fa-envelope"></i>
+                    <span>Check your email for Discord server invite</span>
+                </div>
+                <div class="success-step">
+                    <i class="fab fa-discord"></i>
+                    <span>Join our Discord community</span>
+                </div>
+                <div class="success-step">
+                    <i class="fas fa-users"></i>
+                    <span>Connect with fellow developers</span>
+                </div>
+            </div>
+            
+            <div class="success-actions">
+                <button class="discord-register-btn primary" onclick="redirectToHomepage()">
+                    <i class="fas fa-home"></i>
+                    Continue to Homepage
+                </button>
+                <button class="discord-register-btn secondary" onclick="openEmailClient('${email}')">
+                    <i class="fas fa-envelope-open"></i>
+                    Open Email
+                </button>
+            </div>
+            
+            <div class="success-footer">
+                <p><small>Didn't receive the email? Check your spam folder or <a href="#" onclick="resendConfirmationEmail('${email}', '${username}')">resend confirmation</a></small></p>
+            </div>
         </div>
     `;
     
     formContainer.innerHTML = successHTML;
 }
+
+// Show registration success with email warning
+function showRegistrationSuccessWithEmailWarning(username, email) {
+    const formContainer = document.querySelector('.discord-form-container');
+    
+    const successHTML = `
+        <div class="discord-success-message warning">
+            <div class="success-icon warning">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>⚠️ Registration Completed</h3>
+            <p><strong>Welcome to Code Vimarsh, ${username}!</strong></p>
+            <p>Your account has been created successfully, but we couldn't send the confirmation email to:</p>
+            <p class="email-highlight">${email}</p>
+            
+            <div class="warning-message">
+                <p><strong>What to do next:</strong></p>
+                <ul>
+                    <li>Contact our support team at <a href="mailto:codingclub-cse@msubaroda.ac.in">codingclub-cse@msubaroda.ac.in</a></li>
+                    <li>Mention your username: <strong>${username}</strong></li>
+                    <li>We'll manually send you the Discord invite</li>
+                </ul>
+            </div>
+            
+            <div class="success-actions">
+                <button class="discord-register-btn primary" onclick="redirectToHomepage()">
+                    <i class="fas fa-home"></i>
+                    Continue to Homepage
+                </button>
+                <button class="discord-register-btn secondary" onclick="contactSupport()">
+                    <i class="fas fa-envelope"></i>
+                    Contact Support
+                </button>
+            </div>
+        </div>
+    `;
+    
+    formContainer.innerHTML = successHTML;
+}
+
+// Redirect to homepage
+function redirectToHomepage() {
+    // Close the modal first
+    closeDiscordRegistration();
+    
+    // Show a final success message
+    setTimeout(() => {
+        showNotification('Welcome to Code Vimarsh! Check your email for Discord access.', 'success', 5000);
+        
+        // Navigate to home section
+        if (window.CodeVimarsh && window.CodeVimarsh.showSection) {
+            window.CodeVimarsh.showSection('home');
+        }
+    }, 500);
+}
+
+// Open email client
+function openEmailClient(email) {
+    // Try to open the default email client
+    const emailDomain = email.split('@')[1];
+    let emailUrl = `mailto:${email}`;
+    
+    // Provide web email shortcuts for common providers
+    if (emailDomain.includes('gmail')) {
+        emailUrl = 'https://mail.google.com/';
+    } else if (emailDomain.includes('outlook') || emailDomain.includes('hotmail')) {
+        emailUrl = 'https://outlook.live.com/';
+    } else if (emailDomain.includes('yahoo')) {
+        emailUrl = 'https://mail.yahoo.com/';
+    }
+    
+    window.open(emailUrl, '_blank');
+    showNotification('Opening your email client...', 'info', 3000);
+}
+
+// Contact support
+function contactSupport() {
+    const supportEmail = 'codingclub-cse@msubaroda.ac.in';
+    const subject = 'Discord Registration - Email Issue';
+    const body = 'Hi Code Vimarsh Team,\n\nI successfully registered for the Discord server but did not receive the confirmation email. Please help me get access to the Discord community.\n\nThank you!';
+    
+    const mailtoUrl = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+    
+    showNotification('Opening email to contact support...', 'info', 3000);
+}
+
+// Resend confirmation email
+async function resendConfirmationEmail(email, username) {
+    showNotification('Resending confirmation email...', 'info', 2000);
+    
+    try {
+        const success = await sendConfirmationEmail(email, username, 'N/A');
+        
+        if (success) {
+            showNotification('Confirmation email resent successfully!', 'success', 4000);
+        } else {
+            showNotification('Failed to resend email. Please contact support.', 'error', 5000);
+        }
+    } catch (error) {
+        console.error('Resend email error:', error);
+        showNotification('Failed to resend email. Please contact support.', 'error', 5000);
+    }
+}
+
+// Make functions globally available
+window.redirectToHomepage = redirectToHomepage;
+window.openEmailClient = openEmailClient;
+window.contactSupport = contactSupport;
+window.resendConfirmationEmail = resendConfirmationEmail;
 
 // Close modal on escape key
 document.addEventListener('keydown', function(e) {
@@ -1621,6 +2137,244 @@ document.addEventListener('keydown', function(e) {
 // Prevent modal content clicks from closing modal
 document.addEventListener('click', function(e) {
     const modalContent = document.querySelector('.discord-modal-content');
+    if (modalContent && modalContent.contains(e.target)) {
+        e.stopPropagation();
+    }
+});
+/* ===================================
+   PROJECT GALLERY FUNCTIONALITY
+   =================================== */
+
+// Project data
+const projectData = {
+    ezylink: {
+        id: 'ezylink',
+        title: 'Ezylink',
+        subtitle: 'Advanced URL Shortening Platform',
+        description: 'A comprehensive URL shortening service built with modern web technologies, featuring analytics, custom domains, and team collaboration.',
+        image: 'ezylink-banner.webp',
+        technologies: ['React', 'Node.js', 'MongoDB', 'Express', 'JWT', 'Chart.js'],
+        features: [
+            {
+                icon: 'fas fa-link',
+                title: 'Smart URL Shortening',
+                description: 'Create short, memorable links with custom aliases and branded domains.'
+            },
+            {
+                icon: 'fas fa-chart-bar',
+                title: 'Advanced Analytics',
+                description: 'Track clicks, geographic data, referrers, and user engagement metrics.'
+            },
+            {
+                icon: 'fas fa-users',
+                title: 'Team Collaboration',
+                description: 'Share links across teams with role-based access and permissions.'
+            },
+            {
+                icon: 'fas fa-shield-alt',
+                title: 'Security Features',
+                description: 'Password protection, expiration dates, and spam detection.'
+            }
+        ],
+        links: [
+            {
+                title: 'Live Demo',
+                url: '#',
+                type: 'primary',
+                icon: 'fas fa-external-link-alt'
+            },
+            {
+                title: 'GitHub Repository',
+                url: '#',
+                type: 'secondary',
+                icon: 'fab fa-github'
+            }
+        ],
+        details: [
+            'Built with React for a responsive and interactive user interface',
+            'Node.js backend with Express framework for robust API development',
+            'MongoDB database for scalable data storage and retrieval',
+            'JWT authentication for secure user sessions',
+            'Real-time analytics dashboard with Chart.js visualizations',
+            'Custom domain support for branded short links',
+            'QR code generation for easy mobile sharing',
+            'Bulk URL processing for enterprise users'
+        ]
+    },
+    integrator: {
+        id: 'integrator',
+        title: 'Integrator',
+        subtitle: 'Powerful API Integration Tool',
+        description: 'A sophisticated API integration platform that simplifies connecting different services, with visual workflow builder and real-time monitoring.',
+        image: 'integrator.webp',
+        technologies: ['Vue.js', 'Python', 'FastAPI', 'PostgreSQL', 'Redis', 'Docker'],
+        features: [
+            {
+                icon: 'fas fa-plug',
+                title: 'Visual API Builder',
+                description: 'Drag-and-drop interface for creating complex API integrations without code.'
+            },
+            {
+                icon: 'fas fa-sync',
+                title: 'Real-time Sync',
+                description: 'Automatic data synchronization between multiple platforms and services.'
+            },
+            {
+                icon: 'fas fa-eye',
+                title: 'Live Monitoring',
+                description: 'Real-time monitoring of API calls, errors, and performance metrics.'
+            },
+            {
+                icon: 'fas fa-cogs',
+                title: 'Custom Workflows',
+                description: 'Create custom automation workflows with conditional logic and triggers.'
+            }
+        ],
+        links: [
+            {
+                title: 'Live Demo',
+                url: '#',
+                type: 'primary',
+                icon: 'fas fa-external-link-alt'
+            },
+            {
+                title: 'Documentation',
+                url: '#',
+                type: 'secondary',
+                icon: 'fas fa-book'
+            }
+        ],
+        details: [
+            'Vue.js frontend with modern component architecture',
+            'Python backend using FastAPI for high-performance API development',
+            'PostgreSQL database with optimized queries for large datasets',
+            'Redis caching for improved response times',
+            'Docker containerization for easy deployment and scaling',
+            'Visual workflow designer with drag-and-drop functionality',
+            'Support for REST, GraphQL, and WebSocket APIs',
+            'Comprehensive error handling and retry mechanisms',
+            'Built-in testing tools for API endpoint validation'
+        ]
+    }
+};
+
+// Open project details modal
+function openProjectDetails(projectId) {
+    const project = projectData[projectId];
+    if (!project) return;
+    
+    const modal = document.getElementById('projectModal');
+    const content = document.getElementById('projectDetailsContent');
+    
+    // Generate project detail HTML
+    content.innerHTML = generateProjectDetailHTML(project);
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close project details modal
+function closeProjectDetails() {
+    const modal = document.getElementById('projectModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Generate project detail HTML
+function generateProjectDetailHTML(project) {
+    return `
+        <div class="project-detail-page">
+            <div class="project-detail-hero">
+                <div class="project-detail-hero-content">
+                    <h1 class="project-detail-title">${project.title}</h1>
+                    <p class="project-detail-subtitle">${project.subtitle}</p>
+                    <div class="project-detail-meta">
+                        <div class="project-detail-meta-item">
+                            <i class="fas fa-code"></i>
+                            <span>Full Stack</span>
+                        </div>
+                        <div class="project-detail-meta-item">
+                            <i class="fas fa-users"></i>
+                            <span>Team Project</span>
+                        </div>
+                        <div class="project-detail-meta-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-detail-body">
+                <div class="project-detail-section">
+                    <h3>Project Overview</h3>
+                    <p style="color: var(--text-gray); line-height: 1.6; font-size: 1.1rem; margin-bottom: var(--spacing-lg);">${project.description}</p>
+                    
+                    <img src="${project.image}" alt="${project.title} Screenshot" class="project-screenshot">
+                </div>
+                
+                <div class="project-detail-section">
+                    <h3>Key Features</h3>
+                    <div class="project-features">
+                        ${project.features.map(feature => `
+                            <div class="project-feature">
+                                <div class="project-feature-icon">
+                                    <i class="${feature.icon}"></i>
+                                </div>
+                                <h4>${feature.title}</h4>
+                                <p>${feature.description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="project-detail-section">
+                    <h3>Technology Stack</h3>
+                    <div class="project-tech-stack">
+                        ${project.technologies.map(tech => `
+                            <span class="tech-tag">${tech}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="project-detail-section">
+                    <h3>Technical Implementation</h3>
+                    <ul style="color: var(--text-gray); line-height: 1.8; padding-left: var(--spacing-lg);">
+                        ${project.details.map(detail => `<li>${detail}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="project-detail-section">
+                    <h3>Project Links</h3>
+                    <div class="project-links">
+                        ${project.links.map(link => `
+                            <a href="${link.url}" class="project-link-btn ${link.type}" target="_blank" rel="noopener noreferrer">
+                                <i class="${link.icon}"></i>
+                                ${link.title}
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Make functions globally available
+window.openProjectDetails = openProjectDetails;
+window.closeProjectDetails = closeProjectDetails;
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeProjectDetails();
+    }
+});
+
+// Prevent modal content clicks from closing modal
+document.addEventListener('click', function(e) {
+    const modalContent = document.querySelector('.project-modal-content');
     if (modalContent && modalContent.contains(e.target)) {
         e.stopPropagation();
     }

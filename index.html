@@ -373,7 +373,7 @@
                 </div>
                 
                 <div class="gallery-grid">
-                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="100" onclick="openProjectDetails('ezylink')">
                         <div class="gallery-image-container">
                             <img src="ezylink-banner.webp" alt="Ezylink Project" class="gallery-image">
                             <div class="gallery-overlay">
@@ -389,7 +389,7 @@
                         </div>
                     </div>
 
-                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="gallery-item" data-aos="fade-up" data-aos-delay="200" onclick="openProjectDetails('integrator')">
                         <div class="gallery-image-container">
                             <img src="integrator.webp" alt="Integrator Project" class="gallery-image">
                             <div class="gallery-overlay">
@@ -567,6 +567,19 @@
         </section>
     </main>
     
+    <!-- PROJECT DETAILS MODAL -->
+    <div id="projectModal" class="project-modal">
+        <div class="project-modal-overlay" onclick="closeProjectDetails()"></div>
+        <div class="project-modal-content">
+            <button class="project-modal-close" onclick="closeProjectDetails()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="projectDetailsContent">
+                <!-- Project details will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
     <!-- DISCORD REGISTRATION MODAL -->
     <div id="discordRegistrationModal" class="discord-modal">
         <div class="discord-modal-overlay" onclick="closeDiscordRegistration()"></div>
@@ -588,7 +601,13 @@
                     <form id="discordRegistrationForm" class="discord-form">
                         <div class="discord-form-group">
                             <label for="discordPrn" class="discord-label">PRN Number</label>
-                            <input type="text" id="discordPrn" name="prn" class="discord-input" placeholder="Enter your PRN (e.g., 8024012345)" maxlength="10" required>
+                            <div class="prn-input-container">
+                                <input type="text" id="discordPrn" name="prn" class="discord-input" placeholder="Enter your PRN (e.g., 8024012345)" maxlength="10" inputmode="numeric" required>
+                                <div class="prn-progress-bar">
+                                    <div class="prn-progress-fill"></div>
+                                </div>
+                            </div>
+                            <div class="discord-input-hint">PRN must start with 80240 and be exactly 10 digits</div>
                             <div class="discord-error" id="prnError"></div>
                         </div>
                         
