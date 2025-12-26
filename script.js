@@ -921,25 +921,608 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /* ===================================
-       EVENT HANDLERS AND MODAL FUNCTIONS
+       EVENT HANDLERS AND MODAL FUNCTIONS - FULLY WORKING VERSION
        =================================== */
+    
+    // Event details data
+    const eventDetails = {
+        event1: {
+            title: "A To Z Guidance for DSA Foundation",
+            date: "5 October 2024",
+            time: "11:00 to 13:00",
+            image: "5October.webp",
+            description: "Complete roadmap and guidance for building strong foundations in Data Structures and Algorithms. This comprehensive session will cover everything you need to know to start your DSA journey.",
+            highlights: [
+                "Complete DSA roadmap from beginner to advanced",
+                "Best resources and practice platforms",
+                "Time complexity analysis techniques",
+                "Problem-solving strategies and patterns",
+                "Interview preparation tips",
+                "Live coding demonstrations"
+            ],
+            instructor: "Code Vimarsh Team",
+            venue: "Online via Discord",
+            prerequisites: "Basic programming knowledge",
+            registrationLink: "https://forms.gle/dsa-foundation-registration"
+        },
+        event2: {
+            title: "Fireside Chat With Manu Misra",
+            date: "2 August 2024",
+            time: "09:30 to 10:30",
+            image: "2Auguest.webp",
+            description: "An inspiring conversation with industry expert Manu Misra about career growth, tech insights, and the future of software development.",
+            highlights: [
+                "Career guidance from industry expert",
+                "Insights into current tech trends",
+                "Q&A session with participants",
+                "Networking opportunities",
+                "Real-world project experiences",
+                "Tips for professional growth"
+            ],
+            instructor: "Manu Misra - Senior Software Engineer",
+            venue: "Online via Discord",
+            prerequisites: "None - Open to all",
+            registrationLink: "https://forms.gle/fireside-chat-manu"
+        },
+        event3: {
+            title: "Fireside Chat With Nishant Virmani Sir",
+            date: "26 September 2024",
+            time: "09:30 to 11:00",
+            image: "26september.webp",
+            description: "Exclusive session with Nishant Virmani Sir sharing valuable insights on technology, leadership, and building successful tech careers.",
+            highlights: [
+                "Leadership insights from tech veteran",
+                "Building successful tech teams",
+                "Innovation in technology",
+                "Startup vs corporate career paths",
+                "Interactive discussion session",
+                "Mentorship opportunities"
+            ],
+            instructor: "Nishant Virmani - Tech Leader & Mentor",
+            venue: "Online via Discord",
+            prerequisites: "None - Open to all",
+            registrationLink: "https://forms.gle/fireside-chat-nishant"
+        }
+    };
+    
+    // Project details data
+    const projectDetails = {
+        ezylink: {
+            title: "Ezylink - URL Shortening Platform",
+            image: "ezylink-banner.webp",
+            description: "A modern, fast, and reliable URL shortening service built with cutting-edge web technologies.",
+            features: [
+                "Custom short URL generation",
+                "Click analytics and tracking",
+                "QR code generation",
+                "Bulk URL shortening",
+                "API for developers",
+                "Real-time statistics dashboard"
+            ],
+            technologies: ["React.js", "Node.js", "MongoDB", "Express.js", "Chart.js"],
+            githubLink: "https://github.com/codevimarsh/ezylink",
+            liveDemo: "https://ezylink.codevimarsh.in",
+            contributors: ["Jay Prajapati", "Krupal Patel", "Mihir Bhavsar"]
+        },
+        integrator: {
+            title: "Integrator - API Integration Tool",
+            image: "integrator.webp",
+            description: "A powerful tool for seamless API integration and management, designed to simplify complex API workflows.",
+            features: [
+                "Visual API workflow builder",
+                "Real-time API testing",
+                "Automated documentation generation",
+                "Error handling and logging",
+                "Multi-environment support",
+                "Team collaboration features"
+            ],
+            technologies: ["Vue.js", "Python", "FastAPI", "PostgreSQL", "Docker"],
+            githubLink: "https://github.com/codevimarsh/integrator",
+            liveDemo: "https://integrator.codevimarsh.in",
+            contributors: ["Shivam Parmar", "Yash Solanki", "Mihir Bhavsar"]
+        }
+    };
     
     // Event details modal functions
     function openEventDetails(eventId) {
-        showNotification('Event details feature coming soon!', 'info');
+        console.log('🎯 Opening event details for:', eventId);
+        
+        const event = eventDetails[eventId];
+        if (!event) {
+            showNotification('Event details not found!', 'error');
+            return;
+        }
+        
+        const modal = document.getElementById('eventModal');
+        const content = document.getElementById('eventDetailsContent');
+        
+        if (!modal || !content) {
+            showNotification('Event modal not found!', 'error');
+            return;
+        }
+        
+        // Create event details HTML
+        const eventHTML = `
+            <div class="event-details">
+                <div class="event-details-header">
+                    <img src="${event.image}" alt="${event.title}" class="event-details-image">
+                    <div class="event-details-info">
+                        <h2 class="event-details-title">${event.title}</h2>
+                        <div class="event-details-meta">
+                            <div class="event-meta-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>${event.date}</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${event.time}</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${event.venue}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="event-details-content">
+                    <div class="event-description">
+                        <h3>About This Event</h3>
+                        <p>${event.description}</p>
+                    </div>
+                    
+                    <div class="event-highlights">
+                        <h3>What You'll Learn</h3>
+                        <ul>
+                            ${event.highlights.map(highlight => `<li><i class="fas fa-check"></i> ${highlight}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="event-instructor">
+                        <h3>Instructor</h3>
+                        <p><i class="fas fa-user"></i> ${event.instructor}</p>
+                    </div>
+                    
+                    <div class="event-prerequisites">
+                        <h3>Prerequisites</h3>
+                        <p><i class="fas fa-info-circle"></i> ${event.prerequisites}</p>
+                    </div>
+                    
+                    <div class="event-actions">
+                        <button class="btn btn-primary" onclick="registerForEvent('${eventId}')">
+                            <i class="fas fa-user-plus"></i>
+                            Register Now
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareEvent('${eventId}')">
+                            <i class="fas fa-share"></i>
+                            Share Event
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        content.innerHTML = eventHTML;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        showNotification(`Opened details for: ${event.title}`, 'success', 3000);
     }
     
     function closeEventDetails() {
-        // Implementation for closing event details
+        console.log('🎯 Closing event details modal');
+        const modal = document.getElementById('eventModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
     
     // Project details modal functions
     function openProjectDetails(projectId) {
-        showNotification('Project details feature coming soon!', 'info');
+        console.log('🚀 Opening project details for:', projectId);
+        
+        const project = projectDetails[projectId];
+        if (!project) {
+            showNotification('Project details not found!', 'error');
+            return;
+        }
+        
+        const modal = document.getElementById('projectModal');
+        const content = document.getElementById('projectDetailsContent');
+        
+        if (!modal || !content) {
+            showNotification('Project modal not found!', 'error');
+            return;
+        }
+        
+        // Create project details HTML
+        const projectHTML = `
+            <div class="project-details">
+                <div class="project-details-header">
+                    <img src="${project.image}" alt="${project.title}" class="project-details-image">
+                    <div class="project-details-info">
+                        <h2 class="project-details-title">${project.title}</h2>
+                        <p class="project-details-description">${project.description}</p>
+                    </div>
+                </div>
+                
+                <div class="project-details-content">
+                    <div class="project-features">
+                        <h3>Key Features</h3>
+                        <ul>
+                            ${project.features.map(feature => `<li><i class="fas fa-star"></i> ${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="project-technologies">
+                        <h3>Technologies Used</h3>
+                        <div class="tech-stack">
+                            ${project.technologies.map(tech => `<span class="tech-badge">${tech}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="project-contributors">
+                        <h3>Contributors</h3>
+                        <div class="contributors-list">
+                            ${project.contributors.map(contributor => `<span class="contributor-badge"><i class="fas fa-user"></i> ${contributor}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="project-actions">
+                        <button class="btn btn-primary" onclick="openProjectLink('${project.liveDemo}')">
+                            <i class="fas fa-external-link-alt"></i>
+                            Live Demo
+                        </button>
+                        <button class="btn btn-secondary" onclick="openProjectLink('${project.githubLink}')">
+                            <i class="fab fa-github"></i>
+                            View Code
+                        </button>
+                        <button class="btn btn-outline" onclick="shareProject('${projectId}')">
+                            <i class="fas fa-share"></i>
+                            Share Project
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        content.innerHTML = projectHTML;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        showNotification(`Opened project: ${project.title}`, 'success', 3000);
     }
     
     function closeProjectDetails() {
-        // Implementation for closing project details
+        console.log('🚀 Closing project details modal');
+        const modal = document.getElementById('projectModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+    
+    // Event registration function
+    function registerForEvent(eventId) {
+        const event = eventDetails[eventId];
+        if (!event) {
+            showNotification('Event not found!', 'error');
+            return;
+        }
+        
+        // Open registration link
+        window.open(event.registrationLink, '_blank');
+        showNotification(`Opening registration for: ${event.title}`, 'success', 3000);
+    }
+    
+    // Share event function
+    function shareEvent(eventId) {
+        const event = eventDetails[eventId];
+        if (!event) {
+            showNotification('Event not found!', 'error');
+            return;
+        }
+        
+        const shareText = `Check out this amazing event: ${event.title} on ${event.date} at ${event.time}. Join Code Vimarsh community!`;
+        const shareUrl = `${window.location.origin}${window.location.pathname}#events`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: event.title,
+                text: shareText,
+                url: shareUrl
+            });
+        } else {
+            // Fallback to copying to clipboard
+            navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+                showNotification('Event details copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Unable to share event. Please copy the URL manually.', 'error');
+            });
+        }
+    }
+    
+    // Open project link function
+    function openProjectLink(url) {
+        if (!url) {
+            showNotification('Link not available!', 'error');
+            return;
+        }
+        
+        window.open(url, '_blank');
+        showNotification('Opening project link...', 'info', 2000);
+    }
+    
+    // Share project function
+    function shareProject(projectId) {
+        const project = projectDetails[projectId];
+        if (!project) {
+            showNotification('Project not found!', 'error');
+            return;
+        }
+        
+        const shareText = `Check out this amazing project: ${project.title} by Code Vimarsh team!`;
+        const shareUrl = `${window.location.origin}${window.location.pathname}#gallery`;
+        
+        if (navigator.share) {
+            navigator.share({
+                title: project.title,
+                text: shareText,
+                url: shareUrl
+            });
+        } else {
+            // Fallback to copying to clipboard
+            navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+                showNotification('Project details copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Unable to share project. Please copy the URL manually.', 'error');
+            });
+        }
+    }
+    
+    /* ===================================
+       RESOURCES SECTION FUNCTIONALITY - FULLY WORKING VERSION
+       =================================== */
+    
+    // Resource data
+    const resourceData = {
+        'DSA Practice': {
+            title: 'Data Structures & Algorithms Practice',
+            description: 'Comprehensive resources for mastering DSA concepts and problem-solving',
+            resources: [
+                {
+                    name: 'LeetCode',
+                    url: 'https://leetcode.com/',
+                    description: 'Premium coding interview preparation platform',
+                    type: 'Practice Platform'
+                },
+                {
+                    name: 'GeeksforGeeks',
+                    url: 'https://www.geeksforgeeks.org/',
+                    description: 'Complete DSA tutorials and practice problems',
+                    type: 'Learning Platform'
+                },
+                {
+                    name: 'HackerRank',
+                    url: 'https://www.hackerrank.com/',
+                    description: 'Coding challenges and skill assessment',
+                    type: 'Practice Platform'
+                },
+                {
+                    name: 'Striver DSA Sheet',
+                    url: 'https://takeuforward.org/strivers-a2z-dsa-course/',
+                    description: 'Comprehensive DSA roadmap by Striver',
+                    type: 'Roadmap'
+                },
+                {
+                    name: 'Abdul Bari Algorithms',
+                    url: 'https://www.youtube.com/watch?v=0IAPZzGSbME&list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O',
+                    description: 'Complete algorithms course on YouTube',
+                    type: 'YouTube Channel'
+                }
+            ]
+        },
+        'Web Development': {
+            title: 'Modern Web Development Resources',
+            description: 'Full-stack web development tutorials and best practices',
+            resources: [
+                {
+                    name: 'MDN Web Docs',
+                    url: 'https://developer.mozilla.org/',
+                    description: 'Official web development documentation',
+                    type: 'Documentation'
+                },
+                {
+                    name: 'freeCodeCamp',
+                    url: 'https://www.freecodecamp.org/',
+                    description: 'Free full-stack web development curriculum',
+                    type: 'Learning Platform'
+                },
+                {
+                    name: 'The Odin Project',
+                    url: 'https://www.theodinproject.com/',
+                    description: 'Open-source full-stack curriculum',
+                    type: 'Learning Platform'
+                },
+                {
+                    name: 'Traversy Media',
+                    url: 'https://www.youtube.com/c/TraversyMedia',
+                    description: 'Web development tutorials and crash courses',
+                    type: 'YouTube Channel'
+                },
+                {
+                    name: 'Net Ninja',
+                    url: 'https://www.youtube.com/c/TheNetNinja',
+                    description: 'Modern web development tutorials',
+                    type: 'YouTube Channel'
+                }
+            ]
+        },
+        'Interview Prep': {
+            title: 'Technical Interview Preparation',
+            description: 'Resources to ace your technical interviews and land your dream job',
+            resources: [
+                {
+                    name: 'Pramp',
+                    url: 'https://www.pramp.com/',
+                    description: 'Free mock technical interviews',
+                    type: 'Practice Platform'
+                },
+                {
+                    name: 'InterviewBit',
+                    url: 'https://www.interviewbit.com/',
+                    description: 'Technical interview preparation platform',
+                    type: 'Practice Platform'
+                },
+                {
+                    name: 'Cracking the Coding Interview',
+                    url: 'https://www.amazon.com/Cracking-Coding-Interview-Programming-Questions/dp/0984782850',
+                    description: 'Essential book for coding interviews',
+                    type: 'Book'
+                },
+                {
+                    name: 'TechLead',
+                    url: 'https://www.youtube.com/c/TechLead',
+                    description: 'Career advice and interview tips',
+                    type: 'YouTube Channel'
+                },
+                {
+                    name: 'System Design Primer',
+                    url: 'https://github.com/donnemartin/system-design-primer',
+                    description: 'Learn system design concepts',
+                    type: 'GitHub Repository'
+                }
+            ]
+        },
+        'YouTube Channels': {
+            title: 'Best Programming YouTube Channels',
+            description: 'Curated list of top programming and tech YouTube channels',
+            resources: [
+                {
+                    name: 'CodeWithHarry',
+                    url: 'https://www.youtube.com/c/CodeWithHarry',
+                    description: 'Programming tutorials in Hindi and English',
+                    type: 'YouTube Channel'
+                },
+                {
+                    name: 'Apna College',
+                    url: 'https://www.youtube.com/c/ApnaCollegeOfficial',
+                    description: 'Complete programming courses',
+                    type: 'YouTube Channel'
+                },
+                {
+                    name: 'Love Babbar',
+                    url: 'https://www.youtube.com/c/LoveBabbar',
+                    description: 'DSA and placement preparation',
+                    type: 'YouTube Channel'
+                },
+                {
+                    name: 'Fireship',
+                    url: 'https://www.youtube.com/c/Fireship',
+                    description: 'Modern web development and tech trends',
+                    type: 'YouTube Channel'
+                },
+                {
+                    name: 'CS Dojo',
+                    url: 'https://www.youtube.com/c/CSDojo',
+                    description: 'Programming fundamentals and career advice',
+                    type: 'YouTube Channel'
+                }
+            ]
+        }
+    };
+    
+    // Explore resource function
+    function exploreResource(resourceTitle) {
+        console.log('📚 Exploring resource:', resourceTitle);
+        
+        const resource = resourceData[resourceTitle];
+        if (!resource) {
+            showNotification('Resource not found!', 'error');
+            return;
+        }
+        
+        // Create resource modal HTML
+        const resourceHTML = `
+            <div class="resource-modal">
+                <div class="resource-modal-overlay" onclick="closeResourceModal()"></div>
+                <div class="resource-modal-content">
+                    <button class="resource-modal-close" onclick="closeResourceModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="resource-header">
+                        <h2 class="resource-title">${resource.title}</h2>
+                        <p class="resource-description">${resource.description}</p>
+                    </div>
+                    
+                    <div class="resource-list">
+                        ${resource.resources.map(item => `
+                            <div class="resource-item">
+                                <div class="resource-item-header">
+                                    <h3 class="resource-item-title">${item.name}</h3>
+                                    <span class="resource-type-badge">${item.type}</span>
+                                </div>
+                                <p class="resource-item-description">${item.description}</p>
+                                <button class="btn btn-primary resource-visit-btn" onclick="visitResource('${item.url}', '${item.name}')">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Visit Resource
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="resource-footer">
+                        <button class="btn btn-secondary" onclick="closeResourceModal()">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Resources
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Remove existing resource modal if any
+        const existingModal = document.querySelector('.resource-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Add resource modal to body
+        document.body.insertAdjacentHTML('beforeend', resourceHTML);
+        
+        // Show modal
+        const modal = document.querySelector('.resource-modal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        showNotification(`Opened ${resource.title} resources`, 'success', 3000);
+    }
+    
+    // Visit resource function
+    function visitResource(url, name) {
+        if (!url) {
+            showNotification('Resource URL not available!', 'error');
+            return;
+        }
+        
+        window.open(url, '_blank');
+        showNotification(`Opening ${name}...`, 'info', 2000);
+    }
+    
+    // Close resource modal function
+    function closeResourceModal() {
+        const modal = document.querySelector('.resource-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.remove();
+                document.body.style.overflow = '';
+            }, 300);
+        }
     }
     
     /* ===================================
@@ -986,13 +1569,20 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openEmailClient = openEmailClient;
     window.contactSupport = contactSupport;
     window.showNotification = showNotification;
+    window.registerForEvent = registerForEvent;
+    window.shareEvent = shareEvent;
+    window.openProjectLink = openProjectLink;
+    window.shareProject = shareProject;
+    window.exploreResource = exploreResource;
+    window.visitResource = visitResource;
+    window.closeResourceModal = closeResourceModal;
     
     console.log('✅ All global functions declared');
     
 });
 
 /* ===================================
-   ADDITIONAL STYLES FOR NOTIFICATIONS AND SUCCESS MESSAGES
+   ADDITIONAL STYLES FOR NOTIFICATIONS, SUCCESS MESSAGES, AND MODALS
    =================================== */
 
 // Add CSS for Discord success messages
@@ -1105,6 +1695,508 @@ const discordSuccessStyles = `
     .success-footer {
         margin-top: 2rem;
         opacity: 0.8;
+    }
+    
+    /* Event Modal Styles */
+    .event-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .event-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .event-modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+    }
+    
+    .event-modal-content {
+        position: relative;
+        background: white;
+        border-radius: 1rem;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 2rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+    
+    .event-modal.active .event-modal-content {
+        transform: scale(1);
+    }
+    
+    .event-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s ease;
+    }
+    
+    .event-modal-close:hover {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .event-details-header {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem 1rem 0 0;
+    }
+    
+    .event-details-image {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+    
+    .event-details-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: white;
+        padding: 2rem;
+    }
+    
+    .event-details-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    
+    .event-details-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .event-meta-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .event-details-content {
+        padding: 2rem;
+    }
+    
+    .event-details-content h3 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    .event-highlights ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .event-highlights li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.5rem 0;
+        color: #666;
+    }
+    
+    .event-highlights li i {
+        color: #10b981;
+    }
+    
+    .event-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    /* Project Modal Styles */
+    .project-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .project-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .project-modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+    }
+    
+    .project-modal-content {
+        position: relative;
+        background: white;
+        border-radius: 1rem;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 2rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+    
+    .project-modal.active .project-modal-content {
+        transform: scale(1);
+    }
+    
+    .project-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s ease;
+    }
+    
+    .project-modal-close:hover {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-details-header {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem 1rem 0 0;
+    }
+    
+    .project-details-image {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    .project-details-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: white;
+        padding: 2rem;
+    }
+    
+    .project-details-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .project-details-description {
+        opacity: 0.9;
+    }
+    
+    .project-details-content {
+        padding: 2rem;
+    }
+    
+    .project-details-content h3 {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    .project-features ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .project-features li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.5rem 0;
+        color: #666;
+    }
+    
+    .project-features li i {
+        color: #f59e0b;
+    }
+    
+    .tech-stack {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+    
+    .tech-badge {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    .contributors-list {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+    
+    .contributor-badge {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 2rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .project-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    /* Resource Modal Styles */
+    .resource-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .resource-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .resource-modal-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+    }
+    
+    .resource-modal-content {
+        position: relative;
+        background: white;
+        border-radius: 1rem;
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 2rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+    }
+    
+    .resource-modal.active .resource-modal-content {
+        transform: scale(1);
+    }
+    
+    .resource-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: background 0.2s ease;
+    }
+    
+    .resource-modal-close:hover {
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .resource-header {
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        color: white;
+        padding: 2rem;
+        border-radius: 1rem 1rem 0 0;
+    }
+    
+    .resource-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .resource-description {
+        opacity: 0.9;
+        font-size: 1.1rem;
+    }
+    
+    .resource-list {
+        padding: 2rem;
+    }
+    
+    .resource-item {
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #6c5ce7;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .resource-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .resource-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .resource-item-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+    
+    .resource-type-badge {
+        background: linear-gradient(135deg, #ff6b35, #f9ca24);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .resource-item-description {
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+    
+    .resource-visit-btn {
+        background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: transform 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .resource-visit-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .resource-footer {
+        padding: 1rem 2rem 2rem;
+        text-align: center;
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .event-modal-content,
+        .project-modal-content,
+        .resource-modal-content {
+            margin: 1rem;
+            max-height: 95vh;
+        }
+        
+        .event-details-meta {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .event-actions,
+        .project-actions {
+            flex-direction: column;
+        }
+        
+        .tech-stack,
+        .contributors-list {
+            justify-content: center;
+        }
+        
+        .resource-item-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
     }
 `;
 

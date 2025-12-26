@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test - Code Vimarsh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 2rem;
+            margin: 1rem 0;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            margin: 0.5rem;
+            font-weight: 500;
+        }
+        .test-button:hover {
+            background: #5a4fcf;
+        }
+    </style>
+</head>
+<body>
+    <h1>Code Vimarsh Button Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>Event Buttons Test</h2>
+        <button class="test-button" onclick="openEventDetails('event1')">Test Event 1 (DSA Foundation)</button>
+        <button class="test-button" onclick="openEventDetails('event2')">Test Event 2 (Manu Misra Chat)</button>
+        <button class="test-button" onclick="openEventDetails('event3')">Test Event 3 (Nishant Virmani Chat)</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Gallery/Project Buttons Test</h2>
+        <button class="test-button" onclick="openProjectDetails('ezylink')">Test Ezylink Project</button>
+        <button class="test-button" onclick="openProjectDetails('integrator')">Test Integrator Project</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Resources Buttons Test</h2>
+        <button class="test-button" onclick="exploreResource('DSA Practice')">Test DSA Practice Resources</button>
+        <button class="test-button" onclick="exploreResource('Web Development')">Test Web Development Resources</button>
+        <button class="test-button" onclick="exploreResource('Interview Prep')">Test Interview Prep Resources</button>
+        <button class="test-button" onclick="exploreResource('YouTube Channels')">Test YouTube Channels Resources</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Discord Registration Test</h2>
+        <button class="test-button" onclick="openDiscordRegistration()">Test Discord Registration Modal</button>
+    </div>
+    
+    <!-- Include the main script -->
+    <script src="script.js"></script>
+    
+    <!-- Add required modal containers -->
+    <div id="eventModal" class="event-modal">
+        <div class="event-modal-overlay" onclick="closeEventDetails()"></div>
+        <div class="event-modal-content">
+            <button class="event-modal-close" onclick="closeEventDetails()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="eventDetailsContent">
+                <!-- Event details will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <div id="projectModal" class="project-modal">
+        <div class="project-modal-overlay" onclick="closeProjectDetails()"></div>
+        <div class="project-modal-content">
+            <button class="project-modal-close" onclick="closeProjectDetails()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="projectDetailsContent">
+                <!-- Project details will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <div id="discordRegistrationModal" class="discord-modal">
+        <div class="discord-modal-overlay" onclick="closeDiscordRegistration()"></div>
+        <div class="discord-modal-content">
+            <button class="discord-modal-close" onclick="closeDiscordRegistration()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="discord-registration-page">
+                <div class="discord-header">
+                    <div class="discord-logo">
+                        <img src="logo.webp" alt="Code Vimarsh Logo" class="discord-logo-img">
+                        <h2>Code Vimarsh Discord</h2>
+                    </div>
+                    <p class="discord-subtitle">Join our coding community</p>
+                </div>
+                
+                <div class="discord-form-container">
+                    <form id="discordRegistrationForm" class="discord-form">
+                        <div class="discord-form-group">
+                            <label for="discordPrn" class="discord-label">PRN Number</label>
+                            <div class="prn-input-container">
+                                <input type="text" id="discordPrn" name="prn" class="discord-input" placeholder="Enter your PRN (e.g., 8024012345)" maxlength="10" inputmode="numeric" required>
+                                <div class="prn-progress-bar">
+                                    <div class="prn-progress-fill"></div>
+                                </div>
+                            </div>
+                            <div class="discord-input-hint">PRN must start with 80240 and be exactly 10 digits</div>
+                            <div class="discord-error" id="prnError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordUsername" class="discord-label">Username</label>
+                            <input type="text" id="discordUsername" name="username" class="discord-input" placeholder="Choose a username" required>
+                            <div class="discord-error" id="usernameError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordEmail" class="discord-label">Email Address</label>
+                            <input type="email" id="discordEmail" name="email" class="discord-input" placeholder="your.email@example.com" required>
+                            <div class="discord-error" id="emailError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordPassword" class="discord-label">Password</label>
+                            <input type="password" id="discordPassword" name="password" class="discord-input" placeholder="Create a strong password" required>
+                            <div class="discord-password-requirements">
+                                <small>Password must contain:</small>
+                                <ul>
+                                    <li id="hasNumber">At least one number</li>
+                                    <li id="hasLetter">At least one letter</li>
+                                    <li id="hasSpecial">At least one special character</li>
+                                    <li id="hasLength">Minimum 8 characters</li>
+                                </ul>
+                            </div>
+                            <div class="discord-error" id="passwordError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordConfirmPassword" class="discord-label">Confirm Password</label>
+                            <input type="password" id="discordConfirmPassword" name="confirmPassword" class="discord-input" placeholder="Confirm your password" required>
+                            <div class="discord-error" id="confirmPasswordError"></div>
+                        </div>
+                        
+                        <button type="submit" class="discord-register-btn">
+                            <i class="fas fa-user-plus"></i>
+                            Register for Discord
+                        </button>
+                        
+                        <div class="discord-login-link">
+                            <p>Already have an account? <a href="#" onclick="showLoginForm()">Login here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
