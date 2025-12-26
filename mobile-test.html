@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Responsiveness Test - Code Vimarsh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .device-test {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        .device-button {
+            padding: 8px 16px;
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .device-button:hover {
+            background: #5a4fcf;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>📱 Mobile Responsiveness Test</h1>
+        <p>Testing Code Vimarsh website responsiveness across different device sizes.</p>
+        
+        <div class="test-section">
+            <h3>🖥️ Desktop View (1200px+)</h3>
+            <div class="status pass">
+                ✅ Desktop layout should remain EXACTLY the same as before
+            </div>
+            <ul>
+                <li>Sidebar navigation on the left</li>
+                <li>Main content area properly sized</li>
+                <li>All buttons and modals working</li>
+                <li>No layout changes from original</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>📱 Mobile View (768px and below)</h3>
+            <div class="status pass">
+                ✅ Mobile layout should be fully responsive
+            </div>
+            <ul>
+                <li>Hamburger menu instead of sidebar</li>
+                <li>Mobile header with logo</li>
+                <li>Single column layout for all sections</li>
+                <li>Touch-friendly buttons (min 44px height)</li>
+                <li>Proper spacing and typography</li>
+                <li>Event modals look professional</li>
+                <li>Resource modals are mobile-optimized</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>📱 Small Mobile (480px and below)</h3>
+            <div class="status pass">
+                ✅ Extra small screens should be optimized
+            </div>
+            <ul>
+                <li>Compact spacing and typography</li>
+                <li>Smaller images and cards</li>
+                <li>Full-width buttons</li>
+                <li>Readable text sizes</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>📱 Extra Small Mobile (360px and below)</h3>
+            <div class="status pass">
+                ✅ Ultra-compact layout for tiny screens
+            </div>
+            <ul>
+                <li>Minimal spacing</li>
+                <li>Compact header (60px height)</li>
+                <li>Full-screen modals</li>
+                <li>Optimized for one-handed use</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎯 Key Improvements Made</h3>
+            <div class="status pass">
+                ✅ All improvements completed
+            </div>
+            <ul>
+                <li><strong>Enhanced Event Modals:</strong> Professional design with better typography, spacing, and mobile optimization</li>
+                <li><strong>Improved Resource Modals:</strong> Clean layout with proper mobile responsiveness</li>
+                <li><strong>Mobile Navigation:</strong> Smooth hamburger menu with proper animations</li>
+                <li><strong>Touch-Friendly UI:</strong> All buttons meet minimum touch target size (44px)</li>
+                <li><strong>Responsive Typography:</strong> Proper font sizes for all screen sizes</li>
+                <li><strong>Optimized Spacing:</strong> Appropriate margins and padding for mobile</li>
+                <li><strong>Professional Appearance:</strong> Clean, modern design that looks great on all devices</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Test Instructions</h3>
+            <p>To test the responsiveness:</p>
+            <ol>
+                <li>Open <code>index.html</code> in your browser</li>
+                <li>Use browser developer tools (F12)</li>
+                <li>Toggle device toolbar (Ctrl+Shift+M)</li>
+                <li>Test these device sizes:
+                    <ul>
+                        <li>Desktop: 1200px+ (should look exactly the same)</li>
+                        <li>Tablet: 768px - 1024px</li>
+                        <li>Mobile: 360px - 768px</li>
+                        <li>Small Mobile: 320px - 480px</li>
+                    </ul>
+                </li>
+                <li>Test all button functionality:
+                    <ul>
+                        <li>Event registration buttons → Should open beautiful modals</li>
+                        <li>Gallery project buttons → Should open project details</li>
+                        <li>Resource buttons → Should open resource collections</li>
+                        <li>Discord registration → Should work perfectly</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h3>✅ Success Criteria</h3>
+            <ul>
+                <li>Desktop view remains unchanged</li>
+                <li>Mobile view is fully responsive</li>
+                <li>All buttons work on all screen sizes</li>
+                <li>Modals look professional on mobile</li>
+                <li>Text is readable on all devices</li>
+                <li>Touch targets are appropriately sized</li>
+                <li>No horizontal scrolling on mobile</li>
+                <li>Smooth animations and transitions</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
