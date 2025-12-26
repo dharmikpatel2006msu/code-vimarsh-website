@@ -18,11 +18,17 @@ document.addEventListener('DOMContentLoaded', function() {
        NAVIGATION FUNCTIONALITY
        =================================== */
     
-    // Function to switch between sections
+    // Function to switch between sections with enhanced slide animation
     function showSection(sectionId) {
-        // Hide all sections
+        // Hide all sections with slide out animation
         contentSections.forEach(section => {
-            section.classList.remove('active');
+            if (section.classList.contains('active')) {
+                section.style.transform = 'translateX(-100px)';
+                section.style.opacity = '0';
+                setTimeout(() => {
+                    section.classList.remove('active');
+                }, 200);
+            }
         });
         
         // Remove active class from all nav links
@@ -30,18 +36,28 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.remove('active');
         });
         
-        // Show target section
+        // Show target section with slide in animation
         const targetSection = document.getElementById(sectionId);
         if (targetSection) {
             setTimeout(() => {
                 targetSection.classList.add('active');
-            }, 50);
+                targetSection.style.transform = 'translateX(0)';
+                targetSection.style.opacity = '1';
+                
+                // Trigger AOS animations for the new section
+                triggerAOSAnimations(targetSection);
+            }, 300);
         }
         
-        // Add active class to corresponding nav link
+        // Add active class to corresponding nav link with slide effect
         const activeNavLink = document.querySelector(`[data-section="${sectionId}"]`);
         if (activeNavLink) {
             activeNavLink.classList.add('active');
+            // Add slide effect to nav link
+            activeNavLink.style.transform = 'translateX(8px)';
+            setTimeout(() => {
+                activeNavLink.style.transform = 'translateX(0)';
+            }, 200);
         }
         
         // Close mobile menu if open
@@ -50,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update URL hash
         window.location.hash = sectionId;
         
-        // Scroll to top
+        // Smooth scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
@@ -72,20 +88,65 @@ document.addEventListener('DOMContentLoaded', function() {
        MOBILE MENU FUNCTIONALITY
        =================================== */
     
-    // Toggle mobile menu
+    // Toggle mobile menu with enhanced slide animation
     function toggleMobileMenu() {
-        sidebar.classList.toggle('active');
-        hamburger.classList.toggle('active');
-        mobileOverlay.classList.toggle('active');
-        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        const isActive = sidebar.classList.contains('active');
+        
+        if (!isActive) {
+            // Opening animation
+            sidebar.classList.add('active');
+            hamburger.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Animate menu items
+            const menuItems = sidebar.querySelectorAll('.nav-item');
+            menuItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-30px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, 100 + (index * 50));
+            });
+        } else {
+            // Closing animation
+            const menuItems = sidebar.querySelectorAll('.nav-item');
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(-30px)';
+                }, index * 30);
+            });
+            
+            setTimeout(() => {
+                sidebar.classList.remove('active');
+                hamburger.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }, 200);
+        }
     }
     
-    // Close mobile menu
+    // Close mobile menu with slide animation
     function closeMobileMenu() {
-        sidebar.classList.remove('active');
-        hamburger.classList.remove('active');
-        mobileOverlay.classList.remove('active');
-        document.body.style.overflow = '';
+        if (sidebar.classList.contains('active')) {
+            const menuItems = sidebar.querySelectorAll('.nav-item');
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateX(-30px)';
+                }, index * 30);
+            });
+            
+            setTimeout(() => {
+                sidebar.classList.remove('active');
+                hamburger.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }, 200);
+        }
     }
     
     // Hamburger click handler
@@ -128,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
        SCROLL ANIMATIONS (AOS)
        =================================== */
     
-    // Simple AOS (Animate On Scroll) implementation
+    // Enhanced AOS (Animate On Scroll) implementation with slide effects
     function initAOS() {
         const observerOptions = {
             threshold: 0.1,
@@ -141,6 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const delay = entry.target.getAttribute('data-aos-delay') || 0;
                     setTimeout(() => {
                         entry.target.classList.add('aos-animate');
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
                     }, delay);
                 }
             });
@@ -149,7 +212,24 @@ document.addEventListener('DOMContentLoaded', function() {
         // Observe all elements with data-aos attribute
         const aosElements = document.querySelectorAll('[data-aos]');
         aosElements.forEach(element => {
+            // Set initial state
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(60px) scale(0.9)';
+            element.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
             observer.observe(element);
+        });
+    }
+    
+    // Trigger AOS animations for a specific section
+    function triggerAOSAnimations(section) {
+        const aosElements = section.querySelectorAll('[data-aos]');
+        aosElements.forEach((element, index) => {
+            const delay = element.getAttribute('data-aos-delay') || (index * 100);
+            setTimeout(() => {
+                element.classList.add('aos-animate');
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0) scale(1)';
+            }, delay);
         });
     }
     
@@ -535,9 +615,14 @@ document.addEventListener('DOMContentLoaded', function() {
        INITIALIZATION
        =================================== */
     
-    // Initialize all features
+    // Initialize all features with enhanced slide animations
     function initWebsite() {
         console.log('🚀 Code Vimarsh website initializing...');
+        
+        // Add page load slide animation
+        document.body.style.opacity = '0';
+        document.body.style.transform = 'translateY(20px)';
+        document.body.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         
         // Initialize features
         initAOS();
@@ -546,15 +631,36 @@ document.addEventListener('DOMContentLoaded', function() {
         initBackgroundEffects();
         handleInitialHash();
         
-        // Add page load animation
-        document.body.style.opacity = '0';
-        document.body.style.transition = 'opacity 0.5s ease';
-        
+        // Slide in page content
         setTimeout(() => {
             document.body.style.opacity = '1';
+            document.body.style.transform = 'translateY(0)';
         }, 100);
         
-        // Show welcome message
+        // Animate sidebar on load
+        setTimeout(() => {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.style.transform = 'translateX(0)';
+                sidebar.style.opacity = '1';
+            }
+        }, 300);
+        
+        // Animate navigation items
+        setTimeout(() => {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+        }, 500);
+        
+        // Show welcome message with slide effect
         setTimeout(() => {
             showNotification('Welcome to Code Vimarsh! 🚀', 'success', 3000);
         }, 1500);
