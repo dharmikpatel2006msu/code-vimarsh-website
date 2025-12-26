@@ -159,8 +159,8 @@
                                 <img src="jayprajapati.webp" alt="Jay Prajapati" class="team-image">
                                 <div class="team-overlay">
                                     <div class="team-social">
-                                        <a href="#" class="social-link" title="LinkedIn">
-                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        <a href="https://www.linkedin.com/in/jay-prajapati-853579246/" class="social-link linkedin-link" target="_blank" rel="noopener noreferrer" title="View Jay Prajapati's LinkedIn Profile">
+                                            <i class="fab fa-linkedin-in"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -176,8 +176,8 @@
                                 <img src="krupalpatel.webp" alt="Krupal Patel" class="team-image">
                                 <div class="team-overlay">
                                     <div class="team-social">
-                                        <a href="#" class="social-link" title="LinkedIn">
-                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        <a href="https://www.linkedin.com/in/krupal-patel-7a0956241/" class="social-link linkedin-link" target="_blank" rel="noopener noreferrer" title="View Krupal Patel's LinkedIn Profile">
+                                            <i class="fab fa-linkedin-in"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -193,8 +193,8 @@
                                 <img src="mihirBhavsar.webp" alt="Mihir Bhavsar" class="team-image">
                                 <div class="team-overlay">
                                     <div class="team-social">
-                                        <a href="#" class="social-link" title="LinkedIn">
-                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        <a href="https://www.linkedin.com/in/mihirbhavsar3102/" class="social-link linkedin-link" target="_blank" rel="noopener noreferrer" title="View Mihir Bhavsar's LinkedIn Profile">
+                                            <i class="fab fa-linkedin-in"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -216,8 +216,8 @@
                                 <img src="shivamParmar.webp" alt="Shivam Parmar" class="team-image">
                                 <div class="team-overlay">
                                     <div class="team-social">
-                                        <a href="#" class="social-link" title="LinkedIn">
-                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        <a href="https://www.linkedin.com/in/shivam-parmar007/" class="social-link linkedin-link" target="_blank" rel="noopener noreferrer" title="View Shivam Parmar's LinkedIn Profile">
+                                            <i class="fab fa-linkedin-in"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -233,8 +233,8 @@
                                 <img src="yashSolanki.webp" alt="Yash Solanki" class="team-image">
                                 <div class="team-overlay">
                                     <div class="team-social">
-                                        <a href="#" class="social-link" title="LinkedIn">
-                                            <img src="krupal patel_files/linkedIn-bw.webp" alt="LinkedIn" class="social-icon">
+                                        <a href="https://www.codevimarsh.in/" class="social-link website-link" target="_blank" rel="noopener noreferrer" title="Visit Yash Solanki's Website">
+                                            <i class="fas fa-globe"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -520,11 +520,11 @@
                             </div>
                             <div class="contact-details">
                                 <h4>Email Us</h4>
-                                <p>codevimarsh@example.com</p>
+                                <p><a href="mailto:codingclub-cse@msubaroda.ac.in" class="contact-email">codingclub-cse@msubaroda.ac.in</a></p>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
+                        <div class="contact-item discord-contact" onclick="openDiscordRegistration()">
                             <div class="contact-icon">
                                 <i class="fab fa-discord"></i>
                             </div>
@@ -534,13 +534,13 @@
                             </div>
                         </div>
                         
-                        <div class="contact-item">
+                        <div class="contact-item linkedin-contact">
                             <div class="contact-icon">
                                 <i class="fab fa-linkedin"></i>
                             </div>
                             <div class="contact-details">
                                 <h4>LinkedIn</h4>
-                                <p>Follow us for updates</p>
+                                <p><a href="https://www.linkedin.com/search/results/all/?keywords=code%20vimarsh&origin=RICH_QUERY_SUGGESTION&spellCorrectionEnabled=false&heroEntityKey=urn%3Ali%3Aorganization%3A101593774" target="_blank" rel="noopener noreferrer" class="contact-linkedin">Follow us for updates</a></p>
                             </div>
                         </div>
                     </div>
@@ -566,6 +566,100 @@
             </div>
         </section>
     </main>
+    
+    <!-- DISCORD REGISTRATION MODAL -->
+    <div id="discordRegistrationModal" class="discord-modal">
+        <div class="discord-modal-overlay" onclick="closeDiscordRegistration()"></div>
+        <div class="discord-modal-content">
+            <button class="discord-modal-close" onclick="closeDiscordRegistration()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="discord-registration-page">
+                <div class="discord-header">
+                    <div class="discord-logo">
+                        <img src="logo.webp" alt="Code Vimarsh Logo" class="discord-logo-img">
+                        <h2>Code Vimarsh Discord</h2>
+                    </div>
+                    <p class="discord-subtitle">Join our coding community</p>
+                </div>
+                
+                <div class="discord-form-container">
+                    <form id="discordRegistrationForm" class="discord-form">
+                        <div class="discord-form-group">
+                            <label for="discordPrn" class="discord-label">PRN Number</label>
+                            <input type="text" id="discordPrn" name="prn" class="discord-input" placeholder="Enter your PRN (e.g., 8024012345)" maxlength="10" required>
+                            <div class="discord-error" id="prnError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordUsername" class="discord-label">Username</label>
+                            <input type="text" id="discordUsername" name="username" class="discord-input" placeholder="Choose a username" required>
+                            <div class="discord-error" id="usernameError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordEmail" class="discord-label">Email Address</label>
+                            <input type="email" id="discordEmail" name="email" class="discord-input" placeholder="your.email@example.com" required>
+                            <div class="discord-error" id="emailError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordPassword" class="discord-label">Password</label>
+                            <input type="password" id="discordPassword" name="password" class="discord-input" placeholder="Create a strong password" required>
+                            <div class="discord-password-requirements">
+                                <small>Password must contain:</small>
+                                <ul>
+                                    <li id="hasNumber">At least one number</li>
+                                    <li id="hasLetter">At least one letter</li>
+                                    <li id="hasSpecial">At least one special character</li>
+                                    <li id="hasLength">Minimum 8 characters</li>
+                                </ul>
+                            </div>
+                            <div class="discord-error" id="passwordError"></div>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="discordConfirmPassword" class="discord-label">Confirm Password</label>
+                            <input type="password" id="discordConfirmPassword" name="confirmPassword" class="discord-input" placeholder="Confirm your password" required>
+                            <div class="discord-error" id="confirmPasswordError"></div>
+                        </div>
+                        
+                        <button type="submit" class="discord-register-btn">
+                            <i class="fas fa-user-plus"></i>
+                            Register for Discord
+                        </button>
+                        
+                        <div class="discord-login-link">
+                            <p>Already have an account? <a href="#" onclick="showLoginForm()">Login here</a></p>
+                        </div>
+                    </form>
+                    
+                    <!-- Login Form (Initially Hidden) -->
+                    <form id="discordLoginForm" class="discord-form" style="display: none;">
+                        <div class="discord-form-group">
+                            <label for="loginUsername" class="discord-label">Username or Email</label>
+                            <input type="text" id="loginUsername" name="loginUsername" class="discord-input" placeholder="Enter username or email" required>
+                        </div>
+                        
+                        <div class="discord-form-group">
+                            <label for="loginPassword" class="discord-label">Password</label>
+                            <input type="password" id="loginPassword" name="loginPassword" class="discord-input" placeholder="Enter your password" required>
+                        </div>
+                        
+                        <button type="submit" class="discord-register-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Login to Discord
+                        </button>
+                        
+                        <div class="discord-login-link">
+                            <p>Don't have an account? <a href="#" onclick="showRegistrationForm()">Register here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script src="script.js"></script>

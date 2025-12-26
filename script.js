@@ -431,9 +431,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add click handlers for interactive elements
     function initInteractiveElements() {
-        // Team card interactions
+        // Team card interactions with image loading
         const teamCards = document.querySelectorAll('.team-card');
         teamCards.forEach(card => {
+            // Handle image loading
+            const image = card.querySelector('.team-image');
+            const container = card.querySelector('.team-image-container');
+            
+            if (image && container) {
+                image.addEventListener('load', function() {
+                    container.classList.add('loaded');
+                    this.style.opacity = '1';
+                });
+                
+                // Handle image error
+                image.addEventListener('error', function() {
+                    container.classList.add('loaded');
+                    this.style.opacity = '0.5';
+                    console.warn('Failed to load team image:', this.src);
+                });
+                
+                // If image is already loaded (cached)
+                if (image.complete) {
+                    container.classList.add('loaded');
+                    image.style.opacity = '1';
+                }
+            }
+            
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-10px) scale(1.02)';
             });
@@ -487,10 +511,25 @@ document.addEventListener('DOMContentLoaded', function() {
         // Social links
         const socialLinks = document.querySelectorAll('.social-link');
         socialLinks.forEach(link => {
+            // Remove the preventDefault for actual links
             link.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                showNotification('Social media links will be updated soon!', 'info');
+                // Don't prevent default - let the links work normally
+                // Just add some visual feedback
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+            
+            // Add touch feedback for mobile
+            link.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.95)';
+            });
+            
+            link.addEventListener('touchend', function() {
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
             });
         });
     }
@@ -646,6 +685,11 @@ document.addEventListener('DOMContentLoaded', function() {
         initBackgroundEffects();
         handleInitialHash();
         
+        // Fix team images after a short delay
+        setTimeout(() => {
+            fixTeamImages();
+        }, 500);
+        
         // Slide in page content
         setTimeout(() => {
             document.body.style.opacity = '1';
@@ -690,12 +734,30 @@ document.addEventListener('DOMContentLoaded', function() {
        UTILITY FUNCTIONS (GLOBAL ACCESS)
        =================================== */
     
+    // Utility function to fix image aspect ratios
+    function fixTeamImages() {
+        const teamImages = document.querySelectorAll('.team-image');
+        teamImages.forEach(img => {
+            // Ensure proper aspect ratio and positioning
+            img.style.objectFit = 'cover';
+            img.style.objectPosition = 'center center';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            
+            // Add loading class if not loaded
+            if (!img.complete) {
+                img.parentElement.classList.remove('loaded');
+            }
+        });
+    }
+    
     // Make utility functions globally accessible
     window.CodeVimarsh = {
         showSection: showSection,
         showNotification: showNotification,
         closeMobileMenu: closeMobileMenu,
-        navigateToSection: navigateToSection
+        navigateToSection: navigateToSection,
+        fixTeamImages: fixTeamImages
     };
     
 });
@@ -977,6 +1039,10 @@ function handleEventRegistration(event) {
 // Make functions globally available
 window.openEventDetails = openEventDetails;
 window.closeEventDetails = closeEventDetails;
+window.openDiscordRegistration = openDiscordRegistration;
+window.closeDiscordRegistration = closeDiscordRegistration;
+window.showLoginForm = showLoginForm;
+window.showRegistrationForm = showRegistrationForm;
 
 // Close modal on escape key
 document.addEventListener('keydown', function(e) {
@@ -1134,3 +1200,428 @@ function handleResourceClick(resourceName, url) {
 window.handleResourceExplore = handleResourceExplore;
 window.closeResourceModal = closeResourceModal;
 window.handleResourceClick = handleResourceClick;
+
+/* ===================================
+   DISCORD REGISTRATION FUNCTIONALITY
+   =================================== */
+
+// Open Discord registration modal
+function openDiscordRegistration() {
+    const modal = document.getElementById('discordRegistrationModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Initialize form validation
+    initDiscordFormValidation();
+}
+
+// Close Discord registration modal
+function closeDiscordRegistration() {
+    const modal = document.getElementById('discordRegistrationModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Reset forms
+    document.getElementById('discordRegistrationForm').reset();
+    document.getElementById('discordLoginForm').reset();
+    clearValidationErrors();
+}
+
+// Show login form
+function showLoginForm() {
+    document.getElementById('discordRegistrationForm').style.display = 'none';
+    document.getElementById('discordLoginForm').style.display = 'block';
+    clearValidationErrors();
+}
+
+// Show registration form
+function showRegistrationForm() {
+    document.getElementById('discordLoginForm').style.display = 'none';
+    document.getElementById('discordRegistrationForm').style.display = 'block';
+    clearValidationErrors();
+}
+
+// Initialize Discord form validation
+function initDiscordFormValidation() {
+    const registrationForm = document.getElementById('discordRegistrationForm');
+    const loginForm = document.getElementById('discordLoginForm');
+    const prnInput = document.getElementById('discordPrn');
+    const passwordInput = document.getElementById('discordPassword');
+    
+    // PRN validation
+    prnInput.addEventListener('input', function() {
+        validatePRN(this.value);
+    });
+    
+    // Password validation
+    passwordInput.addEventListener('input', function() {
+        validatePassword(this.value);
+    });
+    
+    // Confirm password validation
+    document.getElementById('discordConfirmPassword').addEventListener('input', function() {
+        validateConfirmPassword(passwordInput.value, this.value);
+    });
+    
+    // Registration form submission
+    registrationForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        handleDiscordRegistration();
+    });
+    
+    // Login form submission
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        handleDiscordLogin();
+    });
+}
+
+// Validate PRN number
+function validatePRN(prn) {
+    const prnError = document.getElementById('prnError');
+    const prnInput = document.getElementById('discordPrn');
+    
+    // Remove non-digits
+    prn = prn.replace(/\D/g, '');
+    prnInput.value = prn;
+    
+    if (prn.length === 0) {
+        prnError.textContent = 'PRN is required';
+        prnInput.classList.add('error');
+        prnInput.classList.remove('valid');
+        return false;
+    }
+    
+    if (!prn.startsWith('80240')) {
+        prnError.textContent = 'PRN must start with 80240';
+        prnInput.classList.add('error');
+        prnInput.classList.remove('valid');
+        return false;
+    }
+    
+    if (prn.length !== 10) {
+        prnError.textContent = 'PRN must be exactly 10 digits long';
+        prnInput.classList.add('error');
+        prnInput.classList.remove('valid');
+        return false;
+    }
+    
+    prnError.textContent = '';
+    prnInput.classList.remove('error');
+    prnInput.classList.add('valid');
+    return true;
+}
+
+// Validate password
+function validatePassword(password) {
+    const passwordError = document.getElementById('passwordError');
+    const passwordInput = document.getElementById('discordPassword');
+    
+    const hasNumber = /\d/.test(password);
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    const hasLength = password.length >= 8;
+    
+    // Update requirement indicators
+    document.getElementById('hasNumber').classList.toggle('valid', hasNumber);
+    document.getElementById('hasLetter').classList.toggle('valid', hasLetter);
+    document.getElementById('hasSpecial').classList.toggle('valid', hasSpecial);
+    document.getElementById('hasLength').classList.toggle('valid', hasLength);
+    
+    const isValid = hasNumber && hasLetter && hasSpecial && hasLength;
+    
+    if (password.length === 0) {
+        passwordError.textContent = 'Password is required';
+        passwordInput.classList.add('error');
+        passwordInput.classList.remove('valid');
+        return false;
+    }
+    
+    if (!isValid) {
+        passwordError.textContent = 'Password does not meet requirements';
+        passwordInput.classList.add('error');
+        passwordInput.classList.remove('valid');
+        return false;
+    }
+    
+    passwordError.textContent = '';
+    passwordInput.classList.remove('error');
+    passwordInput.classList.add('valid');
+    return true;
+}
+
+// Validate confirm password
+function validateConfirmPassword(password, confirmPassword) {
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const confirmPasswordInput = document.getElementById('discordConfirmPassword');
+    
+    if (confirmPassword.length === 0) {
+        confirmPasswordError.textContent = 'Please confirm your password';
+        confirmPasswordInput.classList.add('error');
+        confirmPasswordInput.classList.remove('valid');
+        return false;
+    }
+    
+    if (password !== confirmPassword) {
+        confirmPasswordError.textContent = 'Passwords do not match';
+        confirmPasswordInput.classList.add('error');
+        confirmPasswordInput.classList.remove('valid');
+        return false;
+    }
+    
+    confirmPasswordError.textContent = '';
+    confirmPasswordInput.classList.remove('error');
+    confirmPasswordInput.classList.add('valid');
+    return true;
+}
+
+// Validate username
+function validateUsername(username) {
+    const usernameError = document.getElementById('usernameError');
+    const usernameInput = document.getElementById('discordUsername');
+    
+    if (username.length === 0) {
+        usernameError.textContent = 'Username is required';
+        usernameInput.classList.add('error');
+        usernameInput.classList.remove('valid');
+        return false;
+    }
+    
+    if (username.length < 3) {
+        usernameError.textContent = 'Username must be at least 3 characters long';
+        usernameInput.classList.add('error');
+        usernameInput.classList.remove('valid');
+        return false;
+    }
+    
+    usernameError.textContent = '';
+    usernameInput.classList.remove('error');
+    usernameInput.classList.add('valid');
+    return true;
+}
+
+// Validate email
+function validateEmail(email) {
+    const emailError = document.getElementById('emailError');
+    const emailInput = document.getElementById('discordEmail');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (email.length === 0) {
+        emailError.textContent = 'Email is required';
+        emailInput.classList.add('error');
+        emailInput.classList.remove('valid');
+        return false;
+    }
+    
+    if (!emailRegex.test(email)) {
+        emailError.textContent = 'Please enter a valid email address';
+        emailInput.classList.add('error');
+        emailInput.classList.remove('valid');
+        return false;
+    }
+    
+    emailError.textContent = '';
+    emailInput.classList.remove('error');
+    emailInput.classList.add('valid');
+    return true;
+}
+
+// Clear validation errors
+function clearValidationErrors() {
+    const errorElements = document.querySelectorAll('.discord-error');
+    const inputElements = document.querySelectorAll('.discord-input');
+    
+    errorElements.forEach(error => error.textContent = '');
+    inputElements.forEach(input => {
+        input.classList.remove('error', 'valid');
+    });
+    
+    // Reset password requirements
+    const requirements = document.querySelectorAll('.discord-password-requirements li');
+    requirements.forEach(req => req.classList.remove('valid'));
+}
+
+// Handle Discord registration
+async function handleDiscordRegistration() {
+    const form = document.getElementById('discordRegistrationForm');
+    const formData = new FormData(form);
+    
+    const prn = formData.get('prn');
+    const username = formData.get('username');
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const confirmPassword = formData.get('confirmPassword');
+    
+    // Validate all fields
+    const isPrnValid = validatePRN(prn);
+    const isUsernameValid = validateUsername(username);
+    const isEmailValid = validateEmail(email);
+    const isPasswordValid = validatePassword(password);
+    const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
+    
+    if (!isPrnValid || !isUsernameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+        showNotification('Please fix the validation errors before submitting.', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = form.querySelector('.discord-register-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    
+    try {
+        // Simulate API call to Code Vimarsh server
+        const registrationData = {
+            prn: prn,
+            username: username,
+            email: email,
+            password: password, // In real implementation, this should be hashed
+            timestamp: new Date().toISOString()
+        };
+        
+        // Simulate server delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Simulate successful registration
+        const success = await simulateServerRegistration(registrationData);
+        
+        if (success) {
+            // Show success message
+            showRegistrationSuccess(username, email);
+            
+            // Send confirmation email (simulated)
+            await sendConfirmationEmail(email, username);
+            
+            // Reset form
+            form.reset();
+            clearValidationErrors();
+            
+            showNotification('Registration successful! Check your email for confirmation.', 'success', 5000);
+        } else {
+            throw new Error('Registration failed');
+        }
+        
+    } catch (error) {
+        console.error('Registration error:', error);
+        showNotification('Registration failed. Please try again later.', 'error');
+    } finally {
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+    }
+}
+
+// Handle Discord login
+async function handleDiscordLogin() {
+    const form = document.getElementById('discordLoginForm');
+    const formData = new FormData(form);
+    
+    const loginUsername = formData.get('loginUsername');
+    const loginPassword = formData.get('loginPassword');
+    
+    if (!loginUsername || !loginPassword) {
+        showNotification('Please enter both username/email and password.', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = form.querySelector('.discord-register-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+    submitBtn.disabled = true;
+    
+    try {
+        // Simulate login API call
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Simulate successful login
+        showNotification('Login successful! Redirecting to Discord server...', 'success');
+        
+        // Close modal and redirect (simulated)
+        setTimeout(() => {
+            closeDiscordRegistration();
+            // In real implementation, redirect to Discord server
+            showNotification('Discord server access granted! 🎉', 'success', 3000);
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Login error:', error);
+        showNotification('Login failed. Please check your credentials.', 'error');
+    } finally {
+        // Reset button
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+// Simulate server registration
+async function simulateServerRegistration(data) {
+    // In real implementation, this would make an API call to your server
+    console.log('Registering user:', data);
+    
+    // Simulate server processing
+    const success = Math.random() > 0.1; // 90% success rate for demo
+    
+    if (success) {
+        // Store in localStorage for demo purposes
+        const users = JSON.parse(localStorage.getItem('codeVimarshUsers') || '[]');
+        users.push({
+            ...data,
+            id: Date.now(),
+            verified: false
+        });
+        localStorage.setItem('codeVimarshUsers', JSON.stringify(users));
+    }
+    
+    return success;
+}
+
+// Send confirmation email (simulated)
+async function sendConfirmationEmail(email, username) {
+    // In real implementation, this would trigger an email service
+    console.log(`Sending confirmation email to ${email} for user ${username}`);
+    
+    // Simulate email sending delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    return true;
+}
+
+// Show registration success message
+function showRegistrationSuccess(username, email) {
+    const formContainer = document.querySelector('.discord-form-container');
+    
+    const successHTML = `
+        <div class="discord-success-message">
+            <h3>🎉 Registration Successful!</h3>
+            <p>Welcome to Code Vimarsh, ${username}!</p>
+            <p>A confirmation email has been sent to ${email}</p>
+        </div>
+        <div style="text-align: center; margin-top: var(--spacing-lg);">
+            <button class="discord-register-btn" onclick="closeDiscordRegistration()">
+                <i class="fas fa-check"></i>
+                Continue
+            </button>
+        </div>
+    `;
+    
+    formContainer.innerHTML = successHTML;
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeDiscordRegistration();
+    }
+});
+
+// Prevent modal content clicks from closing modal
+document.addEventListener('click', function(e) {
+    const modalContent = document.querySelector('.discord-modal-content');
+    if (modalContent && modalContent.contains(e.target)) {
+        e.stopPropagation();
+    }
+});

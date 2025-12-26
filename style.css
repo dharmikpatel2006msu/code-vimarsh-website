@@ -1556,6 +1556,384 @@ body {
 }
 
 /* ===================================
+   CONTACT SECTION ENHANCEMENTS
+   =================================== */
+
+.contact-email,
+.contact-linkedin {
+    color: var(--primary-orange);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.contact-email:hover,
+.contact-linkedin:hover {
+    color: var(--primary-purple);
+    text-decoration: underline;
+}
+
+.discord-contact {
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.discord-contact:hover {
+    background: var(--darkest-bg);
+    border-color: #5865f2;
+}
+
+.discord-contact:hover .contact-icon {
+    background: #5865f2;
+}
+
+/* ===================================
+   DISCORD REGISTRATION MODAL STYLES
+   =================================== */
+
+.discord-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+}
+
+.discord-modal.active {
+    display: flex;
+}
+
+.discord-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.discord-modal-content {
+    position: relative;
+    background: var(--dark-bg);
+    border-radius: var(--radius-lg);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: modalSlideIn 0.3s ease;
+}
+
+.discord-modal-close {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    z-index: 10;
+}
+
+.discord-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* Discord Registration Page Styles */
+.discord-registration-page {
+    padding: var(--spacing-xl);
+}
+
+.discord-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.discord-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.discord-logo-img {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-md);
+}
+
+.discord-header h2 {
+    color: var(--text-white);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.discord-subtitle {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+/* Discord Form Styles */
+.discord-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.discord-form-group {
+    position: relative;
+}
+
+.discord-label {
+    display: block;
+    color: var(--text-white);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.discord-input {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--darker-bg);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-white);
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+    box-sizing: border-box;
+}
+
+.discord-input:focus {
+    outline: none;
+    border-color: #5865f2;
+    box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.1);
+    background: var(--darkest-bg);
+}
+
+.discord-input::placeholder {
+    color: var(--text-gray);
+}
+
+.discord-input.error {
+    border-color: #ed4245;
+    box-shadow: 0 0 0 3px rgba(237, 66, 69, 0.1);
+}
+
+.discord-input.valid {
+    border-color: #57f287;
+    box-shadow: 0 0 0 3px rgba(87, 242, 135, 0.1);
+}
+
+/* Error Messages */
+.discord-error {
+    color: #ed4245;
+    font-size: 0.8rem;
+    margin-top: var(--spacing-xs);
+    min-height: 1rem;
+    font-weight: 500;
+}
+
+/* Password Requirements */
+.discord-password-requirements {
+    margin-top: var(--spacing-sm);
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary-orange);
+}
+
+.discord-password-requirements small {
+    color: var(--text-gray);
+    font-weight: 600;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.discord-password-requirements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.discord-password-requirements li {
+    color: var(--text-gray);
+    font-size: 0.8rem;
+    padding: 2px 0;
+    position: relative;
+    padding-left: 20px;
+}
+
+.discord-password-requirements li::before {
+    content: '✗';
+    position: absolute;
+    left: 0;
+    color: #ed4245;
+    font-weight: bold;
+}
+
+.discord-password-requirements li.valid::before {
+    content: '✓';
+    color: #57f287;
+}
+
+/* Discord Register Button */
+.discord-register-btn {
+    background: linear-gradient(135deg, #5865f2, #4752c4);
+    color: white;
+    border: none;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.discord-register-btn:hover {
+    background: linear-gradient(135deg, #4752c4, #3c45a5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+}
+
+.discord-register-btn:disabled {
+    background: var(--text-gray);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.discord-login-link {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.discord-login-link p {
+    color: var(--text-gray);
+    margin: 0;
+}
+
+.discord-login-link a {
+    color: #5865f2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.discord-login-link a:hover {
+    color: #4752c4;
+    text-decoration: underline;
+}
+
+/* Loading State */
+.discord-register-btn.loading {
+    pointer-events: none;
+}
+
+.discord-register-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+/* Success Message */
+.discord-success-message {
+    background: linear-gradient(135deg, #57f287, #3ba55d);
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.discord-success-message h3 {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 1.2rem;
+}
+
+.discord-success-message p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Responsive Discord Modal */
+@media (max-width: 768px) {
+    .discord-modal-content {
+        margin: var(--spacing-sm);
+        max-height: 95vh;
+    }
+    
+    .discord-registration-page {
+        padding: var(--spacing-lg);
+    }
+    
+    .discord-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .discord-logo {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .discord-modal-content {
+        margin: var(--spacing-xs);
+    }
+    
+    .discord-registration-page {
+        padding: var(--spacing-md);
+    }
+    
+    .discord-input {
+        padding: var(--spacing-sm);
+    }
+}
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gradient-hover);
+}
+
+/* ===================================
    ENHANCED SIDEBAR STYLES
    =================================== */
 
@@ -1692,6 +2070,8 @@ body {
     padding: var(--spacing-md);
     transition: all var(--transition-normal);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .team-card.enhanced:hover {
@@ -1700,21 +2080,180 @@ body {
     border-color: var(--primary-orange);
 }
 
-.team-card.enhanced .team-image {
+/* Fixed Image Container with Proper Aspect Ratio */
+.team-image-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%; /* Creates 1:1 aspect ratio */
+    overflow: hidden;
     border-radius: var(--radius-sm);
-    aspect-ratio: 1;
+    margin-bottom: var(--spacing-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background: var(--darkest-bg);
+}
+
+/* Professional Image Styling */
+.team-card.enhanced .team-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: center center;
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition-normal);
+    background: var(--darkest-bg);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    /* Ensure images load smoothly */
+    opacity: 0;
+    animation: fadeInImage 0.5s ease forwards;
 }
 
-.team-card.enhanced .social-icon {
-    width: 24px;
-    height: 24px;
-    filter: brightness(0.8);
-    transition: filter var(--transition-fast);
+/* Image fade-in animation */
+@keyframes fadeInImage {
+    from {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.team-card.enhanced .social-icon:hover {
-    filter: brightness(1.2);
+/* Handle image loading states */
+.team-image-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 107, 53, 0.3);
+    border-top: 3px solid var(--primary-orange);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 1;
+}
+
+.team-image-container.loaded::before {
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Subtle hover effect that doesn't distort images */
+.team-card.enhanced:hover .team-image {
+    transform: scale(1.02);
+    border-color: rgba(255, 107, 53, 0.3);
+}
+
+/* Professional LinkedIn-style overlay */
+.team-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all var(--transition-normal);
+    border-radius: var(--radius-sm);
+    z-index: 2;
+}
+
+.team-card.enhanced:hover .team-overlay {
+    opacity: 1;
+}
+
+.team-social {
+    display: flex;
+    gap: var(--spacing-sm);
+    z-index: 3;
+}
+
+/* Professional social link styling */
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--dark-bg);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    z-index: 4;
+}
+
+.social-link:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* LinkedIn-specific styling */
+.linkedin-link {
+    background: linear-gradient(135deg, #0077b5, #005885);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.linkedin-link:hover {
+    background: linear-gradient(135deg, #005885, #004066);
+    box-shadow: 0 8px 25px rgba(0, 119, 181, 0.4);
+}
+
+/* Website link styling */
+.website-link {
+    background: linear-gradient(135deg, var(--primary-orange), var(--primary-purple));
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.website-link:hover {
+    background: linear-gradient(135deg, var(--primary-purple), var(--primary-orange));
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+}
+
+.social-link i {
+    font-size: 1.2rem;
+    transition: transform var(--transition-fast);
+}
+
+.social-link:hover i {
+    transform: scale(1.1);
+}
+
+/* Team info styling */
+.team-info {
+    text-align: center;
+    padding: var(--spacing-sm) 0;
+}
+
+.team-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-white);
+    margin-bottom: var(--spacing-xs);
+}
+
+.team-role {
+    color: var(--primary-orange);
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
 /* Team Grid Layouts */
@@ -1859,6 +2398,63 @@ body {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
+    
+    /* Mobile-specific team image container adjustments */
+    .team-image-container {
+        padding-bottom: 100%; /* Maintain 1:1 aspect ratio on mobile */
+        margin-bottom: var(--spacing-md);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Ensure images remain sharp on mobile */
+    .team-card.enhanced .team-image {
+        object-fit: cover;
+        object-position: center center;
+        border-width: 1px;
+    }
+    
+    /* Mobile-specific team overlay adjustments */
+    .team-overlay {
+        opacity: 1;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+        position: absolute;
+        bottom: 0;
+        top: auto;
+        height: 60px;
+        border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .team-card.enhanced:hover .team-overlay {
+        opacity: 1;
+    }
+    
+    /* Mobile-friendly social links */
+    .social-link {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+        font-size: 1.1rem;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .social-link:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+    
+    /* Ensure social links are always visible on mobile */
+    .team-social {
+        gap: var(--spacing-md);
+    }
+    
+    /* Prevent image distortion on mobile hover */
+    .team-card.enhanced:hover .team-image {
+        transform: scale(1.01); /* Reduced scale for mobile */
+    }
 }
 
 @media (max-width: 480px) {
@@ -1874,6 +2470,35 @@ body {
     .team-grid.initiators,
     .team-grid.family {
         grid-template-columns: 1fr;
+        max-width: 350px;
+        margin: 0 auto;
+    }
+    
+    /* Small mobile adjustments for images and social links */
+    .team-image-container {
+        padding-bottom: 100%;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .social-link {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        font-size: 1rem;
+    }
+    
+    .team-overlay {
+        height: 50px;
+    }
+    
+    .team-social {
+        gap: var(--spacing-sm);
+    }
+    
+    /* Ensure no image scaling issues on small screens */
+    .team-card.enhanced:hover .team-image {
+        transform: none; /* No scaling on very small screens */
     }
 }
 /* ===================================
