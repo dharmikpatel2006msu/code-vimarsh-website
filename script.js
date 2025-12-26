@@ -1697,7 +1697,7 @@ const discordSuccessStyles = `
         opacity: 0.8;
     }
     
-    /* Event Modal Styles */
+    /* Event Modal Styles - Enhanced and Mobile Responsive */
     .event-modal {
         position: fixed;
         top: 0;
@@ -1711,6 +1711,7 @@ const discordSuccessStyles = `
         opacity: 0;
         visibility: hidden;
         transition: all 0.3s ease;
+        padding: 1rem;
     }
     
     .event-modal.active {
@@ -1724,7 +1725,7 @@ const discordSuccessStyles = `
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.85);
         backdrop-filter: blur(10px);
     }
     
@@ -1732,13 +1733,14 @@ const discordSuccessStyles = `
         position: relative;
         background: white;
         border-radius: 1rem;
-        max-width: 800px;
+        max-width: 900px;
+        width: 100%;
         max-height: 90vh;
         overflow-y: auto;
-        margin: 2rem;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
         transform: scale(0.9);
         transition: transform 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .event-modal.active .event-modal-content {
@@ -1749,33 +1751,38 @@ const discordSuccessStyles = `
         position: absolute;
         top: 1rem;
         right: 1rem;
-        background: rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.7);
         border: none;
         border-radius: 50%;
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         z-index: 10;
-        transition: background 0.2s ease;
+        transition: all 0.2s ease;
+        color: white;
+        font-size: 1.2rem;
     }
     
     .event-modal-close:hover {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
     }
     
     .event-details-header {
         position: relative;
         overflow: hidden;
         border-radius: 1rem 1rem 0 0;
+        background: linear-gradient(135deg, #ff6b35, #6c5ce7);
     }
     
     .event-details-image {
         width: 100%;
         height: 300px;
         object-fit: cover;
+        opacity: 0.9;
     }
     
     .event-details-info {
@@ -1789,9 +1796,11 @@ const discordSuccessStyles = `
     }
     
     .event-details-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
         font-weight: bold;
         margin-bottom: 1rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        line-height: 1.2;
     }
     
     .event-details-meta {
@@ -1804,40 +1813,368 @@ const discordSuccessStyles = `
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        backdrop-filter: blur(10px);
+        font-weight: 500;
+    }
+    
+    .event-meta-item i {
+        font-size: 1.1rem;
+        opacity: 0.9;
     }
     
     .event-details-content {
         padding: 2rem;
+        background: white;
+        color: #333;
     }
     
     .event-details-content h3 {
         color: #333;
         margin-bottom: 1rem;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        border-bottom: 3px solid #ff6b35;
+        padding-bottom: 0.5rem;
+        display: inline-block;
+    }
+    
+    .event-description p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #555;
+        margin-bottom: 1.5rem;
     }
     
     .event-highlights ul {
         list-style: none;
         padding: 0;
+        margin: 1.5rem 0;
     }
     
     .event-highlights li {
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin: 0.5rem 0;
-        color: #666;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin: 1rem 0;
+        padding: 0.75rem;
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+        border-left: 4px solid #ff6b35;
+        transition: transform 0.2s ease;
+    }
+    
+    .event-highlights li:hover {
+        transform: translateX(5px);
     }
     
     .event-highlights li i {
-        color: #10b981;
+        color: #ff6b35;
+        font-size: 1.1rem;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    
+    .event-instructor p,
+    .event-prerequisites p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #555;
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border-left: 4px solid #6c5ce7;
+        margin: 1rem 0;
     }
     
     .event-actions {
         display: flex;
         gap: 1rem;
         margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
         flex-wrap: wrap;
+    }
+    
+    .event-actions .btn {
+        flex: 1;
+        min-width: 200px;
+        justify-content: center;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .event-actions .btn-primary {
+        background: linear-gradient(135deg, #ff6b35, #6c5ce7);
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+    
+    .event-actions .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    }
+    
+    .event-actions .btn-secondary {
+        background: transparent;
+        color: #ff6b35;
+        border: 2px solid #ff6b35;
+    }
+    
+    .event-actions .btn-secondary:hover {
+        background: #ff6b35;
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    /* Mobile Responsive Styles for Event Modal */
+    @media (max-width: 768px) {
+        .event-modal {
+            padding: 0.5rem;
+        }
+        
+        .event-modal-content {
+            max-height: 95vh;
+            border-radius: 0.75rem;
+        }
+        
+        .event-modal-close {
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 40px;
+            height: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .event-details-image {
+            height: 200px;
+        }
+        
+        .event-details-info {
+            padding: 1.5rem;
+        }
+        
+        .event-details-title {
+            font-size: 1.6rem;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+        
+        .event-details-meta {
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .event-meta-item {
+            align-self: flex-start;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .event-details-content {
+            padding: 1.5rem;
+        }
+        
+        .event-details-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .event-description p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .event-highlights li {
+            margin: 0.75rem 0;
+            padding: 0.75rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .event-instructor p,
+        .event-prerequisites p {
+            font-size: 1rem;
+            line-height: 1.5;
+            padding: 0.75rem;
+        }
+        
+        .event-actions {
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+        }
+        
+        .event-actions .btn {
+            width: 100%;
+            min-width: auto;
+            padding: 0.875rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .event-modal {
+            padding: 0.25rem;
+        }
+        
+        .event-modal-content {
+            max-height: 98vh;
+            border-radius: 0.5rem;
+        }
+        
+        .event-modal-close {
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 36px;
+            height: 36px;
+            font-size: 1rem;
+        }
+        
+        .event-details-image {
+            height: 160px;
+        }
+        
+        .event-details-info {
+            padding: 1rem;
+        }
+        
+        .event-details-title {
+            font-size: 1.4rem;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-meta-item {
+            padding: 0.4rem 0.6rem;
+            font-size: 0.9rem;
+        }
+        
+        .event-details-content {
+            padding: 1rem;
+        }
+        
+        .event-details-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-description p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+        
+        .event-highlights li {
+            margin: 0.5rem 0;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .event-instructor p,
+        .event-prerequisites p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            padding: 0.6rem;
+        }
+        
+        .event-actions {
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+        }
+        
+        .event-actions .btn {
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+        }
+    }
+    
+    @media (max-width: 360px) {
+        .event-modal {
+            padding: 0;
+        }
+        
+        .event-modal-content {
+            max-height: 100vh;
+            border-radius: 0;
+        }
+        
+        .event-details-header {
+            border-radius: 0;
+        }
+        
+        .event-details-image {
+            height: 140px;
+        }
+        
+        .event-details-info {
+            padding: 0.75rem;
+        }
+        
+        .event-details-title {
+            font-size: 1.2rem;
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
+        }
+        
+        .event-meta-item {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.85rem;
+        }
+        
+        .event-details-content {
+            padding: 0.75rem;
+        }
+        
+        .event-details-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+        
+        .event-description p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.6rem;
+        }
+        
+        .event-highlights li {
+            margin: 0.4rem 0;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+        
+        .event-instructor p,
+        .event-prerequisites p {
+            font-size: 0.9rem;
+            line-height: 1.3;
+            padding: 0.5rem;
+        }
+        
+        .event-actions {
+            gap: 0.4rem;
+            margin-top: 0.75rem;
+            padding-top: 0.6rem;
+        }
+        
+        .event-actions .btn {
+            padding: 0.6rem 0.75rem;
+            font-size: 0.9rem;
+        }
     }
     
     /* Project Modal Styles */
