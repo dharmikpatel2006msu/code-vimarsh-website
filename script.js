@@ -1541,6 +1541,11 @@ document.addEventListener('DOMContentLoaded', function() {
             showSection('home');
         }
         
+        // Mobile touch event fixes for resource buttons
+        if (window.innerWidth <= 768) {
+            initMobileTouchFixes();
+        }
+        
         // Show welcome message
         setTimeout(() => {
             showNotification('Welcome to Code Vimarsh! 🚀', 'success', 3000);
@@ -1549,8 +1554,76 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('✅ Code Vimarsh website initialized successfully!');
     }
     
+    // Mobile touch event fixes
+    function initMobileTouchFixes() {
+        console.log('🔧 Initializing mobile touch fixes...');
+        
+        // Fix resource buttons on mobile
+        const resourceButtons = document.querySelectorAll('.resource-card .btn');
+        resourceButtons.forEach(button => {
+            // Ensure button is clickable
+            button.style.position = 'relative';
+            button.style.zIndex = '20';
+            button.style.pointerEvents = 'auto';
+            button.style.touchAction = 'manipulation';
+            
+            // Add touch event listeners for better mobile support
+            button.addEventListener('touchstart', function(e) {
+                e.stopPropagation();
+                this.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            button.addEventListener('touchend', function(e) {
+                e.stopPropagation();
+                this.style.transform = 'scale(1)';
+                
+                // Ensure click event fires
+                setTimeout(() => {
+                    if (this.onclick) {
+                        this.onclick(e);
+                    }
+                }, 50);
+            }, { passive: true });
+            
+            button.addEventListener('touchcancel', function(e) {
+                this.style.transform = 'scale(1)';
+            }, { passive: true });
+        });
+        
+        // Remove hover effects on mobile
+        const resourceCards = document.querySelectorAll('.resource-card');
+        resourceCards.forEach(card => {
+            card.style.cursor = 'default';
+            
+            // Remove pseudo-elements that might block clicks
+            const style = document.createElement('style');
+            style.textContent = `
+                @media (max-width: 768px) {
+                    .resource-card::before,
+                    .resource-card::after {
+                        display: none !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        console.log('✅ Mobile touch fixes initialized');
+    }
+    
     // Start the website
     initWebsite();
+    
+    // Handle window resize for mobile fixes
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            if (window.innerWidth <= 768) {
+                initMobileTouchFixes();
+            }
+        }, 250);
+    });
     
     /* ===================================
        GLOBAL FUNCTION DECLARATIONS

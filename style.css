@@ -4601,6 +4601,8 @@ body {
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
     transition: left 0.5s ease;
+    pointer-events: none; /* Prevent pseudo-element from blocking clicks */
+    z-index: 1;
 }
 
 .resource-card:hover::before {
@@ -4615,6 +4617,55 @@ body {
     background: var(--gradient-primary);
     color: white;
     border-color: transparent;
+}
+
+/* Ensure buttons are clickable on mobile */
+.resource-card .btn {
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+/* Mobile-specific fixes for resource cards */
+@media (max-width: 768px) {
+    .resource-card {
+        cursor: default; /* Remove cursor pointer on mobile */
+        touch-action: manipulation; /* Optimize for touch */
+    }
+    
+    .resource-card::before {
+        display: none; /* Remove hover effect pseudo-element on mobile */
+    }
+    
+    .resource-card .btn {
+        position: relative;
+        z-index: 10;
+        pointer-events: auto;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255, 107, 53, 0.2);
+        min-height: 44px; /* Ensure minimum touch target size */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Remove hover effects on mobile to prevent conflicts */
+    .resource-card:hover .resource-icon {
+        transform: none;
+    }
+    
+    .resource-card:hover .btn {
+        background: transparent;
+        color: var(--primary-orange);
+        border-color: var(--primary-orange);
+    }
+    
+    /* Add active state for mobile touch feedback */
+    .resource-card .btn:active {
+        background: var(--gradient-primary);
+        color: white;
+        transform: scale(0.98);
+    }
 }
 
 /* Responsive Resource Modal */
@@ -4767,36 +4818,40 @@ body {
     border-color: transparent;
 }
 
-/* Enhanced resource card hover effects */
-.resource-card {
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.resource-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
-    transition: left 0.5s ease;
-}
-
-.resource-card:hover::before {
-    left: 100%;
-}
-
-.resource-card:hover .resource-icon {
-    transform: scale(1.1) rotate(5deg);
-}
-
-.resource-card:hover .btn {
-    background: var(--gradient-primary);
-    color: white;
-    border-color: transparent;
+/* Enhanced resource card hover effects - Desktop Only */
+@media (min-width: 769px) {
+    .resource-card {
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .resource-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+        transition: left 0.5s ease;
+        pointer-events: none;
+        z-index: 1;
+    }
+    
+    .resource-card:hover::before {
+        left: 100%;
+    }
+    
+    .resource-card:hover .resource-icon {
+        transform: scale(1.1) rotate(5deg);
+    }
+    
+    .resource-card:hover .btn {
+        background: var(--gradient-primary);
+        color: white;
+        border-color: transparent;
+    }
 }
 
 /* Responsive grid for 4 cards */
@@ -4847,6 +4902,51 @@ body {
     
     .resource-card {
         min-height: 260px;
+        cursor: default;
+        touch-action: manipulation;
+        position: relative;
+    }
+    
+    /* Ensure buttons are fully clickable on small mobile */
+    .resource-card .btn {
+        position: relative;
+        z-index: 20;
+        pointer-events: auto;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255, 107, 53, 0.3);
+        min-height: 48px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: 600;
+        border: 2px solid var(--primary-orange);
+        background: transparent;
+        color: var(--primary-orange);
+        border-radius: var(--radius-md);
+        transition: all 0.2s ease;
+    }
+    
+    .resource-card .btn:active,
+    .resource-card .btn:focus {
+        background: var(--primary-orange);
+        color: white;
+        transform: scale(0.98);
+        outline: none;
+    }
+    
+    /* Remove any conflicting pseudo-elements on mobile */
+    .resource-card::before,
+    .resource-card::after {
+        display: none !important;
+    }
+    
+    /* Ensure no hover effects interfere on mobile */
+    .resource-card:hover .btn {
+        background: transparent;
+        color: var(--primary-orange);
+        border-color: var(--primary-orange);
     }
 }
 /* ===================================
