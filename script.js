@@ -1577,29 +1577,40 @@ function clearValidationErrors() {
 
 // Handle Discord registration with backend integration
 async function handleDiscordRegistration() {
-    console.log('handleDiscordRegistration called');
+    console.log('🚀 Discord registration started');
     
     const form = document.getElementById('discordRegistrationForm');
     if (!form) {
-        console.error('Registration form not found!');
+        console.error('❌ Registration form not found!');
         showNotification('Form not found. Please refresh the page and try again.', 'error');
         return;
     }
     
-    const formData = new FormData(form);
+    // Get form data directly from input elements
+    const prnInput = document.getElementById('discordPrn');
+    const usernameInput = document.getElementById('discordUsername');
+    const emailInput = document.getElementById('discordEmail');
+    const passwordInput = document.getElementById('discordPassword');
+    const confirmPasswordInput = document.getElementById('discordConfirmPassword');
     
-    const prn = formData.get('prn');
-    const username = formData.get('username');
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirmPassword');
+    const prn = prnInput.value.trim();
+    const username = usernameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
     
-    console.log('Form data:', { prn, username, email, password: '***', confirmPassword: '***' });
+    console.log('📝 Form data collected:', { 
+        prn, 
+        username, 
+        email, 
+        password: password ? '***' : 'empty', 
+        confirmPassword: confirmPassword ? '***' : 'empty' 
+    });
     
     // Get submit button
     const submitBtn = form.querySelector('.discord-register-btn');
     if (!submitBtn) {
-        console.error('Submit button not found!');
+        console.error('❌ Submit button not found!');
         showNotification('Submit button not found. Please refresh the page and try again.', 'error');
         return;
     }
@@ -1607,16 +1618,16 @@ async function handleDiscordRegistration() {
     const originalText = submitBtn.innerHTML;
     
     try {
-        console.log('Starting validation...');
+        console.log('🔍 Starting validation...');
         
-        // Frontend validation (same as before for immediate feedback)
+        // Frontend validation
         const isPrnValid = validatePRNOnSubmit(prn);
         const isUsernameValid = validateUsername(username);
         const isEmailValid = validateEmail(email);
         const isPasswordValid = validatePassword(password);
         const isConfirmPasswordValid = validateConfirmPassword(password, confirmPassword);
         
-        console.log('Validation results:', {
+        console.log('✅ Validation results:', {
             isPrnValid,
             isUsernameValid,
             isEmailValid,
@@ -1629,7 +1640,7 @@ async function handleDiscordRegistration() {
             return;
         }
         
-        console.log('All validations passed, sending to backend...');
+        console.log('✅ All validations passed, sending to backend...');
         
         // Show loading state
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
@@ -1646,25 +1657,33 @@ async function handleDiscordRegistration() {
         };
         
         // Send registration request to backend
-        console.log('Sending registration request to backend...');
+        console.log('📡 Sending registration request to backend...');
         showNotification('Creating your account...', 'info', 2000);
         
-        const response = await fetch('/api/register', {
+        const response = await fetch('http://localhost:3000/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(registrationData)
         });
         
-        console.log('Backend response status:', response.status);
+        console.log('📡 Backend response status:', response.status);
         
-        const result = await response.json();
-        console.log('Backend response:', result);
+        let result;
+        try {
+            result = await response.json();
+        } catch (parseError) {
+            console.error('❌ Failed to parse response as JSON:', parseError);
+            throw new Error('Invalid response from server');
+        }
+        
+        console.log('📡 Backend response:', result);
         
         if (response.ok && result.success) {
             // Registration successful
-            console.log('Registration successful!');
+            console.log('🎉 Registration successful!');
             
             // Update button to show email sending status
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending confirmation email...';
@@ -1673,21 +1692,21 @@ async function handleDiscordRegistration() {
             // Show success message
             if (result.emailSent) {
                 showRegistrationSuccess(username, email);
-                showNotification('Registration successful! Confirmation email sent.', 'success', 5000);
+                showNotification('🎉 Registration successful! Confirmation email sent.', 'success', 5000);
             } else {
                 showRegistrationSuccessWithEmailWarning(username, email);
-                showNotification('Registration successful, but confirmation email failed. Please contact support.', 'warning', 8000);
+                showNotification('⚠️ Registration successful, but confirmation email failed. Please contact support.', 'warning', 8000);
             }
             
             // Reset form
             form.reset();
             clearValidationErrors();
             
-            console.log('Registration process completed successfully');
+            console.log('✅ Registration process completed successfully');
             
         } else {
             // Registration failed
-            console.error('Registration failed:', result.message);
+            console.error('❌ Registration failed:', result.message);
             
             // Reset button state
             submitBtn.innerHTML = originalText;
@@ -1699,7 +1718,7 @@ async function handleDiscordRegistration() {
         }
         
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error('❌ Registration error:', error);
         
         // Reset button state
         submitBtn.innerHTML = originalText;
@@ -1707,10 +1726,10 @@ async function handleDiscordRegistration() {
         submitBtn.classList.remove('loading');
         
         // Show network error message
-        if (error.name === 'TypeError' && error.message.includes('fetch')) {
-            showNotification('Cannot connect to server. Please make sure the backend is running on http://localhost:3000', 'error');
+        if (error.message.includes('fetch') || error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+            showNotification('❌ Cannot connect to server. Please make sure the backend is running on http://localhost:3000', 'error', 8000);
         } else {
-            showNotification('Network error. Please check your connection and try again.', 'error');
+            showNotification('❌ Network error. Please check your connection and try again.', 'error');
         }
     }
 }

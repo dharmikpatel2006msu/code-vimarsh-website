@@ -1,9 +1,11 @@
 // Code Vimarsh Discord Registration Backend
-// This is the main server file that handles all backend operations
+// Complete backend with database integration and email functionality
 
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
+const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 require('dotenv').config();
 
@@ -12,37 +14,86 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors()); // Allow cross-origin requests from frontend
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.static(path.join(__dirname, '../'))); // Serve static files (your HTML, CSS, JS)
+app.use(cors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5500', 'http://127.0.0.1:5500'],
+    credentials: true
+}));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../')));
 
-// In-memory storage for registered users (in production, use a real database)
-let registeredUsers = [];
+// Initialize SQLite Database
+const dbPath = path.join(__dirname, 'codevimarsh.db');
+const db = new sqlite3.Database(dbPath, (err) => {
+    if (err) {
+        console.error('❌ Error opening database:', err.message);
+    } else {
+        console.log('✅ Connected to SQLite database');
+        initializeDatabase();
+    }
+});
+
+// Create users table if it doesn't exist
+function initializeDatabase() {
+    const createUsersTable = `
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            prn TEXT UNIQUE NOT NULL,
+            username TEXT UNIQUE NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password_hash TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            email_verified BOOLEAN DEFAULT FALSE,
+            verification_token TEXT
+        )
+    `;
+    
+    db.run(createUsersTable, (err) => {
+        if (err) {
+            console.error('❌ Error creating users table:', err.message);
+        } else {
+            console.log('✅ Users table ready');
+        }
+    });
+}
 
 // Email configuration using Gmail SMTP
 const transporter = nodemailer.createTransporter({
     service: 'gmail',
     auth: {
-        user: process.env.EMAIL_USER, // Your Gmail address
-        pass: process.env.EMAIL_PASS  // Your Gmail app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
+// Test email configuration on startup
+transporter.verify((error, success) => {
+    if (error) {
+        console.error('❌ Email configuration error:', error);
+        console.log('⚠️  Please check your EMAIL_USER and EMAIL_PASS in .env file');
+    } else {
+        console.log('✅ Email server is ready');
     }
 });
 
 // Validation functions
 function validatePRN(prn) {
-    // PRN must be exactly 10 digits and start with 80240
+    if (!prn || typeof prn !== 'string') return false;
     const prnRegex = /^80240\d{5}$/;
-    return prnRegex.test(prn);
+    return prnRegex.test(prn.trim());
 }
 
 function validateEmail(email) {
-    // Basic email validation
+    if (!email || typeof email !== 'string') return false;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex.test(email.trim());
 }
 
 function validatePassword(password) {
-    // Password must be at least 8 characters with letter, number, and special character
+    if (!password || typeof password !== 'string') return false;
     if (password.length < 8) return false;
     
     const hasLetter = /[a-zA-Z]/.test(password);
@@ -52,107 +103,147 @@ function validatePassword(password) {
     return hasLetter && hasNumber && hasSpecial;
 }
 
-function checkUserExists(prn, username, email) {
-    // Check if user already exists with same PRN, username, or email
-    return registeredUsers.find(user => 
-        user.prn === prn || 
-        user.username === username || 
-        user.email === email
-    );
+function validateUsername(username) {
+    if (!username || typeof username !== 'string') return false;
+    const trimmed = username.trim();
+    return trimmed.length >= 3 && trimmed.length <= 50;
 }
 
 // Function to send confirmation email
 async function sendConfirmationEmail(userEmail, username, prn) {
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: `"Code Vimarsh Team" <${process.env.EMAIL_USER}>`,
         to: userEmail,
         subject: '🎉 Welcome to Code Vimarsh Discord Community!',
         html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
-                <div style="background: linear-gradient(135deg, #ff6b35, #6c5ce7); padding: 30px; border-radius: 10px; text-align: center; color: white;">
-                    <h1 style="margin: 0; font-size: 28px;">Welcome to Code Vimarsh!</h1>
-                    <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Your Discord registration is complete</p>
-                </div>
-                
-                <div style="background: white; padding: 30px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-top: 0;">Registration Successful! 🚀</h2>
-                    
-                    <p style="color: #666; line-height: 1.6;">Hi <strong>${username}</strong>,</p>
-                    
-                    <p style="color: #666; line-height: 1.6;">
-                        Congratulations! Your registration for the Code Vimarsh Discord server has been completed successfully.
-                    </p>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff6b35;">
-                        <h3 style="margin: 0 0 10px 0; color: #333;">Registration Details:</h3>
-                        <p style="margin: 5px 0; color: #666;"><strong>Username:</strong> ${username}</p>
-                        <p style="margin: 5px 0; color: #666;"><strong>PRN:</strong> ${prn}</p>
-                        <p style="margin: 5px 0; color: #666;"><strong>Email:</strong> ${userEmail}</p>
-                        <p style="margin: 5px 0; color: #666;"><strong>Registration Date:</strong> ${new Date().toLocaleDateString()}</p>
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Welcome to Code Vimarsh!</title>
+            </head>
+            <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f4;">
+                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+                    <!-- Header -->
+                    <div style="background: linear-gradient(135deg, #ff6b35, #6c5ce7); padding: 40px 20px; text-align: center;">
+                        <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">Welcome to Code Vimarsh!</h1>
+                        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">Your Discord registration is complete</p>
                     </div>
                     
-                    <h3 style="color: #333;">Next Steps:</h3>
-                    <ol style="color: #666; line-height: 1.8;">
-                        <li>Join our Discord server: <a href="https://discord.gg/codevimarsh" style="color: #ff6b35; text-decoration: none;">https://discord.gg/codevimarsh</a></li>
-                        <li>Introduce yourself in the #introductions channel</li>
-                        <li>Check out our coding challenges and events</li>
-                        <li>Connect with fellow developers and mentors</li>
-                    </ol>
-                    
-                    <div style="background: linear-gradient(135deg, #ff6b35, #6c5ce7); padding: 20px; border-radius: 8px; margin: 30px 0; text-align: center;">
-                        <a href="https://discord.gg/codevimarsh" style="color: white; text-decoration: none; font-weight: bold; font-size: 16px;">
-                            🎮 Join Discord Server Now
-                        </a>
+                    <!-- Content -->
+                    <div style="padding: 40px 30px;">
+                        <h2 style="color: #333; margin-top: 0; font-size: 24px;">Registration Successful! 🚀</h2>
+                        
+                        <p style="color: #666; line-height: 1.6; font-size: 16px;">Hi <strong style="color: #ff6b35;">${username}</strong>,</p>
+                        
+                        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+                            Congratulations! Your registration for the Code Vimarsh Discord server has been completed successfully.
+                        </p>
+                        
+                        <!-- Registration Details -->
+                        <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #ff6b35;">
+                            <h3 style="margin: 0 0 15px 0; color: #333; font-size: 18px;">Registration Details:</h3>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666; font-weight: bold;">Username:</td>
+                                    <td style="padding: 8px 0; color: #333;">${username}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666; font-weight: bold;">PRN:</td>
+                                    <td style="padding: 8px 0; color: #333;">${prn}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666; font-weight: bold;">Email:</td>
+                                    <td style="padding: 8px 0; color: #333;">${userEmail}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 8px 0; color: #666; font-weight: bold;">Registration Date:</td>
+                                    <td style="padding: 8px 0; color: #333;">${new Date().toLocaleDateString()}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Next Steps -->
+                        <h3 style="color: #333; font-size: 20px; margin-top: 30px;">Next Steps:</h3>
+                        <ol style="color: #666; line-height: 1.8; font-size: 16px; padding-left: 20px;">
+                            <li>Join our Discord server using the invite link below</li>
+                            <li>Introduce yourself in the #introductions channel</li>
+                            <li>Check out our coding challenges and events</li>
+                            <li>Connect with fellow developers and mentors</li>
+                        </ol>
+                        
+                        <!-- Discord Button -->
+                        <div style="text-align: center; margin: 35px 0;">
+                            <a href="https://discord.gg/codevimarsh" 
+                               style="display: inline-block; background: linear-gradient(135deg, #ff6b35, #6c5ce7); 
+                                      color: white; text-decoration: none; padding: 15px 30px; 
+                                      border-radius: 8px; font-weight: bold; font-size: 16px;">
+                                🎮 Join Discord Server Now
+                            </a>
+                        </div>
+                        
+                        <!-- Help Section -->
+                        <div style="background: #e8f4fd; padding: 20px; border-radius: 8px; margin: 30px 0;">
+                            <h3 style="color: #333; margin: 0 0 10px 0; font-size: 18px;">Need Help?</h3>
+                            <p style="color: #666; line-height: 1.6; margin: 0; font-size: 16px;">
+                                If you have any questions or need assistance, feel free to reach out to us at 
+                                <a href="mailto:codingclub-cse@msubaroda.ac.in" style="color: #ff6b35; text-decoration: none;">
+                                    codingclub-cse@msubaroda.ac.in
+                                </a>
+                            </p>
+                        </div>
                     </div>
                     
-                    <h3 style="color: #333;">Need Help?</h3>
-                    <p style="color: #666; line-height: 1.6;">
-                        If you have any questions or need assistance, feel free to reach out to us at 
-                        <a href="mailto:codingclub-cse@msubaroda.ac.in" style="color: #ff6b35; text-decoration: none;">codingclub-cse@msubaroda.ac.in</a>
-                    </p>
-                    
-                    <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 30px; text-align: center;">
-                        <p style="color: #999; font-size: 14px; margin: 0;">
+                    <!-- Footer -->
+                    <div style="background: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #eee;">
+                        <p style="color: #999; font-size: 14px; margin: 0; line-height: 1.5;">
                             Welcome to the community!<br>
-                            <strong>Code Vimarsh Team</strong><br>
+                            <strong style="color: #333;">Code Vimarsh Team</strong><br>
                             MSU Baroda
                         </p>
                     </div>
                 </div>
-            </div>
+            </body>
+            </html>
         `
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`Confirmation email sent to ${userEmail}`);
+        console.log(`✅ Confirmation email sent to ${userEmail}`);
         return true;
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('❌ Error sending email:', error);
         return false;
     }
 }
 
 // API Routes
 
-// Test endpoint to check if server is running
-app.get('/api/test', (req, res) => {
+// Health check endpoint
+app.get('/api/health', (req, res) => {
     res.json({ 
+        status: 'OK',
         message: 'Code Vimarsh backend is running!', 
-        timestamp: new Date().toISOString() 
+        timestamp: new Date().toISOString(),
+        database: 'Connected',
+        email: process.env.EMAIL_USER ? 'Configured' : 'Not configured'
     });
 });
 
 // Discord registration endpoint
 app.post('/api/register', async (req, res) => {
+    console.log('📝 Registration request received');
+    console.log('📝 Request body:', { ...req.body, password: '***', confirmPassword: '***' });
+    
     try {
-        console.log('Registration request received:', req.body);
-        
-        // Extract data from request body
+        // Extract and validate data from request body
         const { prn, username, email, password, confirmPassword } = req.body;
         
-        // Validation: Check if all fields are provided
+        // Check if all fields are provided
         if (!prn || !username || !email || !password || !confirmPassword) {
+            console.log('❌ Missing required fields');
             return res.status(400).json({
                 success: false,
                 message: 'All fields are required'
@@ -161,14 +252,25 @@ app.post('/api/register', async (req, res) => {
         
         // Validation: PRN format
         if (!validatePRN(prn)) {
+            console.log('❌ Invalid PRN format:', prn);
             return res.status(400).json({
                 success: false,
                 message: 'PRN must be exactly 10 digits and start with 80240'
             });
         }
         
+        // Validation: Username
+        if (!validateUsername(username)) {
+            console.log('❌ Invalid username:', username);
+            return res.status(400).json({
+                success: false,
+                message: 'Username must be between 3 and 50 characters'
+            });
+        }
+        
         // Validation: Email format
         if (!validateEmail(email)) {
+            console.log('❌ Invalid email format:', email);
             return res.status(400).json({
                 success: false,
                 message: 'Please enter a valid email address'
@@ -177,6 +279,7 @@ app.post('/api/register', async (req, res) => {
         
         // Validation: Password strength
         if (!validatePassword(password)) {
+            console.log('❌ Invalid password format');
             return res.status(400).json({
                 success: false,
                 message: 'Password must be at least 8 characters with letters, numbers, and special characters'
@@ -185,60 +288,104 @@ app.post('/api/register', async (req, res) => {
         
         // Validation: Password confirmation
         if (password !== confirmPassword) {
+            console.log('❌ Passwords do not match');
             return res.status(400).json({
                 success: false,
                 message: 'Passwords do not match'
             });
         }
         
+        console.log('✅ All validations passed');
+        
         // Check if user already exists
-        const existingUser = checkUserExists(prn, username, email);
+        const checkUserQuery = `
+            SELECT id, prn, username, email FROM users 
+            WHERE prn = ? OR username = ? OR email = ?
+        `;
+        
+        const existingUser = await new Promise((resolve, reject) => {
+            db.get(checkUserQuery, [prn.trim(), username.trim(), email.trim()], (err, row) => {
+                if (err) reject(err);
+                else resolve(row);
+            });
+        });
+        
         if (existingUser) {
             let message = 'User already exists with this ';
-            if (existingUser.prn === prn) message += 'PRN';
-            else if (existingUser.username === username) message += 'username';
-            else if (existingUser.email === email) message += 'email';
+            if (existingUser.prn === prn.trim()) message += 'PRN';
+            else if (existingUser.username === username.trim()) message += 'username';
+            else if (existingUser.email === email.trim()) message += 'email';
             
+            console.log('❌ User already exists:', message);
             return res.status(409).json({
                 success: false,
                 message: message
             });
         }
         
-        // Create new user object
-        const newUser = {
-            id: Date.now(), // Simple ID generation (use UUID in production)
-            prn,
-            username,
-            email,
-            registeredAt: new Date().toISOString()
-            // Note: Never store plain text passwords in production!
-            // Use bcrypt to hash passwords: password: await bcrypt.hash(password, 10)
-        };
+        console.log('✅ User does not exist, proceeding with registration');
         
-        // Save user to our in-memory storage
-        registeredUsers.push(newUser);
-        console.log(`New user registered: ${username} (${email})`);
+        // Hash password
+        const saltRounds = 12;
+        const passwordHash = await bcrypt.hash(password, saltRounds);
+        console.log('✅ Password hashed successfully');
+        
+        // Generate verification token
+        const verificationToken = require('crypto').randomBytes(32).toString('hex');
+        
+        // Insert new user into database
+        const insertUserQuery = `
+            INSERT INTO users (prn, username, email, password_hash, verification_token)
+            VALUES (?, ?, ?, ?, ?)
+        `;
+        
+        const userId = await new Promise((resolve, reject) => {
+            db.run(insertUserQuery, [
+                prn.trim(),
+                username.trim(),
+                email.trim(),
+                passwordHash,
+                verificationToken
+            ], function(err) {
+                if (err) reject(err);
+                else resolve(this.lastID);
+            });
+        });
+        
+        console.log(`✅ User created successfully with ID: ${userId}`);
         
         // Send confirmation email
-        const emailSent = await sendConfirmationEmail(email, username, prn);
+        console.log('📧 Sending confirmation email...');
+        const emailSent = await sendConfirmationEmail(email.trim(), username.trim(), prn.trim());
         
         // Return success response
-        res.status(201).json({
+        const response = {
             success: true,
             message: 'Registration successful!',
             emailSent: emailSent,
             user: {
-                id: newUser.id,
-                username: newUser.username,
-                email: newUser.email,
-                prn: newUser.prn,
-                registeredAt: newUser.registeredAt
+                id: userId,
+                username: username.trim(),
+                email: email.trim(),
+                prn: prn.trim(),
+                registeredAt: new Date().toISOString()
             }
-        });
+        };
+        
+        console.log('🎉 Registration completed successfully');
+        res.status(201).json(response);
         
     } catch (error) {
-        console.error('Registration error:', error);
+        console.error('❌ Registration error:', error);
+        
+        // Handle specific database errors
+        if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+            return res.status(409).json({
+                success: false,
+                message: 'User with this information already exists'
+            });
+        }
+        
         res.status(500).json({
             success: false,
             message: 'Internal server error. Please try again later.'
@@ -248,16 +395,26 @@ app.post('/api/register', async (req, res) => {
 
 // Get all registered users (for admin purposes - remove in production)
 app.get('/api/users', (req, res) => {
-    res.json({
-        success: true,
-        count: registeredUsers.length,
-        users: registeredUsers.map(user => ({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            prn: user.prn,
-            registeredAt: user.registeredAt
-        }))
+    const query = `
+        SELECT id, prn, username, email, created_at, email_verified 
+        FROM users 
+        ORDER BY created_at DESC
+    `;
+    
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            console.error('Error fetching users:', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error fetching users'
+            });
+        }
+        
+        res.json({
+            success: true,
+            count: rows.length,
+            users: rows
+        });
     });
 });
 
@@ -266,15 +423,45 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
 });
 
+// Handle 404 for API routes
+app.use('/api/*', (req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'API endpoint not found'
+    });
+});
+
 // Start the server
 app.listen(PORT, () => {
-    console.log(`🚀 Code Vimarsh server is running on http://localhost:${PORT}`);
-    console.log(`📧 Email service configured with: ${process.env.EMAIL_USER || 'Not configured'}`);
+    console.log('🚀 ================================');
+    console.log(`🚀 Code Vimarsh server running on http://localhost:${PORT}`);
+    console.log(`📧 Email service: ${process.env.EMAIL_USER || 'Not configured'}`);
     console.log(`📁 Serving static files from: ${path.join(__dirname, '../')}`);
+    console.log(`💾 Database: ${dbPath}`);
+    console.log('🚀 ================================');
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-    console.log('Server shutting down gracefully...');
+    console.log('🛑 Server shutting down gracefully...');
+    db.close((err) => {
+        if (err) {
+            console.error('Error closing database:', err.message);
+        } else {
+            console.log('✅ Database connection closed');
+        }
+    });
+    process.exit(0);
+});
+
+process.on('SIGINT', () => {
+    console.log('🛑 Server shutting down gracefully...');
+    db.close((err) => {
+        if (err) {
+            console.error('Error closing database:', err.message);
+        } else {
+            console.log('✅ Database connection closed');
+        }
+    });
     process.exit(0);
 });
