@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             sidebar.classList.add('active');
             hamburger.classList.add('active');
             mobileOverlay.classList.add('active');
+            document.body.classList.add('menu-open');
             document.body.style.overflow = 'hidden';
             
             // Animate menu items
@@ -124,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 sidebar.classList.remove('active');
                 hamburger.classList.remove('active');
                 mobileOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
                 document.body.style.overflow = '';
             }, 200);
         }
@@ -144,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 sidebar.classList.remove('active');
                 hamburger.classList.remove('active');
                 mobileOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
                 document.body.style.overflow = '';
             }, 200);
         }
@@ -173,14 +176,26 @@ document.addEventListener('DOMContentLoaded', function() {
        RESPONSIVE HANDLING
        =================================== */
     
-    // Handle window resize
+    // Handle window resize with improved mobile detection
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
-            // Close mobile menu on desktop
-            if (window.innerWidth > 768) {
+            const isMobile = window.innerWidth <= 768;
+            
+            if (!isMobile) {
+                // Desktop view - close mobile menu and reset
                 closeMobileMenu();
+                document.body.classList.remove('menu-open');
+                document.body.style.overflow = '';
+                
+                // Reset any mobile-specific styles
+                const menuItems = sidebar.querySelectorAll('.nav-item');
+                menuItems.forEach(item => {
+                    item.style.opacity = '';
+                    item.style.transform = '';
+                    item.style.transition = '';
+                });
             }
         }, 250);
     });
