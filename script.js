@@ -665,7 +665,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('📡 Sending registration request to backend...');
             showNotification('Creating your account...', 'info', 2000);
             
-            const response = await fetch('http://localhost:3000/api/register', {
+            const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -732,7 +732,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Show network error message
             if (error.message.includes('fetch') || error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
-                showNotification('❌ Cannot connect to server. Please make sure the backend is running on http://localhost:3000', 'error', 8000);
+                showNotification('❌ Cannot connect to server. Please run: cd server && npm install && npm start', 'error', 8000);
             } else {
                 showNotification('❌ Network error. Please check your connection and try again.', 'error');
             }
