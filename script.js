@@ -442,6 +442,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 image.addEventListener('load', function() {
                     container.classList.add('loaded');
                     this.style.opacity = '1';
+                    // Ensure no stretching after load
+                    this.style.objectFit = 'cover';
+                    this.style.objectPosition = 'center center';
                 });
                 
                 // Handle image error
@@ -455,9 +458,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (image.complete) {
                     container.classList.add('loaded');
                     image.style.opacity = '1';
+                    image.style.objectFit = 'cover';
+                    image.style.objectPosition = 'center center';
                 }
             }
             
+            // Hover effects that don't affect image container
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-10px) scale(1.02)';
             });
@@ -746,15 +752,30 @@ document.addEventListener('DOMContentLoaded', function() {
     function fixTeamImages() {
         const teamImages = document.querySelectorAll('.team-image');
         teamImages.forEach(img => {
-            // Ensure proper aspect ratio and positioning
+            // Ensure proper aspect ratio and positioning - no stretching
             img.style.objectFit = 'cover';
             img.style.objectPosition = 'center center';
             img.style.width = '100%';
             img.style.height = '100%';
+            img.style.position = 'absolute';
+            img.style.top = '0';
+            img.style.left = '0';
             
             // Add loading class if not loaded
             if (!img.complete) {
                 img.parentElement.classList.remove('loaded');
+            } else {
+                img.parentElement.classList.add('loaded');
+                img.style.opacity = '1';
+            }
+            
+            // Ensure container has proper aspect ratio
+            const container = img.parentElement;
+            if (container && container.classList.contains('team-image-container')) {
+                container.style.paddingBottom = '100%'; // 1:1 aspect ratio
+                container.style.height = '0';
+                container.style.overflow = 'hidden';
+                container.style.position = 'relative';
             }
         });
     }
@@ -1554,7 +1575,7 @@ function clearValidationErrors() {
     updatePRNProgress('');
 }
 
-// Handle Discord registration with proper error handling
+// Handle Discord registration with backend integration
 async function handleDiscordRegistration() {
     console.log('handleDiscordRegistration called');
     
@@ -1588,7 +1609,7 @@ async function handleDiscordRegistration() {
     try {
         console.log('Starting validation...');
         
-        // Validate all fields - use the submit-specific PRN validation
+        // Frontend validation (same as before for immediate feedback)
         const isPrnValid = validatePRNOnSubmit(prn);
         const isUsernameValid = validateUsername(username);
         const isEmailValid = validateEmail(email);
@@ -1608,94 +1629,88 @@ async function handleDiscordRegistration() {
             return;
         }
         
-        console.log('All validations passed, starting registration...');
+        console.log('All validations passed, sending to backend...');
         
         // Show loading state
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
         submitBtn.disabled = true;
         submitBtn.classList.add('loading');
         
-        // Prepare registration data
+        // Prepare data for backend
         const registrationData = {
             prn: prn,
             username: username,
             email: email,
             password: password,
-            timestamp: new Date().toISOString()
+            confirmPassword: confirmPassword
         };
         
-        // Step 1: Register user on server with timeout
-        console.log('Step 1: Registering user on server...');
+        // Send registration request to backend
+        console.log('Sending registration request to backend...');
         showNotification('Creating your account...', 'info', 2000);
         
-        const registrationSuccess = await withTimeout(
-            simulateServerRegistration(registrationData),
-            15000 // 15 second timeout
-        );
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registrationData)
+        });
         
-        console.log('Server registration result:', registrationSuccess);
+        console.log('Backend response status:', response.status);
         
-        if (!registrationSuccess) {
-            throw new Error('Server registration failed');
-        }
+        const result = await response.json();
+        console.log('Backend response:', result);
         
-        // Step 2: Send confirmation email with timeout
-        console.log('Step 2: Sending confirmation email...');
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending confirmation email...';
-        showNotification('Sending confirmation email...', 'info', 2000);
-        
-        const emailSuccess = await withTimeout(
-            sendConfirmationEmail(email, username, prn),
-            10000 // 10 second timeout for email
-        );
-        
-        console.log('Email sending result:', emailSuccess);
-        
-        // Step 3: Show success based on email result
-        if (emailSuccess) {
-            console.log('Registration and email both successful');
-            // Both registration and email succeeded
-            showRegistrationSuccess(username, email);
-            showNotification('Registration successful! Confirmation email sent.', 'success', 5000);
+        if (response.ok && result.success) {
+            // Registration successful
+            console.log('Registration successful!');
+            
+            // Update button to show email sending status
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending confirmation email...';
+            showNotification('Sending confirmation email...', 'info', 2000);
+            
+            // Show success message
+            if (result.emailSent) {
+                showRegistrationSuccess(username, email);
+                showNotification('Registration successful! Confirmation email sent.', 'success', 5000);
+            } else {
+                showRegistrationSuccessWithEmailWarning(username, email);
+                showNotification('Registration successful, but confirmation email failed. Please contact support.', 'warning', 8000);
+            }
+            
+            // Reset form
+            form.reset();
+            clearValidationErrors();
+            
+            console.log('Registration process completed successfully');
+            
         } else {
-            console.log('Registration successful but email failed');
-            // Registration succeeded but email failed
-            showRegistrationSuccessWithEmailWarning(username, email);
-            showNotification('Registration successful, but confirmation email failed. Please contact support.', 'warning', 8000);
+            // Registration failed
+            console.error('Registration failed:', result.message);
+            
+            // Reset button state
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            
+            // Show error message from backend
+            showNotification(result.message || 'Registration failed. Please try again.', 'error');
         }
-        
-        // Reset form
-        form.reset();
-        clearValidationErrors();
-        
-        console.log('Registration process completed successfully');
-        
-        // Note: Button reset is handled by the success page display
-        // The success page replaces the form content, so no need to reset button here
         
     } catch (error) {
         console.error('Registration error:', error);
         
-        // Reset button state first
+        // Reset button state
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
         submitBtn.classList.remove('loading');
         
-        // Show specific error messages
-        if (error.message.includes('timeout') || error.message.includes('timed out')) {
-            showNotification('Request timed out. Please check your connection and try again.', 'error');
-        } else if (error.message.includes('validation')) {
-            showNotification('Please check your input and try again.', 'error');
-        } else if (error.message.includes('already exists')) {
-            showNotification('A user with this PRN or username already exists. Please use different details.', 'error');
-        } else if (error.message.includes('email')) {
-            showNotification('Registration completed but email delivery failed. Please contact support.', 'warning', 8000);
-        } else if (error.message.includes('server') || error.message.includes('Server')) {
-            showNotification('Server error during registration. Please try again later.', 'error');
-        } else if (error.message.includes('network') || error.message.includes('Network')) {
-            showNotification('Network error. Please check your connection and try again.', 'error');
+        // Show network error message
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            showNotification('Cannot connect to server. Please make sure the backend is running on http://localhost:3000', 'error');
         } else {
-            showNotification('Registration failed. Please try again later.', 'error');
+            showNotification('Network error. Please check your connection and try again.', 'error');
         }
     }
 }

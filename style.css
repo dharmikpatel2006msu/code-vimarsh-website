@@ -631,26 +631,15 @@ body {
     opacity: 0.1;
 }
 
+/* Legacy team image styles - replaced by enhanced styles below */
 .team-image-container {
     position: relative;
-    margin-bottom: var(--spacing-lg);
     z-index: 2;
 }
 
 .team-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto;
-    border: 4px solid transparent;
-    background: var(--gradient-primary);
-    padding: 4px;
+    /* Legacy styles - overridden by enhanced styles */
     transition: all var(--transition-normal);
-}
-
-.team-card:hover .team-image {
-    transform: scale(1.1);
 }
 
 .team-overlay {
@@ -2614,7 +2603,7 @@ body {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 100%; /* Creates 1:1 aspect ratio */
+    padding-bottom: 100%; /* Creates perfect 1:1 aspect ratio */
     overflow: hidden;
     border-radius: var(--radius-sm);
     margin-bottom: var(--spacing-md);
@@ -2622,35 +2611,24 @@ body {
     background: var(--darkest-bg);
 }
 
-/* Professional Image Styling */
+/* Professional Image Styling - No Stretching or Distortion */
 .team-card.enhanced .team-image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center center;
+    object-fit: cover; /* Maintains aspect ratio, crops if necessary */
+    object-position: center center; /* Centers faces properly */
     border-radius: var(--radius-sm);
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-normal), border-color var(--transition-normal);
     background: var(--darkest-bg);
     border: 2px solid rgba(255, 255, 255, 0.1);
     /* Ensure images load smoothly */
-    opacity: 0;
-    animation: fadeInImage 0.5s ease forwards;
+    opacity: 1; /* Changed from 0 to prevent flash */
 }
 
-/* Image fade-in animation */
-@keyframes fadeInImage {
-    from {
-        opacity: 0;
-        transform: scale(1.05);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+/* Removed fadeInImage animation to prevent loading issues */
 
 /* Handle image loading states */
 .team-image-container::before {
@@ -2679,8 +2657,9 @@ body {
 
 /* Subtle hover effect that doesn't distort images */
 .team-card.enhanced:hover .team-image {
-    transform: scale(1.02);
-    border-color: rgba(255, 107, 53, 0.3);
+    transform: scale(1.02); /* Very subtle scale to prevent distortion */
+    border-color: rgba(255, 107, 53, 0.4);
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.2);
 }
 
 /* Professional LinkedIn-style overlay */
@@ -2930,16 +2909,24 @@ body {
     
     /* Mobile-specific team image container adjustments */
     .team-image-container {
-        padding-bottom: 100%; /* Maintain 1:1 aspect ratio on mobile */
+        padding-bottom: 100%; /* Maintain perfect 1:1 aspect ratio on mobile */
         margin-bottom: var(--spacing-md);
         box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+        height: 0; /* Ensure proper aspect ratio calculation */
+        overflow: hidden;
+        position: relative;
     }
     
-    /* Ensure images remain sharp on mobile */
+    /* Ensure images remain sharp and properly positioned on mobile */
     .team-card.enhanced .team-image {
         object-fit: cover;
         object-position: center center;
         border-width: 1px;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     
     /* Mobile-specific team overlay adjustments */
@@ -3007,6 +2994,9 @@ body {
     .team-image-container {
         padding-bottom: 100%;
         margin-bottom: var(--spacing-sm);
+        height: 0; /* Ensure proper aspect ratio calculation */
+        overflow: hidden;
+        position: relative;
     }
     
     .social-link {
